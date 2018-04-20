@@ -45,6 +45,7 @@
     "postcss-url": "",
     "preact": "",
     "preact-render-to-string": "",
+    "prettier": "",
     "redux": "",
     "rollup": "",
     "rollup-plugin-babel": "beta",
