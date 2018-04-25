@@ -17,9 +17,9 @@ function initial-state reduce, {env}
 function with-default {env=@ || window, el=\#root}: options
   Object.assign {} options, {env, el}
 
-function start-app app, original-options
+function start-app app, user-options
   require \preact/devtools if module.hot
-  {env, el, state: default-state} = options = with-default original-options
+  {env, el, state: default-state} = options = with-default user-options
 
   reduce = craft-reduce options
   state = Object.assign {} (initial-state reduce, options), default-state
