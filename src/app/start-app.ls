@@ -32,9 +32,9 @@ function start-app app, user-options
   replace-app = !-> root := mount (h with-store it), container, root
   replace-app app
 
-  env.navigator.service-worker?register \/sw.js if !module.hot
-  Object.assign {}, if module.hot
-    replace-app: replace-app
-    replace-options: !-> store.replace-reducer craft-reduce it
+  if module.hot
+    replace-options = !-> store.replace-reducer craft-reduce it
+    user-options.initialize {replace-app, replace-options}
+  else env.navigator.service-worker?register \/sw.js
 
 export default: start-app
