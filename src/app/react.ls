@@ -3,7 +3,8 @@ import preact: {h, render, Component}
 function is-class => it::?render
 
 function create-class spec
-  ctor = ->
+  ctor = (props) ->
+    if \constructor of spec then spec.constructor.call @, props
   ctor:: = Object.assign (Object.create Component::), spec, constructor: ctor
   Object.assign ctor, {spec.display-name}
 

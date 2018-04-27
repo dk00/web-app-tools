@@ -1,8 +1,10 @@
 units =
+  react: 'Wrapped React API'
   \fetch-params : 'Fetch parameters'
   data: \Data
   collection: \Collection
   route: \Routing
+
 
 function test units, dirname
   require \livescript
