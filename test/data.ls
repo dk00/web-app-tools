@@ -50,9 +50,19 @@ function main t
   action = type: \toggle-value payload:
     path: \app id: \sensor-types key: \temperature
 
-  actual = reduce state, action .app'sensor-types'
+  actual = reduce state, action .app\sensor-types
   expected =  id: \sensor-types temperature: true humidity: true
   t.same actual, expected, 'toggle single data value'
+
+
+  state = app: flags: existing: true
+  actions =
+    * type: \update-data payload: id: \flags values: update: true
+    * type: \toggle-value payload: id: \flags key: \toggle
+
+  actual = actions.reduce reduce, state .app.flags
+  expected = existing: true update: true toggle: true id: \flags
+  t.same actual, expected, 'data action target path defaults to app'
 
   t.end!
 

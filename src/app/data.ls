@@ -6,10 +6,10 @@ function merge-result state, {path, items}
 
 reduce =
   fetch: merge-result
-  \update-data : (state, {path, id, values}) ->
+  \update-data : (state, {path=\app id, values}) ->
     updated = Object.assign {id} state[path]?[id], values
     merge-result state, {path, items: [updated]}
-  \toggle-value :  (state, {path, id, field, key=field}) ->
+  \toggle-value :  (state, {path=\app id, field, key=field}) ->
     prev = state[path]?[id] || {}
     result = Object.assign {id} prev, (key): !prev[key]
     merge-result state, {path, items: [result]}

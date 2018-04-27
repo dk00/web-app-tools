@@ -11,7 +11,6 @@
     "bin"
   ],
   "scripts": {
-    "dev": "webpack-dev-server",
     "watch-test": "tape-watch test/index.js",
     "build": "rollup -c",
     "pretest": "npm run build",
@@ -44,7 +43,7 @@
     "postcss-url": "",
     "preact": "",
     "preact-render-to-string": "",
-    "prettier": "",
+    "prettier": "https://git.io/vpl2F",
     "redux": "",
     "rollup": "",
     "rollup-plugin-babel": "beta",
