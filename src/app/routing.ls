@@ -42,4 +42,8 @@ function render-link {location, to: pathname, children, dispatch}
 
 nav-link = with-state get-location <| render-link
 
+if process.env.NODE_ENV != \production
+  route.display-name = \route
+  nav-link.display-name = \nav-link
+
 export {route, nav-link, parse-path}

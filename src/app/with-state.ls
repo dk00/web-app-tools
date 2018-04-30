@@ -1,9 +1,8 @@
 import
   \./react : {create-class, create-factory}
-  \./utils : {flat-diff}
+  \./utils : {flat-diff, with-display-name}
 
 empty = {}
-function name => it.display-name || it.name || it
 function pass => it
 
 function nested store
@@ -39,11 +38,13 @@ function nested store
       render Object.assign {store.dispatch} selected
 
 function chain select, render
-  display-name: name render
   component-will-mount: !-> init @, select, render
   render: pass
 
 function with-state select=pass => (component) ->
-  create-class chain select, create-factory component
+  enhanced = create-class chain select, create-factory component
+  if process.env.NODE_ENV != \production
+    return with-display-name enhanced, component, \with-state
+  enhanced
 
 export default: with-state
