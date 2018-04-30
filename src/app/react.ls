@@ -4,7 +4,7 @@ function is-class => it::?render
 
 function create-class spec
   ctor = (props) ->
-    if \constructor of spec then spec.constructor.call @, props
+    if spec.has-own-property \constructor then spec.constructor.call @, props
   ctor:: = Object.assign (Object.create Component::), spec, constructor: ctor
   Object.assign ctor, {spec.display-name}
 

@@ -6,8 +6,9 @@ import
 export {webpack-config, rollup-config, test}
 export \../app/index : {
   start-app, h, create-class
-  compose, with-context, with-state, map-props
+  with-state, map-props, compose, with-context
   wrap-plugin, create-effect
+  route, nav-link
   fetch-object, fetch-action
   core-js-workaround
 }

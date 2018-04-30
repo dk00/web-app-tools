@@ -3,8 +3,7 @@ units =
   \fetch-params : 'Fetch parameters'
   data: \Data
   collection: \Collection
-  route: \Routing
-
+  routing: \Routing
 
 function test units, dirname
   require \livescript

@@ -6,24 +6,27 @@ import
   \./collection : reduce: collection
   \./data : reduce: data
 
-function craft-reduce options
-  compose-reduce {collection, data}
+function craft-reduce {reduce}
+  compose-reduce Object.assign {collection, data} reduce
 
 function initial-state reduce, {env}
   collection: {}
   data:
-    app: location: env.location.pathname
+    app: location: env.location{pathname}
 
-function with-default {env=@ || window, el=\#root}: options
-  Object.assign {} options, {env, el}
+function craft-store {env}: options
+  reduce = craft-reduce options
+  state = initial-state reduce, options
+  create-store reduce, state, env?__REDUX_DEVTOOLS_EXTENSION__?!
+
+function with-default {env=@ || window, el=\#root initialize, init=initialize}: options
+  Object.assign {} options, {env, el, init}
 
 function start-app app, user-options
   require \preact/devtools if module.hot
-  {env, el, state: default-state} = options = with-default user-options
+  {env, el, init} = options = with-default user-options
 
-  reduce = craft-reduce options
-  state = Object.assign {} (initial-state reduce, options), default-state
-  store = create-store reduce, state, env?__REDUX_DEVTOOLS_EXTENSION__?!
+  store = craft-store options
   with-store = with-context {store}
 
   container = env.document.query-selector el
@@ -34,7 +37,7 @@ function start-app app, user-options
 
   if module.hot
     replace-options = !-> store.replace-reducer craft-reduce it
-    user-options.initialize {replace-app, replace-options}
+    init {replace-app, replace-options}
   else env.navigator.service-worker?register \/sw.js
 
 export default: start-app
