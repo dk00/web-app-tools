@@ -7,6 +7,7 @@ import
   \./start-app : start-app
   \./fetch-object : fetch-object
   \./data : {fetch-data}
+  \./dom : {require-scripts, q, qa}
   \./core-js-workaround : core-js-workaround
 
 export {
@@ -15,5 +16,6 @@ export {
   wrap-plugin, create-effect
   route, nav-link
   fetch-object, fetch-action: fetch-data
+  require-scripts, q, qa
   core-js-workaround
 }

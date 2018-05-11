@@ -10,5 +10,6 @@ export \../app/index : {
   wrap-plugin, create-effect
   route, nav-link
   fetch-object, fetch-action
+  require-scripts, q, qa
   core-js-workaround
 }
