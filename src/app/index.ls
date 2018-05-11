@@ -6,7 +6,9 @@ import
   \./routing : {route, nav-link}
   \./start-app : start-app
   \./fetch-object : fetch-object
-  \./data : {fetch-data}
+  \./collection : {
+    update-model, update-collection, collection-state, collection-props
+  }
   \./dom : {require-scripts, q, qa}
   \./core-js-workaround : core-js-workaround
 
@@ -15,7 +17,8 @@ export {
   with-state, map-props, compose, with-context
   wrap-plugin, create-effect
   route, nav-link
-  fetch-object, fetch-action: fetch-data
+  update-model, update-collection, collection-state, collection-props
+  fetch-object
   require-scripts, q, qa
   core-js-workaround
 }

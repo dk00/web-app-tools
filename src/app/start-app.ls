@@ -4,8 +4,7 @@ import
   \./recompose : {with-context}
   \../utils : {deep-merge}
   \./actions : {compose-reduce}
-  \./collection : reduce: collection
-  \./data : reduce: data
+  \./collection : {reduce-collection: collection, reduce-data: data}
 
 function craft-reduce {reduce}
   compose-reduce Object.assign {collection, data} reduce

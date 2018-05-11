@@ -2,6 +2,7 @@ import
   \path-to-regexp : path-to-regexp
   \./react : {h, create-factory}
   \./recompose : {with-state}
+  \./collection : {update-model}
 
 function extract-parameters path, pattern, keys
   parsed = pattern.exec path
@@ -30,7 +31,7 @@ function render-matched {path, location, render}
 route = with-state get-location <| render-matched
 
 function navigate pathname
-  type: \update-data payload: id: \location values: {pathname}
+  update-model id: \location values: {pathname}
 
 function render-link {location, to: pathname, children, dispatch}
   active = pathname == location.pathname

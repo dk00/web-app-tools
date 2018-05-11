@@ -68,8 +68,8 @@ function main t
   click element
 
   actual = action
-  expected = type: \update-data payload:
-    id: \location values: pathname: \whatever
+  expected = type: \update-model payload:
+    model: void id: \location values: pathname: \whatever
   t.same actual, expected, 'navigate to specified location on click'
 
   t.end!
