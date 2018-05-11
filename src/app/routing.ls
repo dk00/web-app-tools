@@ -1,6 +1,6 @@
 import
   \path-to-regexp : path-to-regexp
-  \./react : {h}
+  \./react : {h, create-factory}
   \./recompose : {with-state}
 
 function extract-parameters path, pattern, keys
@@ -24,7 +24,7 @@ function get-location {data: app: {location}} {to, path, component, render, chil
 
 function render-matched {path, location, render}
   result = if parse-path location.pathname, path then params: that
-  if result then render match: result
+  if result then (create-factory render) match: result
   else ''
 
 route = with-state get-location <| render-matched
