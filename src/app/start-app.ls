@@ -2,6 +2,7 @@ import
   redux: {create-store}
   \./react : {h, render}
   \./recompose : {with-context}
+  \../utils : {deep-merge}
   \./actions : {compose-reduce}
   \./collection : reduce: collection
   \./data : reduce: data
@@ -9,10 +10,11 @@ import
 function craft-reduce {reduce}
   compose-reduce Object.assign {collection, data} reduce
 
-function initial-state reduce, {env}
-  collection: {}
-  data:
-    app: location: env.location{pathname}
+function initial-state reduce, {env, state={}}
+  deep-merge state,
+    collection: {}
+    data:
+      app: location: env.location{pathname}
 
 function craft-store {env}: options
   reduce = craft-reduce options
