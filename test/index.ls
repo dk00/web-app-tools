@@ -2,6 +2,7 @@ units =
   utils: \Utilities
   react: 'Wrapped React API'
   \fetch-params : 'Fetch parameters'
+  containers: \Containers
   collection: \Collection
   routing: \Routing
 

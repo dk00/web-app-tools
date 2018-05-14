@@ -4,6 +4,7 @@ import
   \./create-effect : create-effect
   \./wrap-plugin : wrap-plugin
   \./routing : {route, nav-link}
+  \./containers : {with-collection, linked-input, toggle}
   \./start-app : start-app
   \./fetch-object : fetch-object
   \./collection : {
@@ -17,6 +18,7 @@ export {
   with-state, map-props, compose, with-context
   wrap-plugin, create-effect
   route, nav-link
+  with-collection, linked-input, toggle
   update-model, update-collection, collection-state, collection-props
   fetch-object
   require-scripts, q, qa
