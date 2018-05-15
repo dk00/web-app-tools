@@ -11,7 +11,7 @@ function try-unsubscribe props, unsubscribe => unsubscribe?!
 function mount-effect me, set, clear
   Promise.resolve if me.unsubscribe
     clear me.props, me.unsubscribe
-  .then -> set me.props
+  .then -> set me.props, me.context
   .then -> me.unsubscribe = it
 
 #TODO React 16 API

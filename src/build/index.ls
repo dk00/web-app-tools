@@ -9,8 +9,9 @@ export \../app/index : {
   with-state, map-props, compose, with-context
   wrap-plugin, create-effect
   route, nav-link
-  with-collection, linked-input, toggle
-  update-model, update-collection, collection-state, collection-props
+  with-collection, linked-input, toggle, require-data
+  update-model, update-collection
+  model-state, collection-state, collection-props
   fetch-object
   require-scripts, q, qa
   core-js-workaround

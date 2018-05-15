@@ -4,11 +4,12 @@ import
   \./create-effect : create-effect
   \./wrap-plugin : wrap-plugin
   \./routing : {route, nav-link}
-  \./containers : {with-collection, linked-input, toggle}
+  \./containers : {with-collection, linked-input, toggle, require-data}
   \./start-app : start-app
   \./fetch-object : fetch-object
   \./collection : {
-    update-model, update-collection, collection-state, collection-props
+    update-model, update-collection
+    model-state, collection-state, collection-props
   }
   \./dom : {require-scripts, q, qa}
   \./core-js-workaround : core-js-workaround
@@ -18,8 +19,9 @@ export {
   with-state, map-props, compose, with-context
   wrap-plugin, create-effect
   route, nav-link
-  with-collection, linked-input, toggle
-  update-model, update-collection, collection-state, collection-props
+  with-collection, linked-input, toggle, require-data
+  update-model, update-collection
+  model-state, collection-state, collection-props
   fetch-object
   require-scripts, q, qa
   core-js-workaround

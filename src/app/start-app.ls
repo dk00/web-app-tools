@@ -23,12 +23,16 @@ function craft-store {env}: options
 function with-default {env=@ || window, el=\#root initialize, init=initialize}: options
   Object.assign {} options, {env, el, init}
 
+function create-context store, {base-url, collections}
+  options = {base-url, collections}
+  {store, options}
+
 function start-app app, user-options
   require \preact/devtools if module.hot
   {env, el, init} = options = with-default user-options
 
   store = craft-store options
-  with-store = with-context {store}
+  with-store = with-context create-context store, options
 
   container = env.document.query-selector el
   root = container?first-child

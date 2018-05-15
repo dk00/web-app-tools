@@ -4,10 +4,10 @@ function update-collection {id, model, models}
 function update-model {model, id, values}
   type: \update-model payload: {model, id, values}
 
-function get-values {data} {model=\app id} => data[model]?[id]
+function model-state {data} {model=\app id} => data[model]?[id]
 
 function field-state state, {field=\value}: props
-  value: get-values state, props ?.[field]
+  value: model-state state, props ?.[field]
   original-props: props
 
 function collection-state id => ({collection, data}) ->
@@ -36,6 +36,6 @@ reduce-data =
 export {
   update-collection, update-model
   collection-state, collection-props
-  field-state
+  model-state, field-state
   reduce-collection, reduce-data
 }

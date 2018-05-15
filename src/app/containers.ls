@@ -1,10 +1,13 @@
 import
   \./react : {h}
   \./recompose : {compose, with-state, map-props}
+  \./sync : {api-url}
   \./collection : {
-    update-model, collection-state, collection-props
-    field-state
+    update-model, update-collection
+    collection-state, collection-props, field-state
   }
+  \./create-effect : create-effect
+  \./fetch-object : fetch-object
 
 function with-collection collection
   compose do
@@ -41,4 +44,12 @@ function toggle props
   attributes = Object.assign {} props, type: wrap-toggle props.type
   h linked-input, attributes, props.children
 
-export {with-collection, linked-input, toggle}
+function fetch-resource {collection, parameters} context
+  url = api-url context, collection
+  fetch-object url, {parameters} .then ->
+    options = id: collection, model: collection, models: it
+    context.store.dispatch update-collection options
+
+require-data = create-effect fetch-resource
+
+export {with-collection, linked-input, toggle, require-data}

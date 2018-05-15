@@ -1,8 +1,11 @@
 import
-  \../src/app/containers : {with-collection, linked-input, toggle}
-  \./mock :  {render-once, click, get-attribute, get-children}
+  \../src/app/containers : {
+    with-collection, with-model, linked-input, toggle
+    require-data
+  }
+  \./mock :  {render-once, click, get-attribute, get-children, mock-fetch}
 
-function main t
+function basic t
   identity = -> it
 
   state =
@@ -88,5 +91,47 @@ function main t
   t.false actual, 'inactive elements have no class'
 
   t.end!
+
+function data-req t
+  result = fetch-args = void
+  resolve-next = ->
+  resolve-with = -> resolve-next it
+  global.fetch = mock-fetch t: 1, ->
+    resolve-with it
+
+  props = collection: \dessert parameters: color: \pink
+  collections = dessert: 'https://api.bakery.io/dessert'
+  dispatch = -> result := it
+
+
+  new Promise (resolve) ->
+    resolve-next := resolve
+    render-once require-data, {props, dispatch, options: {collections}}
+  .then (fetch-args) ->
+    [path, qs] = fetch-args.url.split \?
+
+    actual = path
+    expected = 'https://api.bakery.io/dessert'
+    t.same actual, expected, 'fetch with resource url'
+
+    actual = qs
+    expected = \color=pink
+    t.same actual, expected, 'fetch with encoded parameters'
+
+    Promise.resolve!
+  .then ->
+    actual = result
+    expected =
+      type: \update-collection
+      payload: id: \dessert model: \dessert models: [t: 1]
+    t.same actual, expected, 'dispatch fetched result'
+
+    global.fetch = void
+
+    t.end!
+
+function main t
+  t.test '> Basic' basic
+  t.test '> Data Requirements' data-req
 
 export default: main

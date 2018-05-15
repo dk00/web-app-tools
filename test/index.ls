@@ -5,6 +5,7 @@ units =
   containers: \Containers
   collection: \Collection
   routing: \Routing
+  sync: 'Sync app state with resources'
 
 function test units, dirname
   require \livescript

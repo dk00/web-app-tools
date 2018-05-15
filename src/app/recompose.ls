@@ -23,4 +23,7 @@ function with-context context => (component) ->
     return with-display-name enhanced, component, \with-context
   enhanced
 
+function select-with-props selector => (state, props) ->
+  Object.assign {} (select state), own-props: props
+
 export {compose, with-context, with-state, map-props}
