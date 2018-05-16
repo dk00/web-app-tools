@@ -1,15 +1,16 @@
 import preact: {h, render, Component}
 
-function is-class => it::?render
+function should-wrap => typeof it == \string || it::?render
 
 function create-class spec
   ctor = (props) ->
     if spec.has-own-property \constructor then spec.constructor.call @, props
+    else void
   ctor:: = Object.assign (Object.create Component::), spec, constructor: ctor
   Object.assign ctor, {spec.display-name}
 
 function create-factory component
-  if is-class component then -> h component, it
+  if should-wrap component then -> h component, it
   else component
 
 export {h, render, Component, create-class, create-factory}

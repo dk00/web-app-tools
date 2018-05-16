@@ -9,7 +9,7 @@ export \../app/index : {
   with-state, map-props, compose, with-context
   wrap-plugin, create-effect
   route, nav-link
-  with-collection, linked-input, toggle, require-data
+  with-collection, linked-input, toggle, toggle-target, require-data
   update-model, update-collection
   model-state, collection-state, collection-props
   fetch-object

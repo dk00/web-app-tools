@@ -1,6 +1,6 @@
 import
   \../src/app/containers : {
-    with-collection, with-model, linked-input, toggle
+    with-collection, with-model, linked-input, toggle, toggle-target
     require-data
   }
   \./mock :  {render-once, click, get-attribute, get-children, mock-fetch}
@@ -53,17 +53,13 @@ function basic t
   props =
     type: identity, children: ['toggle display']
     model: \custom id: \flag field: \value
-  {node-name, attributes, children} =  toggle props
+  {node-name, attributes, children} = toggle props
   state = data: custom: flag: value: true
   props = Object.assign {children} attributes
   {
     node-name, attributes, children
   } = render-once node-name, {state, props, dispatch}
   result = node-name Object.assign {children} attributes
-
-  actual = result.value
-  expected = true
-  t.is actual, expected, 'get checked status'
 
   actual = result.class
   expected = \active
@@ -87,8 +83,23 @@ function basic t
   } = render-once node-name, {state, props: attributes, dispatch}
   result = node-name attributes
 
-  actual = \class of result
+  actual = result.class
   t.false actual, 'inactive elements have no class'
+
+  t.end!
+
+function test-toggle t
+  state = data: custom: flag: value: true
+  props = type: \div model: \custom id: \flag class: \menu
+
+  {node-name, attributes} = render-once toggle-target, {state, props}
+  result = node-name attributes
+
+  actual = /active/test result.attributes.class
+  t.true actual, 'add active class'
+
+  actual = /menu/test result.attributes.class
+  t.true actual, 'keep existing classes'
 
   t.end!
 
@@ -132,6 +143,7 @@ function data-req t
 
 function main t
   t.test '> Basic' basic
+  t.test '> Toggle' test-toggle
   t.test '> Data Requirements' data-req
 
 export default: main

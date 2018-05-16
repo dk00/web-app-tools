@@ -1,11 +1,16 @@
-function render-once component, {props={} state={} dispatch, options}
-  store = {dispatch, get-state: -> state}
-  context = {options, store}
-  self = {props, context}
-  component::component-will-mount?call self
-  element = self.render?call self
-  component::component-did-mount?call self
-  element
+function render-once component, {props={} state={} dispatch, options}: config
+  if component? props
+    {node-name, attributes, children} = that
+    render-once node-name, Object.assign {} config, props:
+      Object.assign {children} attributes
+  else
+    store = {dispatch, get-state: -> state}
+    context = {options, store}
+    self = {props, context}
+    component::component-will-mount?call self
+    element = self.render?call self
+    component::component-did-mount?call self
+    element
 
 function click element => element.attributes.on-click prevent-default: ->
 function get-attribute element, key => element.attributes[key]
