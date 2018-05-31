@@ -74,4 +74,10 @@ function fetch-resource {collection, parameters} context
 
 require-data = create-effect fetch-resource
 
+if process.env.NODE_ENV != \production
+  linked-input.display-name = \linked-input
+  toggle.display-name = \toggle
+  toggle-target.display-name = \toggle-target
+  require-data.display-name = \require-data
+
 export {with-collection, linked-input, toggle, toggle-target, require-data}

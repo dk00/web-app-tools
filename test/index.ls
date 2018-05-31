@@ -7,14 +7,14 @@ units =
   routing: \Routing
   sync: 'Sync app state with resources'
 
-function test units, dirname
-  require \livescript
+function test units, path=\test
+  {join} = require \path
   tape = require \tape
   register = require \../register
-  register if process.argv.length > 2 then {} else plugins: [\istanbul]
+  prefix = join process.cwd!, path
   list = if process.argv.length > 2 then process.argv.slice 2
-  else Object.keys units
-  list.for-each (name) ->
-    tape units[name] || name, (require "#dirname/#name" .default)
+  register if list then {} else plugins: [\istanbul]
+  (list || Object.keys units)for-each (name) ->
+    tape units[name] || name, (require join prefix, name .default)
 
-test units, __dirname
+test units
