@@ -1,6 +1,6 @@
 import
   \./react : {h, create-class}
-  \./recompose : {compose, with-context, with-state, map-props}
+  \./recompose : {compose, pipe, with-context, with-state, map-props}
   \./create-effect : create-effect
   \./wrap-plugin : wrap-plugin
   \./routing : {route, nav-link}
@@ -19,7 +19,7 @@ import
 
 export {
   start-app, h, create-class
-  with-state, map-props, compose, with-context
+  pipe, compose, with-state, map-props, with-context
   wrap-plugin, create-effect
   route, nav-link
   with-collection, linked-input, toggle, toggle-target, require-data

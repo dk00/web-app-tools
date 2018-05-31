@@ -1,6 +1,7 @@
 import
+  \../utils : {flat-diff}
   \./react : {create-class, create-factory}
-  \./utils : {flat-diff, with-display-name}
+  \./with-display-name : with-display-name
 
 empty = {}
 function pass => it

@@ -1,10 +1,3 @@
-function flat-diff a, b
-  return false if a == b
-  return true if typeof a != \object or typeof b != \object
-  keys = Object.keys a
-  return true if keys.length != Object.keys b .length
-  keys.some -> a[it] != b[it]
-
 function kebab-case
   it.replace /[a-z][A-Z]/, ([a, b]) -> "#{a}-#{b.to-lower-case!}"
 
@@ -17,4 +10,4 @@ function with-display-name enhanced, base, modifier
   enhanced.display-name = name + ':' + modifier
   enhanced
 
-export {flat-diff, with-display-name}
+export default: with-display-name

@@ -1,6 +1,6 @@
 import
   \./react : {create-class, create-factory}
-  \./utils : {with-display-name}
+  \./with-display-name : with-display-name
   \./with-state : with-state
 
 function pipe ...enhancers => (component) ->

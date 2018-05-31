@@ -1,6 +1,7 @@
 import
   \./react : {create-class}
-  \./utils : {flat-diff, with-display-name}
+  \./with-display-name : with-display-name
+  \../utils : {flat-diff}
 
 common =
   shouldComponentUpdate: (next-props) -> flat-diff @props, next-props
