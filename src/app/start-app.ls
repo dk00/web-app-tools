@@ -2,6 +2,7 @@ import
   \./react : {h, render}
   \./recompose : {with-context}
   \./store : craft-store
+  \./history : {sync-history}
 
 function with-default {env=@ || window, el=\#root initialize, init=initialize}: options
   Object.assign {} options, {env, el, init}
@@ -22,6 +23,7 @@ function start-app app, user-options
   mount = env.render || render
   replace-app = !-> root := mount (h with-store it), container, root
   replace-app app
+  sync-history store, env
 
   if module.hot
     replace-options = !-> store.replace-reducer craft-reduce it

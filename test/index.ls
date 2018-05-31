@@ -1,5 +1,6 @@
 units =
   utils: \Utilities
+  history: 'Sync with Browser History'
   react: 'Wrapped React API'
   \fetch-params : 'Fetch parameters'
   containers: \Containers
