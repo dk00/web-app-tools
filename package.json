@@ -59,6 +59,7 @@
     "webpack": "",
     "webpack-cli": "",
     "webpack-dev-server": "",
-    "workbox-webpack-plugin": ""
+    "workbox-webpack-plugin": "",
+    "zero-fetch": ""
   }
 }

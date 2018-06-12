@@ -1,4 +1,5 @@
 import
+  \zero-fetch : fetch-object
   \./react : {h, create-class}
   \./recompose : {compose, pipe, with-context, with-state, map-props}
   \./create-effect : create-effect
@@ -9,7 +10,6 @@ import
     require-data
   }
   \./start-app : start-app
-  \./fetch-object : fetch-object
   \./collection : {
     update-model, update-collection
     model-state, collection-state, collection-props
