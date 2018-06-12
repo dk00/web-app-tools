@@ -15,7 +15,7 @@ function extract-parameters path, pattern, keys
 
 function parse-path location, path
   keys = []
-  pattern = path-to-regexp path, keys
+  pattern = path-to-regexp path, keys, end: false
   extract-parameters location, pattern, keys
 
 function render-nothing => ''

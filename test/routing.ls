@@ -16,6 +16,9 @@ function main t
   actual = parse-path \somewhere \whatever
   t.false actual, 'return nothing if the location does not match'
 
+  actual = parse-path '/match-start/1' '/match-start'
+  t.true actual, 'match at the beginning'
+
   props = path: \/target render: -> \matched
   state = at-location \/target
 
