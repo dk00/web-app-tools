@@ -1,4 +1,5 @@
 import
+  \zero-fetch : fetch-object
   \./react : {h, create-factory}
   \./recompose : {pipe, compose, with-state, map-props}
   \./sync : {api-url}
@@ -7,7 +8,6 @@ import
     collection-state, collection-props, field-state
   }
   \./create-effect : create-effect
-  \./fetch-object : fetch-object
 
 function with-collection collection
   compose do
@@ -66,9 +66,9 @@ toggle-target = compose do
   map-props field-props
 <| render-field
 
-function fetch-resource {collection, parameters} context
+function fetch-resource {collection, arguments: data} context
   url = api-url context, collection
-  fetch-object url, {parameters} .then ->
+  fetch-object url, {data} .then ->
     options = id: collection, model: collection, models: it
     context.store.dispatch update-collection options
 

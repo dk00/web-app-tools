@@ -18,8 +18,12 @@ function get-children element => element.children.0
 
 function mock-fetch data, save-args
   fn = (url, init) ->
-    Promise.resolve json: ->
-      save-args? {url, init}
-      data
+    result =
+      headers:
+        'Content-Type': 'application/json'
+      json: ->
+        save-args? {url, init}
+        data
+    Promise.resolve result
 
 export {render-once, click, get-attribute, get-children, mock-fetch}

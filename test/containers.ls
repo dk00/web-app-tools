@@ -110,16 +110,15 @@ function data-req t
   global.fetch = mock-fetch t: 1, ->
     resolve-with it
 
-  props = collection: \dessert parameters: color: \pink
+  props = collection: \dessert arguments: color: \pink
   collections = dessert: 'https://api.bakery.io/dessert'
   dispatch = -> result := it
-
 
   new Promise (resolve) ->
     resolve-next := resolve
     render-once require-data, {props, dispatch, options: {collections}}
   .then (fetch-args) ->
-    [path, qs] = fetch-args.url.split \?
+    [path, qs] = fetch-args.url.href.split \?
 
     actual = path
     expected = 'https://api.bakery.io/dessert'
