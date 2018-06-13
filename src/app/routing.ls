@@ -13,20 +13,20 @@ function extract-parameters path, pattern, keys
       #TODO keys w/o name
     Object.assign {} ...entries
 
-function parse-path location, path
+function parse-path location, path, {exact=false}={}
   keys = []
-  pattern = path-to-regexp path, keys, end: false
+  pattern = path-to-regexp path, keys, end: exact
   extract-parameters location, pattern, keys
 
 function render-nothing => ''
 
 function get-location {data: app: {location}} {
-  component, render=component, ...rest
+  component, render, ...rest
 }
-  Object.assign {render, location} rest
+  Object.assign {render: render || component, location} rest
 
-function render-matched {path, location, render}
-  result = if parse-path location.pathname, path then params: that
+function render-matched {path, location, exact, render}
+  result = if parse-path location.pathname, path, {exact} then params: that
   if result then (create-factory render) match: result
   else ''
 

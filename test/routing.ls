@@ -38,6 +38,13 @@ function active-class-name t
   actual = get-attribute element, \class ?.includes \open
   t.ok actual, 'custom active link class'
 
+function exact-route-path t
+  state = at-location \/target/1
+  props = path: \/target exact: true, render: -> \match
+
+  actual = render-once route, {props, state}
+  t.false actual, 'match exactly when exact is specified'
+
 function main t
   path = '/:path/:id'
   location = \/whatever/id
@@ -101,6 +108,7 @@ function main t
     model: void id: \location values: pathname: \/whatever
   t.same actual, expected, 'navigate to specified location on click'
 
+  exact-route-path t
   relative-link t
   active-class-name t
 
