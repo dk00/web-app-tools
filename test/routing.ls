@@ -27,7 +27,16 @@ function relative-link t
 
   actual = get-attribute element, \href
   expected = \/top
-  t.ok actual, 'absolute paths are unchanged'
+  t.is actual, expected, 'absolute paths are unchanged'
+
+function active-class-name t
+  state = at-location '/here'
+  props = to: '/here' active-class-name: \open
+
+  element = render-once nav-link, {state, props}
+
+  actual = get-attribute element, \class ?.includes \open
+  t.ok actual, 'custom active link class'
 
 function main t
   path = '/:path/:id'
@@ -93,6 +102,7 @@ function main t
   t.same actual, expected, 'navigate to specified location on click'
 
   relative-link t
+  active-class-name t
 
   t.end!
 

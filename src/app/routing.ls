@@ -20,8 +20,10 @@ function parse-path location, path
 
 function render-nothing => ''
 
-function get-location {data: app: {location}} {to, path, component, render, children}
-  {to, location, path, children, render: render || component}
+function get-location {data: app: {location}} {
+  component, render=component, ...rest
+}
+  Object.assign {render, location} rest
 
 function render-matched {path, location, render}
   result = if parse-path location.pathname, path then params: that
@@ -37,11 +39,13 @@ function resolve-url path, base
 function navigate pathname
   update-model id: \location values: {pathname}
 
-function render-link {location, to: href, children, dispatch}
+function render-link {
+  location, to: href, children, dispatch, active-class-name=\active
+}
   pathname = resolve-url href, location.pathname
   active = pathname == location.pathname
   h \a Object.assign {children, href},
-    if active then class: \active
+    if active then class: active-class-name
     on-click: ->
       it.prevent-default!
       if !active then dispatch navigate pathname
