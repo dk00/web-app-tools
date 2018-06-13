@@ -5,6 +5,30 @@ import
 function at-location
   data: app: location: pathname: it
 
+function relative-link t
+  state = at-location '/target/6'
+  props = to: \1
+  action = void
+  element = render-once nav-link, {state, props, dispatch: -> action := it}
+  click element
+
+  actual = action.payload.values.pathname
+  expected = '/target/1'
+  t.same actual, expected, 'treat link relative if not starting with slash'
+
+  props = to: \6
+  element = render-once nav-link, {state, props, dispatch: -> action := it}
+
+  actual = get-attribute element, \class ?includes \active
+  t.ok actual, 'active relative links have active class'
+
+  props = to: \/top
+  element = render-once nav-link, {state, props}
+
+  actual = get-attribute element, \href
+  expected = \/top
+  t.ok actual, 'absolute paths are unchanged'
+
 function main t
   path = '/:path/:id'
   location = \/whatever/id
@@ -17,7 +41,7 @@ function main t
   t.false actual, 'return nothing if the location does not match'
 
   actual = parse-path '/match-start/1' '/match-start'
-  t.true actual, 'match at the beginning'
+  t.true actual, 'match route path at the beginning'
 
   props = path: \/target render: -> \matched
   state = at-location \/target
@@ -43,7 +67,7 @@ function main t
   state = at-location '/target'
   element = render-once nav-link, {state, props}
 
-  actual = get-attribute element, \class .includes \active
+  actual = get-attribute element, \class ?includes \active
   t.ok actual, 'active links have active class'
 
   actual = get-attribute element, \href
@@ -65,8 +89,10 @@ function main t
 
   actual = action
   expected = type: \update-model payload:
-    model: void id: \location values: pathname: \whatever
+    model: void id: \location values: pathname: \/whatever
   t.same actual, expected, 'navigate to specified location on click'
+
+  relative-link t
 
   t.end!
 

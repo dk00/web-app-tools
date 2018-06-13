@@ -30,12 +30,17 @@ function render-matched {path, location, render}
 
 route = with-state get-location <| render-matched
 
+patch = 'http://placeholder'
+function resolve-url path, base
+  new URL path, patch + base .href.slice patch.length
+
 function navigate pathname
   update-model id: \location values: {pathname}
 
-function render-link {location, to: pathname, children, dispatch}
+function render-link {location, to: href, children, dispatch}
+  pathname = resolve-url href, location.pathname
   active = pathname == location.pathname
-  h \a Object.assign {children, href: pathname},
+  h \a Object.assign {children, href},
     if active then class: \active
     on-click: ->
       it.prevent-default!
