@@ -1,4 +1,4 @@
-import '../src/app/history' : {sync-history}
+import '../src/app/history' : {update-location, sync-history}
 
 function mock-store
   state = {}
@@ -33,7 +33,23 @@ function mock-window
 function mock-nav store, path
   store.notify data: app: location: pathname: path
 
+function test-actions t
+  search = '?q=1&nested[value]=2&array[1]=3&array[]=0'
+  {payload: {values}} = update-location {pathname: '/route' search}
+
+  actual = values.pathname
+  expected = '/route'
+  t.is actual, expected, 'copy pathname to update'
+
+  actual = values.search?q
+  expected = \1
+  t.is actual, expected, 'values of search parameters'
+
+  # TODO nested search parameters
+
 function main t
+  test-actions t
+
   store = mock-store!
   w = mock-window!
   sync-history store, w

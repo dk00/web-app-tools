@@ -26,8 +26,8 @@ function get-location {data: app: {location}} {
   Object.assign {render: render || component, location} rest
 
 function render-matched {path, location, exact, render}
-  result = if parse-path location.pathname, path, {exact} then params: that
-  if result then (create-factory render) match: result
+  if parse-path location.pathname, path, {exact}
+    (create-factory render) match: params: that
   else ''
 
 route = with-state get-location <| render-matched
