@@ -1,8 +1,9 @@
 import
   './collection': {update-model}
-  '../utils': {parse-search}
+  '../utils': {parse-search, query-string}
 
-function get-path data: app: location: {pathname} => pathname
+function get-path data: app: location: {pathname, search}
+  pathname + if query-string search then '?' + that else ''
 
 function push-state env, path
   if path != env.location.pathname
