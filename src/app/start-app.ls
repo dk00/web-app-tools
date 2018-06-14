@@ -2,7 +2,7 @@ import
   \./react : {h, render}
   \./recompose : {with-context}
   \./store : craft-store
-  \./history : {sync-history}
+  \./history : {sync-history, update-location}
 
 function with-default {env=@ || window, el=\#root initialize, init=initialize}: options
   Object.assign {} options, {env, el, init}
@@ -15,7 +15,8 @@ function start-app app, user-options
   require \preact/devtools if module.hot
   {env, el, init} = options = with-default user-options
 
-  store = craft-store options
+  store = craft-store Object.assign {} options, actions:
+    []concat options.actions || [] update-location env.location
   with-store = with-context create-context store, options
 
   container = env.document.query-selector el
