@@ -2,7 +2,7 @@ import
   \path-to-regexp : path-to-regexp
   \./react : {h, create-factory}
   \./recompose : {with-state}
-  \./collection : {update-model}
+  './history': {update-location}
 
 function extract-parameters path, pattern, keys
   parsed = pattern.exec path
@@ -33,22 +33,18 @@ function render-matched {path, location, exact, render}
 route = with-state get-location <| render-matched
 
 patch = 'http://placeholder'
-function resolve-url path, base
-  new URL path, patch + base .href.slice patch.length
-
-function navigate pathname
-  update-model id: \location values: {pathname}
+function resolve-url path, base => new URL path, patch + base
 
 function render-link {
   location, to: href, children, dispatch, active-class-name=\active
 }
-  pathname = resolve-url href, location.pathname
-  active = pathname == location.pathname
+  url = resolve-url href, location.pathname
+  active = url.pathname == location.pathname
   h \a Object.assign {children, href},
     if active then class: active-class-name
     on-click: ->
       it.prevent-default!
-      if !active then dispatch navigate pathname
+      if !active then dispatch update-location url
 
 nav-link = with-state get-location <| render-link
 
