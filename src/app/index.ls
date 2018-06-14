@@ -4,7 +4,7 @@ import
   \./recompose : {compose, pipe, with-context, with-state, map-props}
   \./create-effect : create-effect
   \./wrap-plugin : wrap-plugin
-  \./routing : {route, nav-link}
+  \./routing : {route, nav-link, nav-button}
   \./containers : {
     with-collection, linked-input, toggle, toggle-target
     require-data
@@ -21,7 +21,7 @@ export {
   start-app, h, create-class
   pipe, compose, with-state, map-props, with-context
   wrap-plugin, create-effect
-  route, nav-link
+  route, nav-link, nav-button
   with-collection, linked-input, toggle, toggle-target, require-data
   update-model, update-collection
   model-state, collection-state, collection-props

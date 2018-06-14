@@ -35,21 +35,30 @@ route = with-state get-location <| render-matched
 patch = 'http://placeholder'
 function resolve-url path, base => new URL path, patch + base
 
-function render-link {
-  location, to: href, children, dispatch, active-class-name=\active
-}
+function active-class {active-class-name=\active others}
+  (others?class || '') + ' ' + active-class-name
+
+function render-link props
+  {type=\a location, to: href, others, children, dispatch} = props
   url = resolve-url href, location.pathname
   active = url.pathname == location.pathname
-  h \a Object.assign {children, href},
-    if active then class: active-class-name
+  props = Object.assign {} others, {href},
+    if active then class: active-class props
     on-click: ->
       it.prevent-default!
       if !active then dispatch update-location url
+  h type, props, children
+
+function render-button {to, location, active-class-name, children, dispatch, ...rest}
+  others = Object.assign  type: \button, rest
+  render-link {type: \button to, location, active-class-name, children, dispatch, others}
 
 nav-link = with-state get-location <| render-link
+nav-button = with-state get-location <| render-button
 
 if process.env.NODE_ENV != \production
   route.display-name = \route
   nav-link.display-name = \nav-link
+  nav-button.display-name = \nav-button
 
-export {route, nav-link, parse-path}
+export {route, nav-link, nav-button, parse-path}
