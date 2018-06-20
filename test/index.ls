@@ -6,6 +6,7 @@ units =
   collection: \Collection
   routing: \Routing
   sync: 'Sync app state with resources'
+  'with-effect': 'Map nested component props changes to global effects'
 
 function test units, path=\test
   {join} = require \path

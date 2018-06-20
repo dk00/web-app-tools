@@ -15,8 +15,8 @@ function basic t
     data: dessert: 1: name: \candy
   result = render-once (with-collection 'dessert' <| identity), {state}
 
-  actual = result
-  expected = models: [name: \candy]
+  actual = result.models
+  expected = [name: \candy]
   t.same actual, expected, 'pass collection content as props'
 
   action = void
