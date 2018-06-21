@@ -1,4 +1,4 @@
-function expand-entries data
+function expand-entries data={}
   parameters = Object.entries data .map ([key, value]) ->
     if value && typeof value == \object
       expand-entries value .map ({key: sub, value: sub-value}) ->

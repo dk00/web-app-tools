@@ -13,6 +13,10 @@ function create-context store, {base-url, collections}
   options = {base-url, collections}
   {store, options}
 
+function listen-actions store, env
+  env.add-event-listener \message (data: {source, action}) ->
+    if source == \app then store.dispatch action
+
 function start-app app, user-options
   require \preact/devtools if module.hot
   {env, el, init} = options = with-default user-options
@@ -26,6 +30,7 @@ function start-app app, user-options
   replace-app = !-> root := mount (h with-store it), container, root
   replace-app app
   sync-history store, env
+  listen-actions store, env
 
   if module.hot
     replace-options = !-> store.replace-reducer craft-reduce it
