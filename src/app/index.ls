@@ -16,7 +16,6 @@ import
     model-state, collection-state, collection-props
   }
   \./dom : {require-scripts, q, qa}
-  \./core-js-workaround : core-js-workaround
 
 export {
   start-app, h, create-class
@@ -28,5 +27,4 @@ export {
   model-state, collection-state, collection-props
   fetch-object
   require-scripts, q, qa
-  core-js-workaround
 }

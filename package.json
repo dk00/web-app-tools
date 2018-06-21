@@ -43,7 +43,6 @@
     "redux": "",
     "rollup": "",
     "rollup-plugin-babel": "beta",
-    "rollup-plugin-commonjs": "",
     "rollup-plugin-node-resolve": "",
     "rollup-plugin-postcss": "",
     "rollup-plugin-replace": "",

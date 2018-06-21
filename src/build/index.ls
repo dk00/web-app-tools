@@ -14,5 +14,4 @@ export \../app/index : {
   model-state, collection-state, collection-props
   fetch-object
   require-scripts, q, qa
-  core-js-workaround
 }
