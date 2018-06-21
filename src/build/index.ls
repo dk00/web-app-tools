@@ -12,6 +12,6 @@ export \../app/index : {
   with-collection, linked-input, toggle, toggle-target
   update-model, update-collection
   model-state, collection-state, collection-props
-  fetch-object, merge-requests
+  fetch-object, merge-requests, request-key, exclude
   require-scripts, q, qa
 }
