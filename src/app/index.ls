@@ -15,6 +15,7 @@ import
     update-model, update-collection
     model-state, collection-state, collection-props
   }
+  \./merge-requests : merge-requests
   \./dom : {require-scripts, q, qa}
 
 export {
@@ -25,6 +26,6 @@ export {
   with-collection, linked-input, toggle, toggle-target
   update-model, update-collection
   model-state, collection-state, collection-props
-  fetch-object
+  fetch-object, merge-requests
   require-scripts, q, qa
 }

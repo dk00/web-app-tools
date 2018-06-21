@@ -6,6 +6,7 @@ units =
   collection: \Collection
   routing: \Routing
   'with-effect': 'Map nested component props changes to global effects'
+  'merge-requests': 'Merge requests from mounted components'
 
 function test units, path=\test
   {join} = require \path
