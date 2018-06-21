@@ -4,7 +4,9 @@ import
   \./store : craft-store
   \./history : {sync-history, update-location}
 
-function with-default {env=@ || window, el=\#root initialize, init=initialize}: options
+function with-default {env=@ || window, el='#root' init, actions=[]}: options
+  actions =
+    []concat actions, update-location env.location
   Object.assign {} options, {env, el, init}
 
 function create-context store, {base-url, collections}
@@ -15,8 +17,7 @@ function start-app app, user-options
   require \preact/devtools if module.hot
   {env, el, init} = options = with-default user-options
 
-  store = craft-store Object.assign {} options, actions:
-    []concat options.actions || [] update-location env.location
+  store = craft-store options
   with-store = with-context create-context store, options
 
   container = env.document.query-selector el

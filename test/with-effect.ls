@@ -5,12 +5,11 @@ import
 function main t
   result = void
   child-props = void
-  merge-props = -> it
   apply-effect = -> result := it
   render-child = ->
     child-props := it
     value: \dummy
-  product = with-effect merge-props, apply-effect <| render-child
+  product = with-effect apply-effect <| render-child
 
   props = value: 1
   first = render-once product, {props}
