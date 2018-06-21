@@ -9,7 +9,6 @@ import
   \./routing : {route, nav-link, nav-button}
   \./containers : {
     with-collection, linked-input, toggle, toggle-target
-    require-data
   }
   \./start-app : start-app
   \./collection : {
@@ -24,7 +23,7 @@ export {
   pipe, compose, map-props, with-state, with-context, with-effect
   wrap-plugin, create-effect
   route, nav-link, nav-button
-  with-collection, linked-input, toggle, toggle-target, require-data
+  with-collection, linked-input, toggle, toggle-target
   update-model, update-collection
   model-state, collection-state, collection-props
   fetch-object

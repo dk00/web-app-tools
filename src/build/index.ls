@@ -6,10 +6,10 @@ import
 export {webpack-config, rollup-config, test}
 export \../app/index : {
   start-app, h, create-class
-  with-state, map-props, compose, with-context, with-effect
+  pipe, compose, map-props, with-state, with-context, with-effect
   wrap-plugin, create-effect
-  route, nav-link
-  with-collection, linked-input, toggle, toggle-target, require-data
+  route, nav-link, nav-button
+  with-collection, linked-input, toggle, toggle-target
   update-model, update-collection
   model-state, collection-state, collection-props
   fetch-object
