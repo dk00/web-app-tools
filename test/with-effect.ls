@@ -4,9 +4,13 @@ import
 
 function main t
   result = void
+  child-props = void
   merge-props = -> it
   apply-effect = -> result := it
-  product = with-effect merge-props, apply-effect <| -> value: \dummy
+  render-child = ->
+    child-props := it
+    value: \dummy
+  product = with-effect merge-props, apply-effect <| render-child
 
   props = value: 1
   first = render-once product, {props}
@@ -14,6 +18,10 @@ function main t
   actual = result.map (.value) .join ' '
   expected = \1
   t.is actual, expected, 'apply single effect'
+
+  actual = child-props
+  expected = value: 1
+  t.same actual, expected, 'pass props to wrapped components'
 
   props = value: 2
   render-once product, {props}

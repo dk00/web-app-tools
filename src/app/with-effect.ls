@@ -7,6 +7,7 @@ function handle-changes instances, merge-props, apply-effects
 
 function with-effect merge-props, apply-effects => (component) ->
   instances = []
+  render-child = create-factory component
   hooks =
     component-did-mount: ->
       instances := instances.concat @
@@ -16,7 +17,7 @@ function with-effect merge-props, apply-effects => (component) ->
     component-will-unmount: ->
       instances := instances.filter (!= @)
       handle-changes instances, merge-props, apply-effects
-    render: create-factory component
+    render: -> render-child @props
 
   enhanced = create-class hooks
   if process.env.NODE_ENV != \production
