@@ -1,13 +1,12 @@
 import
+  \zero-fetch : fetch-object
   \./react : {h, create-factory}
   \./recompose : {pipe, compose, with-state, map-props}
-  \./sync : {api-url}
   \./collection : {
     update-model, update-collection
     collection-state, collection-props, field-state
   }
   \./create-effect : create-effect
-  \./fetch-object : fetch-object
 
 function with-collection collection
   compose do
@@ -66,18 +65,9 @@ toggle-target = compose do
   map-props field-props
 <| render-field
 
-function fetch-resource {collection, parameters} context
-  url = api-url context, collection
-  fetch-object url, {parameters} .then ->
-    options = id: collection, model: collection, models: it
-    context.store.dispatch update-collection options
-
-require-data = create-effect fetch-resource
-
 if process.env.NODE_ENV != \production
   linked-input.display-name = \linked-input
   toggle.display-name = \toggle
   toggle-target.display-name = \toggle-target
-  require-data.display-name = \require-data
 
-export {with-collection, linked-input, toggle, toggle-target, require-data}
+export {with-collection, linked-input, toggle, toggle-target}

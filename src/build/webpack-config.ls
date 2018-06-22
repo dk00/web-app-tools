@@ -51,6 +51,7 @@ function render-static entry
     navigator: {}
     location: pathname: \/
     render: -> render-static.result := it
+    add-event-listener: ->
 
   register!
   require join process.cwd!, entry

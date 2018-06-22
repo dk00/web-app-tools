@@ -21,8 +21,6 @@
     "@babel/core": "",
     "@babel/plugin-transform-modules-commonjs": "",
     "@babel/plugin-transform-react-jsx": "",
-    "@babel/polyfill": "",
-    "@babel/preset-env": "",
     "@babel/preset-stage-0": "",
     "@babel/register": "",
     "babel-loader": "next",
@@ -33,9 +31,7 @@
     "css-loader": "",
     "extract-loader": "",
     "file-loader": "",
-    "fs-extra": "",
     "html-plugin": "",
-    "js-yaml-loader": "",
     "livescript": "",
     "node-sass": "",
     "nyc": "",
@@ -47,11 +43,9 @@
     "redux": "",
     "rollup": "",
     "rollup-plugin-babel": "beta",
-    "rollup-plugin-commonjs": "",
     "rollup-plugin-node-resolve": "",
     "rollup-plugin-postcss": "",
     "rollup-plugin-replace": "",
-    "rollup-plugin-yaml": "",
     "sass-loader": "",
     "style-loader": "",
     "tape": "",
@@ -59,6 +53,7 @@
     "webpack": "",
     "webpack-cli": "",
     "webpack-dev-server": "",
-    "workbox-webpack-plugin": ""
+    "workbox-webpack-plugin": "",
+    "zero-fetch": ""
   }
 }

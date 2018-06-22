@@ -2,11 +2,11 @@ units =
   utils: \Utilities
   history: 'Sync with Browser History'
   react: 'Wrapped React API'
-  \fetch-params : 'Fetch parameters'
   containers: \Containers
   collection: \Collection
   routing: \Routing
-  sync: 'Sync app state with resources'
+  'with-effect': 'Map nested component props changes to global effects'
+  'merge-requests': 'Merge requests from mounted components'
 
 function test units, path=\test
   {join} = require \path

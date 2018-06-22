@@ -1,31 +1,34 @@
 import
+  \zero-fetch : fetch-object
   \./react : {h, create-class}
-  \./recompose : {compose, pipe, with-context, with-state, map-props}
+  \./recompose : {
+    compose, pipe, with-context, with-state, with-effect, map-props
+  }
+  \./with-fetch : with-fetch
   \./create-effect : create-effect
   \./wrap-plugin : wrap-plugin
-  \./routing : {route, nav-link}
+  \./routing : {route, nav-link, nav-button}
   \./containers : {
     with-collection, linked-input, toggle, toggle-target
-    require-data
   }
   \./start-app : start-app
-  \./fetch-object : fetch-object
   \./collection : {
     update-model, update-collection
     model-state, collection-state, collection-props
   }
+  \./merge-requests : merge-requests
+  \../utils : {request-key, exclude}
   \./dom : {require-scripts, q, qa}
-  \./core-js-workaround : core-js-workaround
 
 export {
   start-app, h, create-class
-  pipe, compose, with-state, map-props, with-context
+  pipe, compose, map-props, with-state, with-context, with-effect
+  with-fetch
   wrap-plugin, create-effect
-  route, nav-link
-  with-collection, linked-input, toggle, toggle-target, require-data
+  route, nav-link, nav-button
+  with-collection, linked-input, toggle, toggle-target
   update-model, update-collection
   model-state, collection-state, collection-props
-  fetch-object
+  fetch-object, merge-requests, request-key, exclude
   require-scripts, q, qa
-  core-js-workaround
 }

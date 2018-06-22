@@ -2,6 +2,7 @@ import
   \./react : {create-class, create-factory}
   \./with-display-name : with-display-name
   \./with-state : with-state
+  './with-effect': with-effect
 
 function pipe ...enhancers => (component) ->
   enhancers.reduce (component, enhance) -> enhance component
@@ -30,4 +31,4 @@ function with-context context => (component) ->
 function select-with-props selector => (state, props) ->
   Object.assign {} (select state), own-props: props
 
-export {compose, pipe, with-context, with-state, map-props}
+export {compose, pipe, with-context, with-state, with-effect, map-props}
