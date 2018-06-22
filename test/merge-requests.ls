@@ -4,7 +4,7 @@ function main t
   requests = [collection: \p]
 
   actual = merge-requests requests
-  expected = [path: \/p data: {}]
+  expected = [path: \/p options: {} request: collection: \p]
   t.same actual, expected, 'pass single request'
 
   actual = merge-requests requests, prefix: 'https://api.io/' .0.path

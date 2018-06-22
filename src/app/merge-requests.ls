@@ -1,4 +1,6 @@
 function merge-requests requests, {prefix='/'}={}
-  requests.map -> path: prefix + it.collection, data: {}
+  requests.map (request) ->
+    options = {}
+    {path: prefix + request.collection, options, request}
 
 export default: merge-requests

@@ -33,7 +33,7 @@ function mock-fetch data, save-args
         'Content-Type': 'application/json'
       json: ->
         save-args? {url, init}
-        data
+        data? {url, init} or data
     Promise.resolve result
 
 export {

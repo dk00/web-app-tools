@@ -4,6 +4,7 @@ import
   \./recompose : {
     compose, pipe, with-context, with-state, with-effect, map-props
   }
+  \./with-fetch : with-fetch
   \./create-effect : create-effect
   \./wrap-plugin : wrap-plugin
   \./routing : {route, nav-link, nav-button}
@@ -22,6 +23,7 @@ import
 export {
   start-app, h, create-class
   pipe, compose, map-props, with-state, with-context, with-effect
+  with-fetch
   wrap-plugin, create-effect
   route, nav-link, nav-button
   with-collection, linked-input, toggle, toggle-target
