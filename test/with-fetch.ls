@@ -1,20 +1,14 @@
 import
-  './mock': {mock-fetch, render-once, set-props}
+  './mock': {mock-fetch, render-once, set-props, test-fetch}
   '../src/app/with-fetch': with-fetch
 
 function main t
-  result = {}
-  data = -> it
-  global.fetch = mock-fetch data, -> result.fetch-args := it
-
-  options =
-    handle-result: (items, request) -> result.resolve {items, request}
-    handle-error: -> console.log it
-  wrapped = with-fetch options <| ->
-  new Promise (resolve) ->
-    props = collection: \p
-    result.resolve = resolve
-    result.first-element = render-once wrapped, {props}
+  test-fetch (result) ->
+    options =
+      handle-result: (items, request) -> result.resolve {items, request}
+      handle-error: -> console.log it
+    wrapped = with-fetch options <| ->
+    render-once wrapped, props: collection: \p
   .then ->
     actual = it
     expected =

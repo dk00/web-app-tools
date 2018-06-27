@@ -27,17 +27,24 @@ function get-attribute element, key => element.attributes[key]
 function get-children element => element.children.0
 
 function mock-fetch data, save-args
+  headers = 'content-type': 'application/json'
   fn = (url, init) ->
     result =
-      headers:
-        'Content-Type': 'application/json'
+      headers: get: -> headers[it]
       json: ->
         save-args? {url, init}
         data? {url, init} or data
     Promise.resolve result
 
+function test-fetch render
+  result = {}
+  data = -> it
+  global.fetch = mock-fetch data, -> result.fetch-args := it
+  new Promise (resolve) ->
+    Object.assign result, {resolve, element: render result}
+
 export {
   render-once, click, set-props, unmount
   get-attribute, get-children,
-  mock-fetch
+  mock-fetch, test-fetch
 }
