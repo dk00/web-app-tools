@@ -14,16 +14,21 @@ function selector t
         items: 'model id list'
     data:
       \cart-item : 'model cache'
+      field: 'field cache'
   props = collection: \dessert
-  sub-state = collection-state state, props
+  result = collection-state state, props
   
-  actual = sub-state{items, data}
+  actual = result{items, data}
   expected = items: 'model id list' data: 'model cache'
   t.same actual, expected, 'get state of desired collection'
 
-  actual = sub-state{collection, model}
+  actual = result{collection, model}
   expected = collection: \dessert model: \cart-item
   t.same actual, expected, 'get collection meta'
+
+  actual = result.field
+  expected = 'field cache'
+  t.is actual, expected, 'include field data'
 
   state =
     collection: dessert: items: 'model id list'
@@ -41,6 +46,10 @@ function selector t
 
   state =
     collection: \cart-items model: \dessert
+    field: 
+      * collection: \cart-items key: \name name: \Name
+      * collection: \cart-items key: \id name: \Id
+      * collection: \dummy
     items: [1 3]
     data:
       1: value: \pudding
@@ -55,8 +64,14 @@ function selector t
   expected = collection: \cart-items model: \dessert
   t.same actual, expected, 'pass collection meta'
 
+  actual = result.fields
+  expected =
+    * collection: \cart-items key: \name name: \Name
+    * collection: \cart-items key: \id name: \Id
+  t.same actual, expected, 'pass fields for collection'
+
   actual = collection-props {}
-  expected = collection: void model: void models: []
+  expected = collection: void model: void models: [] fields: []
   t.same actual, expected, 'binding collection list with empty state'
 
 function main t
