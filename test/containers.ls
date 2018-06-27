@@ -2,21 +2,36 @@ import
   \../src/app/containers : {
     with-collection, with-model, linked-input, toggle, toggle-target
   }
-  \./mock :  {render-once, click, get-attribute, get-children, mock-fetch}
+  \./mock :  {
+    render-once, click, get-attribute, get-children
+    mock-fetch, test-fetch
+  }
 
-function basic t
-  identity = -> it
+function identity => it
 
+function collection t
   state =
     collection: dessert:
       model: \dessert
       items: [1]
     data: dessert: 1: name: \candy
-  result = render-once (with-collection 'dessert' <| identity), {state}
+  props = collection: \dessert
+  result = render-once (with-collection {} <| identity), {state, props}
 
   actual = result.models
   expected = [name: \candy]
   t.same actual, expected, 'pass collection content as props'
+
+  test-fetch (result) ->
+    global.post-message = -> result.resolve it
+    component = with-collection fetch: true <| identity
+    render-once component, {state, props}
+  .then ->
+    actual = it.action.type
+    expected = \update-collection
+    t.same actual, expected, 'fetch collection data on mount'
+
+function basic t
 
   action = void
   dispatch = -> action := it
@@ -100,7 +115,7 @@ function test-toggle t
   actual = /menu/test result.attributes.class
   t.true actual, 'keep existing classes'
 
-  t.end!
+  collection t .then -> t.end!
 
 function main t
   t.test '> Basic' basic

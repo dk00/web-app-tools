@@ -12,13 +12,14 @@ function handle-request-changes state, requests, {handle-result, handle-error}
     .then (items) -> handle-result items, request
     .catch handle-error
 
-function fetch-options options, {store}
-  Object.assign {}  store.get-state!data?app?fetch, options
+function fetch-options options, {store}={}
+  Object.assign {} store?get-state!data?app?fetch, options
 
-function with-fetch options
+function with-fetch user-options
   state = requests: []
   with-effect (instance-props, context) ->
-    next = merge-requests instance-props, fetch-options options, context
+    options = fetch-options user-options, context
+    next = merge-requests instance-props, options
     handle-request-changes state, next, options
 
 export default: with-fetch

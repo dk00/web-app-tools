@@ -5,11 +5,18 @@ import
     update-model, update-collection
     collection-state, collection-props, field-state
   }
-  \./create-effect : create-effect
+  \./with-fetch : with-fetch
 
-function with-collection collection
-  compose do
-    with-state collection-state collection
+fetch-options =
+  handle-error: -> console.log it
+  handle-result: (models, {collection}) ->
+    data = source: \app action: update-collection {model: collection, models}
+    post-message data, \*
+
+function with-collection {fetch}={}
+  compose ...[]concat do
+    if fetch then with-fetch fetch-options else []
+    with-state collection-state
     map-props collection-props
 
 function input-actions dispatch, {model, id, field=\value}
