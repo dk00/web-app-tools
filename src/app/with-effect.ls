@@ -3,7 +3,7 @@ import
   './react': {create-class, create-factory}
 
 function handle-changes instances, apply-effects
-  apply-effects instances.map (.props)
+  apply-effects (instances.map (.props)), instances.0.context
 
 function with-effect apply-effects => (component) ->
   instances = []

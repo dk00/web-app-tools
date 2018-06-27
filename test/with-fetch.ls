@@ -8,13 +8,17 @@ function main t
       handle-result: (items, request) -> result.resolve {items, request}
       handle-error: -> console.log it
     wrapped = with-fetch options <| ->
-    render-once wrapped, props: collection: \p
+    state = data: app: fetch: prefix: 'http://api.com/'
+    props = collection: \p
+    render-once wrapped, {state, props}
   .then ->
-    actual = it
-    expected =
-      items: url: '/p' init: body: void
-      request: collection: \p
+    actual = it.request
+    expected = collection: \p
     t.same actual, expected, 'apply effect to fetch resource on mount'
+
+    actual = it.items.url
+    expected = 'http://api.com/p'
+    t.is actual, expected, 'use url prefix in state for fetch'
 
   t.end!
 

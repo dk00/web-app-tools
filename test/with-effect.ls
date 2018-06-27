@@ -4,19 +4,25 @@ import
 
 function main t
   result = void
+  context = void
   child-props = void
-  apply-effect = -> result := it
+  apply-effect = (props-list, c) ->
+    result := props-list
+    context := c
   render-child = ->
     child-props := it
     value: \dummy
   product = with-effect apply-effect <| render-child
 
   props = value: 1
-  first = render-once product, {props}
+  first = render-once product, {props, context: \context}
 
   actual = result.map (.value) .join ' '
   expected = \1
   t.is actual, expected, 'apply single effect'
+
+  actual = context.store
+  t.ok actual, 'also pass context to effect'
 
   actual = child-props
   expected = value: 1
