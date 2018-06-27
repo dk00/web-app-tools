@@ -14,8 +14,8 @@ function collection-state {collection: source, data} {collection}
   {model=collection, items}? = source[collection]
   {collection, model, items, data: data[model]}
 
-function collection-props {items=[] data}
-  models: items.map (data.)
+function collection-props {collection, model, items=[] data}
+  {collection, model, models: items.map (data.)}
 
 function merge-result state, {model, models}
   (model): Object.assign {} state[model], ...models.map -> (it.id): it

@@ -6,6 +6,59 @@ import
     collection-state, collection-props
   }
 
+function selector t
+  state =
+    collection:
+      dessert:
+        model: \cart-item
+        items: 'model id list'
+    data:
+      \cart-item : 'model cache'
+  props = collection: \dessert
+  sub-state = collection-state state, props
+  
+  actual = sub-state{items, data}
+  expected = items: 'model id list' data: 'model cache'
+  t.same actual, expected, 'get state of desired collection'
+
+  actual = sub-state{collection, model}
+  expected = collection: \dessert model: \cart-item
+  t.same actual, expected, 'get collection meta'
+
+  state =
+    collection: dessert: items: 'model id list'
+    data: dessert: 'model cache'
+
+  actual = collection-state state, props .model
+  expected = \dessert
+  t.same actual, expected, 'model path defaults to collection id'
+
+  state = collection: {} data: {}
+
+  actual = collection-state state, props .{items, data}
+  expected = items: void data: void
+  t.same actual, expected, 'getting collection from empty state'
+
+  state =
+    collection: \cart-items model: \dessert
+    items: [1 3]
+    data:
+      1: value: \pudding
+      3: value: \candy
+  result = collection-props state
+
+  actual = result.models
+  expected = [value: \pudding ; value: \candy]
+  t.same actual, expected, 'bind values of collection list'
+
+  actual = result{collection, model}
+  expected = collection: \cart-items model: \dessert
+  t.same actual, expected, 'pass collection meta'
+
+  actual = collection-props {}
+  expected = collection: void model: void models: []
+  t.same actual, expected, 'binding collection list with empty state'
+
 function main t
   r = handle-actions reduce-collection
   items =
@@ -88,51 +141,7 @@ function main t
   expected = 'default path'
   t.same actual, expected, 'cache path defaults to app'
 
-  state =
-    collection:
-      dessert:
-        model: \cart-item
-        items: 'model id list'
-    data:
-      \cart-item : 'model cache'
-  props = collection: \dessert
-  sub-state = collection-state state, props
-  
-  actual = sub-state{items, data}
-  expected = items: 'model id list' data: 'model cache'
-  t.same actual, expected, 'get state of desired collection'
-
-  actual = sub-state{collection, model}
-  expected = collection: \dessert model: \cart-item
-  t.same actual, expected, 'get collection meta'
-
-  state =
-    collection: dessert: items: 'model id list'
-    data: dessert: 'model cache'
-
-  actual = collection-state state, props .model
-  expected = \dessert
-  t.same actual, expected, 'model path defaults to collection id'
-
-  state = collection: {} data: {}
-
-  actual = collection-state state, props .{items, data}
-  expected = items: void data: void
-  t.same actual, expected, 'getting collection from empty state'
-
-  state =
-    items: [1 3]
-    data:
-      1: value: \pudding
-      3: value: \candy
-
-  actual = collection-props state .models
-  expected = [value: \pudding ; value: \candy]
-  t.same actual, expected, 'bind values of collection list'
-
-  actual = collection-props {}
-  expected = models: []
-  t.same actual, expected, 'binding collection list with empty state'
+  selector t
 
   t.end!
 
