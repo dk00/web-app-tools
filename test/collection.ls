@@ -95,22 +95,28 @@ function main t
         items: 'model id list'
     data:
       \cart-item : 'model cache'
-
-  actual = collection-state \dessert <| state
+  props = collection: \dessert
+  sub-state = collection-state state, props
+  
+  actual = sub-state{items, data}
   expected = items: 'model id list' data: 'model cache'
   t.same actual, expected, 'get state of desired collection'
+
+  actual = sub-state{collection, model}
+  expected = collection: \dessert model: \cart-item
+  t.same actual, expected, 'get collection meta'
 
   state =
     collection: dessert: items: 'model id list'
     data: dessert: 'model cache'
 
-  actual = collection-state \dessert <| state
-  expected = items: 'model id list' data: 'model cache'
+  actual = collection-state state, props .model
+  expected = \dessert
   t.same actual, expected, 'model path defaults to collection id'
 
   state = collection: {} data: {}
 
-  actual = collection-state \dessert <| state
+  actual = collection-state state, props .{items, data}
   expected = items: void data: void
   t.same actual, expected, 'getting collection from empty state'
 

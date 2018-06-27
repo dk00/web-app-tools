@@ -1,5 +1,4 @@
 import
-  \zero-fetch : fetch-object
   \./react : {h, create-factory}
   \./recompose : {pipe, compose, with-state, map-props}
   \./collection : {

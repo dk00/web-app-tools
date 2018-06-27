@@ -10,9 +10,9 @@ function field-state state, {field=\value}: props
   value: model-state state, props ?.[field]
   original-props: props
 
-function collection-state id => ({collection, data}) ->
-  {model=id, items}? = collection[id]
-  {items, data: data[model]}
+function collection-state {collection: source, data} {collection}
+  {model=collection, items}? = source[collection]
+  {collection, model, items, data: data[model]}
 
 function collection-props {items=[] data}
   models: items.map (data.)
