@@ -10,7 +10,8 @@ function create-class spec
   Object.assign ctor, {spec.display-name}
 
 function create-factory component
-  if should-wrap component then -> h component, it
+  if should-wrap component then ({children, ...props}) ->
+    h component, props, children
   else component
 
 export {h, render, Component, create-class, create-factory}
