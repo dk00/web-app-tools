@@ -13,9 +13,11 @@ fetch-options =
     data = source: \app action: update-collection {model: collection, models}
     post-message data, \*
 
+with-api-data = with-fetch fetch-options
+
 function with-collection {fetch}={}
   compose ...[]concat do
-    if fetch then with-fetch fetch-options else []
+    if fetch then with-api-data else []
     with-state collection-state
     map-props collection-props
 
