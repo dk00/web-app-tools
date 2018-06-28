@@ -17,7 +17,7 @@ function test-link {base, to, run}
 function relative-link t
   {element, action} = test-link base: '/target/6' to: \1 run: true
 
-  actual = action.payload.values.pathname
+  actual = action.payload.models.0.pathname
   expected = '/target/1'
   t.same actual, expected, 'treat link relative if not starting with slash'
 
@@ -35,7 +35,7 @@ function relative-link t
 function search-parameters t
   {action} = test-link base: '/home' to: '/home?query=value' run: true
 
-  actual = action.payload.values?search
+  actual = action.payload.models?1{query}
   expected = query: \value
   t.same actual, expected, 'convert query string in link'
 
@@ -114,8 +114,10 @@ function main t
   click element
 
   actual = action
-  expected = type: \update-model payload:
-    model: void id: \location values: pathname: \/whatever search: {}
+  expected = type: \update-collection payload:
+    id: void model: \app models:
+      * id: \location pathname: \/whatever
+      * id: \search
   t.same actual, expected, 'navigate to specified location on click'
 
   exact-route-path t

@@ -10,8 +10,9 @@ function mock-store
     notify: ->
       state := it
       listener!
-    dispatch: (payload: {model=\app id, values}) ->
-      instance.notify data: (model): (id): values
+    dispatch: (payload: {model=\app id, models}) ->
+      instance.notify data: (model): Object.assign ...models.map ->
+        (it.id): it
 
 patch = 'https://placeholder'
 function mock-window
@@ -32,17 +33,21 @@ function mock-window
       handle-nav!
 
 function mock-nav store, pathname, search={}
-  store.notify data: app: location: {pathname, search}
+  store.notify data: app: {location: {pathname} search}
 
 function test-actions t
   search = '?q=1&nested[value]=2&array[1]=3&array[]=0'
-  {payload: {values}} = update-location {pathname: '/route' search}
+  {type, payload: {models}} = update-location {pathname: '/route' search}
 
-  actual = values.pathname
+  actual = models?map (.id) .join ' '
+  expected = 'location search'
+  t.is actual, expected, 'update location state values'
+
+  actual = models?0?pathname
   expected = '/route'
   t.is actual, expected, 'copy pathname to update'
 
-  actual = values.search?q
+  actual = models?1?q
   expected = \1
   t.is actual, expected, 'values of search parameters'
 
@@ -66,7 +71,7 @@ function main t
   expected = 1
   t.is actual, expected, 'do nothing if state location is unchanged'
 
-  mock-nav store, '/next', query: \value
+  mock-nav store, '/next' query: \value
 
   actual = w.location.to-string!slice -17
   expected = '/next?query=value'

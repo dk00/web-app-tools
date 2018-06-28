@@ -1,8 +1,8 @@
 import
-  './collection': {update-model}
+  './collection': {update-collection}
   '../utils': {parse-search, query-string}
 
-function get-path data: app: location: {pathname, search}
+function get-path data: app: {location: {pathname} search: {id, ...search}}
   pathname + if query-string search then '?' + that else ''
 
 function push-state env, path
@@ -10,8 +10,9 @@ function push-state env, path
     env.history.push-state {} '' path
 
 function update-location {pathname, search=''}
-  update-model id: \location values:
-    {pathname, search: parse-search search}
+  update-collection model: \app models:
+    * id: \location pathname
+    * Object.assign id: \search, parse-search search
 
 function sync-history store, env
   store.subscribe ->
