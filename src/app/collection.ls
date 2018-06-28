@@ -10,14 +10,13 @@ function field-state state, {field=\value}: props
   value: model-state state, props ?.[field]
   original-props: props
 
-function collection-state {collection: source, data} {collection}
+function collection-state {collection: source, data} {collection, ...rest}
   {model=collection, items}? = source[collection]
-  {collection, model, data.field, items, data: data[model]}
+  {collection, model, data.field, items, data: data[model], rest}
 
-function collection-props {collection, model, field={} items=[] data}
-  fields = Object.values field .filter ->
-    it.collection == collection
-  {collection, model, fields, models: items.map (data.)}
+function collection-props {collection, model, field={} items=[] data, rest}
+  fields = Object.values field .filter -> it.collection == collection
+  Object.assign {collection, model, fields, models: items.map (data.)} rest
 
 function merge-result state, {model, models}
   (model): Object.assign {} state[model], ...models.map -> (it.id): it

@@ -15,7 +15,7 @@ function selector t
     data:
       \cart-item : 'model cache'
       field: 'field cache'
-  props = collection: \dessert
+  props = collection: \dessert others: \should-be-passed
   result = collection-state state, props
   
   actual = result{items, data}
@@ -29,6 +29,10 @@ function selector t
   actual = result.field
   expected = 'field cache'
   t.is actual, expected, 'include field data'
+
+  actual = result.rest
+  expected = others: \should-be-passed
+  t.same actual, expected, 'other props should be passed'
 
   state =
     collection: dessert: items: 'model id list'
@@ -54,6 +58,7 @@ function selector t
     data:
       1: value: \pudding
       3: value: \candy
+    rest: others: 'should be added'
   result = collection-props state
 
   actual = result.models
@@ -63,6 +68,10 @@ function selector t
   actual = result{collection, model}
   expected = collection: \cart-items model: \dessert
   t.same actual, expected, 'pass collection meta'
+
+  actual = result.others
+  expected = 'should be added'
+  t.is actual, expected, 'other props should be added'
 
   actual = result.fields
   expected =
