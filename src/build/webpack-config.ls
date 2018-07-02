@@ -3,12 +3,13 @@ import \./register : register
 import \./babel-options : babel-options
 
 base =
-  entry: \./src/index.js
+  entry: \./src/index
   resolve: extensions: <[.ls .jsx .js .sass .scss .yml .json]>
 
 function development {base-plugins, output-path}
   {HotModuleReplacementPlugin} = require \webpack
   config:
+    output: public-path: \/
     plugins: base-plugins.concat new HotModuleReplacementPlugin
     dev-server:
       content-base: output-path
@@ -17,21 +18,20 @@ function development {base-plugins, output-path}
       host: \0.0.0.0
   style-loader: [\style-loader]
 
-function production {base-plugins, output-path}
+function production {base-plugins, output-path, public-path}
   {DefinePlugin} = require \webpack
   MinifyPlugin = require \babel-minify-webpack-plugin
   {GenerateSW} = require \workbox-webpack-plugin
 
   config:
-    output: path: output-path
+    output: {path: output-path, public-path}
     plugins:
       new DefinePlugin \module.hot : \false
       ...base-plugins
       new GenerateSW options =
-        sw-dest: "#output-path/sw.js"
         clients-claim: true
         skip-waiting: true
-        navigate-fallback: \/
+        navigate-fallback: public-path || '/'
     optimization:
       runtime-chunk: \single
       split-chunks:
@@ -57,7 +57,7 @@ function render-static entry
   require join process.cwd!, entry
   -> render-static.result
 
-function create-html-plugin {output-path}
+function create-html-plugin {output-path, public-path='/'}
   HtmlPlugin = require \html-plugin
   {
     name: title='No Name'
@@ -65,15 +65,17 @@ function create-html-plugin {output-path}
   } = (try require "#{output-path}/manifest.json") || {}
   html-options =
     title: title, theme-color: theme-color
-    content: render-static base.entry
+    prefix: public-path, content: render-static base.entry
+    manifest: "#{public-path}manifest.json"
+    favicon: "#{public-path}favicon.png"
   new HtmlPlugin html-options
 
 function config-generator {output-path=\www}={}
-  base-options = output-path: join process.cwd!, output-path
-  mode-options = Object.assign {} base-options,
-    base-plugins: [create-html-plugin base-options]
-
-  (, {mode=\development}) ->
+  (, {mode=\development}: user-config) ->
+    public-path = user-config.output-public-path
+    base-options = {public-path, output-path: join process.cwd!, output-path}
+    mode-options = Object.assign {} base-options,
+      base-plugins: [create-html-plugin base-options]
     {config, style-loader, minimize} = modes[mode] mode-options
     rules =
       * use: loader: \babel-loader options: babel-options!
