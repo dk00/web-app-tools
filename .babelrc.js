@@ -1,7 +1,7 @@
 module.exports = {
-  presets: [['@babel/stage-0', {
-    decoratorsLegacy: true
-  }]],
+  presets: [
+    'upcoming'
+  ],
   plugins: [
     'livescript'
   ]

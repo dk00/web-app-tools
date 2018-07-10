@@ -21,8 +21,8 @@
     "@babel/core": "",
     "@babel/plugin-transform-modules-commonjs": "",
     "@babel/plugin-transform-react-jsx": "",
-    "@babel/preset-stage-0": "",
     "@babel/register": "",
+    "babel-preset-upcoming": "",
     "babel-loader": "next",
     "babel-minify-webpack-plugin": "",
     "babel-plugin-istanbul": "",
@@ -32,20 +32,13 @@
     "extract-loader": "",
     "file-loader": "",
     "html-plugin": "",
-    "livescript": "",
     "node-sass": "",
     "nyc": "",
     "path-to-regexp": "",
-    "postcss-url": "",
     "preact": "",
     "preact-render-to-string": "",
     "prettier": "https://git.io/vpl2F",
     "redux": "",
-    "rollup": "",
-    "rollup-plugin-babel": "beta",
-    "rollup-plugin-node-resolve": "",
-    "rollup-plugin-postcss": "",
-    "rollup-plugin-replace": "",
     "sass-loader": "",
     "style-loader": "",
     "tape": "",
@@ -55,5 +48,11 @@
     "webpack-dev-server": "",
     "workbox-webpack-plugin": "",
     "zero-fetch": ""
+  },
+  "devDependencies": {
+    "rollup": "",
+    "rollup-plugin-babel": "beta",
+    "rollup-plugin-node-resolve": "",
+    "rollup-plugin-replace": ""
   }
 }
