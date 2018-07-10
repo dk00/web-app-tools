@@ -17,7 +17,7 @@ function selector t
       field: 'field cache'
   props = collection: \dessert others: \should-be-passed
   result = collection-state state, props
-  
+
   actual = result{items, data}
   expected = items: 'model id list' data: 'model cache'
   t.same actual, expected, 'get state of desired collection'
@@ -50,7 +50,7 @@ function selector t
 
   state =
     collection: \cart-items model: \dessert
-    field: 
+    field:
       * collection: \cart-items key: \name name: \Name
       * collection: \cart-items key: \id name: \Id
       * collection: \dummy
@@ -104,7 +104,7 @@ function main t
   action = update-collection model: \new-collection models: items
 
   actual = r state, action .'new-collection'
-  t.true actual, 'collection id defaults to model path'
+  t.false actual, 'collection is not updated if id is not specified'
 
   actual = reduce-collection\update-collection {} {}
   t.false actual, 'ignore actions w/o collection id'
@@ -138,6 +138,12 @@ function main t
   actual = merged.existing
   expected = name: \existing
   t.same actual, expected, 'keep existing data'
+
+  action = type: \update-collection payload: id: \t models: items
+  merged = reduce state, action .app
+
+  actual = merged?0
+  t.ok actual, 'model path defaults to `app`'
 
   state =
     app:

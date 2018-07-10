@@ -18,12 +18,12 @@ function collection-props {collection, model, field={} items=[] data, rest}
   fields = Object.values field .filter -> it.collection == collection
   Object.assign {collection, model, fields, models: items.map (data.)} rest
 
-function merge-result state, {model, models}
+function merge-result state, {model=\app models}
   (model): Object.assign {} state[model], ...models.map -> (it.id): it
 
 reduce-collection =
-  \update-collection : (state, {model, id=model, models}) ->
-    if id then (id):
+  \update-collection : (state, {id, model, models}) ->
+    if !id then void else (id):
       Object.assign {} state[id],
         if model then {model}
         items: models.map (.id)
