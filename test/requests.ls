@@ -3,13 +3,24 @@ import '../src/app/requests': {merge-requests, result-message}
 function basic-requests t
   requests = [collection: \p]
 
-  actual = merge-requests requests
-  expected = [path: \/p options: {} request: collection: \p]
+  actual = merge-requests requests .0{path, request}
+  expected = path: \/p request: collection: \p
   t.same actual, expected, 'pass single request'
 
   actual = merge-requests requests, prefix: 'https://api.io/' .0.path
   expected = 'https://api.io/p'
   t.is actual, expected, 'set prefix of api URL'
+
+  parameters = remarks: 'request parameters' type: [\y \x]
+  requests = merge-requests [model: \p parameters: parameters]
+
+  actual = requests.0.path
+  expected = '/p'
+  t.is actual, expected, 'request path'
+
+  actual = requests.0.options?data
+  expected = parameters
+  t.same actual, expected, 'request parameters'
 
 function messages t
   result = \models

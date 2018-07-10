@@ -3,9 +3,12 @@ import \./collection : {update-collection}
 function result-message models, {collection, model=collection}
   source: \app action: update-collection {id: collection, model, models}
 
-function merge-requests requests, {prefix='/'}={}
+function request-path {collection, model=collection} {prefix='/'}={}
+  prefix + model
+
+function merge-requests requests, config
   requests.map (request) ->
-    options = {}
-    {path: prefix + request.collection, options, request}
+    options = data: request.parameters
+    {path: (request-path request, config), options, request}
 
 export {merge-requests, result-message}
