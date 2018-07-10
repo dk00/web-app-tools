@@ -2,16 +2,16 @@ import
   \./react : {h, create-factory}
   \./recompose : {pipe, compose, with-state, map-props}
   \./collection : {
-    update-model, update-collection
+    update-model
     collection-state, collection-props, field-state
   }
   \./with-fetch : with-fetch
+  \./requests : {result-message}
 
 fetch-options =
   handle-error: -> console.log it
-  handle-result: (models, {collection}) ->
-    data = source: \app action: update-collection {model: collection, models}
-    post-message data, \*
+  handle-result: (result, request) ->
+    post-message (result-message result, request), \*
 
 with-api-data = with-fetch fetch-options
 

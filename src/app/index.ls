@@ -16,7 +16,7 @@ import
     update-model, update-collection
     model-state, collection-state, collection-props
   }
-  \./merge-requests : merge-requests
+  \./requests : {merge-requests}
   \../utils : {request-key, exclude}
   \./dom : {require-scripts, q, qa}
 

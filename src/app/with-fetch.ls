@@ -2,7 +2,7 @@ import
   'zero-fetch': fetch-object
   '../utils': {exclude, request-key}
   './with-effect': with-effect
-  './merge-requests': merge-requests
+  './requests': {merge-requests}
 
 function handle-request-changes state, requests, {handle-result, handle-error}
   new-requests = exclude requests, state.requests, request-key
