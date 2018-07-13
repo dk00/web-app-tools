@@ -1,7 +1,7 @@
 import
   \../src/app/actions : {handle-actions}
   \../src/app/collection : {
-    replace-collection, update-model
+    replace-collection, unshift-collection, push-collection, update-model
     reduce-collection, reduce-data
     collection-state, collection-props
   }
@@ -84,10 +84,22 @@ function selector t
   t.same actual, expected, 'binding collection list with empty state'
 
 function actions t
-  actual = replace-collection id: \collection model: \model models: [id: \id]
+  options = id: \collection model: \model models: [id: \id]
+
+  actual = replace-collection options
   expected = type: \replace-collection payload:
     id: \collection model: \model models: [id: \id]
-  t.same actual, expected, 'create action to update a collection'
+  t.same actual, expected, 'create action to replace a collection'
+
+  actual = unshift-collection options
+  expected = type: \unshift-collection payload:
+    id: \collection model: \model models: [id: \id]
+  t.same actual, expected, 'create action to add to start of a collection'
+
+  actual = push-collection options
+  expected = type: \push-collection payload:
+    id: \collection model: \model models: [id: \id]
+  t.same actual, expected, 'create action to add to end of a collection'
 
   actual = update-model model: \model-path id: \id values: v: 1
   expected = type: \update-model payload:
@@ -101,7 +113,7 @@ function collections t
     * id: 1 name: \b
   action = type: \replace-collection payload:
     id: \t model: \cache, models: items
-  state = t: [3]
+  state = t: items: [3]
   next-state = r state, action
 
   actual = next-state.t.model
@@ -123,6 +135,22 @@ function collections t
   payload = id: \t models: []
   actual = \path of reduce-collection\replace-collection {model: \original} payload
   t.false actual, 'keep path unchanged if not specified'
+
+  action = type: \unshift-collection payload:
+    id: \t model: \cache, models: items
+  next-state = r state, action
+
+  actual = next-state.t.items.join ' '
+  expected = '0 1 3'
+  t.is actual, expected, 'add to start of a collection'
+
+  action = type: \push-collection payload:
+    id: \t model: \cache, models: items
+  next-state = r state, action
+
+  actual = next-state.t.items.join ' '
+  expected = '3 0 1'
+  t.is actual, expected, 'add to start of a collection'
 
 function cache t
   items =

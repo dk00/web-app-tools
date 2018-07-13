@@ -1,5 +1,14 @@
-function replace-collection {id, model, models}
-  type: \replace-collection payload: {id, model, models: []concat models}
+function update-collection type=\replace-collection {id, model, models}
+  {type, payload: {id, model, models: []concat models}}
+
+function replace-collection options
+  update-collection \replace-collection options
+
+function unshift-collection options
+  update-collection \unshift-collection options
+
+function push-collection options
+  update-collection \push-collection options
 
 function update-model {model, id, values}
   type: \update-model payload: {model, id, values}
@@ -21,21 +30,29 @@ function collection-props {collection, model, field={} items=[] data, rest}
 function merge-result state, {model=\app models}
   (model): Object.assign {} state[model], ...models.map -> (it.id): it
 
+function handle-collection merge => (state, {id, model, models}) ->
+  if !id then void else (id):
+    Object.assign {} state[id],
+      if model then {model}
+      items: merge state[id]?items, models.map (.id)
+
 reduce-collection =
-  \replace-collection : (state, {id, model, models}) ->
-    if !id then void else (id):
-      Object.assign {} state[id],
-        if model then {model}
-        items: models.map (.id)
+  'replace-collection': handle-collection (, added) -> added
+  'unshift-collection': handle-collection (existing=[] added) ->
+    []concat added, existing
+  'push-collection': handle-collection (existing=[] added) ->
+    []concat existing, added
 
 reduce-data =
-  \replace-collection : merge-result
-  \update-model : (state, {model=\app id, values}) ->
+  'replace-collection': merge-result
+  'unshift-collection': merge-result
+  'push-collection': merge-result
+  'update-model': (state, {model=\app id, values}) ->
     updated = Object.assign {id} state[model]?[id], values
     merge-result state, {model, models: [updated]}
 
 export {
-  replace-collection, update-model
+  replace-collection, push-collection, unshift-collection, update-model
   collection-state, collection-props
   model-state, field-state
   reduce-collection, reduce-data
