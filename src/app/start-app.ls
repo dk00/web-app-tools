@@ -35,6 +35,6 @@ function start-app app, user-options
   if module.hot
     replace-options = !-> store.replace-reducer craft-reduce it
     init {replace-app, replace-options}
-  else env.navigator.service-worker?register \/sw.js
+  else env.navigator.service-worker?register \/service-worker.js
 
 export default: start-app
