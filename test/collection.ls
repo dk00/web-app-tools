@@ -1,7 +1,7 @@
 import
   \../src/app/actions : {handle-actions}
   \../src/app/collection : {
-    update-collection, update-model
+    replace-collection, update-model
     reduce-collection, reduce-data
     collection-state, collection-props
   }
@@ -83,12 +83,23 @@ function selector t
   expected = collection: void model: void models: [] fields: []
   t.same actual, expected, 'binding collection list with empty state'
 
-function main t
+function actions t
+  actual = replace-collection id: \collection model: \model models: [id: \id]
+  expected = type: \replace-collection payload:
+    id: \collection model: \model models: [id: \id]
+  t.same actual, expected, 'create action to update a collection'
+
+  actual = update-model model: \model-path id: \id values: v: 1
+  expected = type: \update-model payload:
+    model: \model-path id: \id values: v: 1
+  t.same actual, expected, 'create action to update a model'
+
+function collections t
   r = handle-actions reduce-collection
   items =
     * id: 0 name: \a
     * id: 1 name: \b
-  action = type: \update-collection payload:
+  action = type: \replace-collection payload:
     id: \t model: \cache, models: items
   state = t: [3]
   next-state = r state, action
@@ -101,32 +112,23 @@ function main t
   expected = [0 1]
   t.same actual, expected, 'replace id list with fetched data'
 
-  action = update-collection model: \new-collection models: items
+  action = replace-collection model: \new-collection models: items
 
   actual = r state, action .'new-collection'
   t.false actual, 'collection is not updated if id is not specified'
 
-  actual = reduce-collection\update-collection {} {}
+  actual = reduce-collection\replace-collection {} {}
   t.false actual, 'ignore actions w/o collection id'
 
   payload = id: \t models: []
-  actual = \path of reduce-collection\update-collection {model: \original} payload
+  actual = \path of reduce-collection\replace-collection {model: \original} payload
   t.false actual, 'keep path unchanged if not specified'
 
-  actual = update-collection id: \collection model: \model models: [id: \id]
-  expected = type: \update-collection payload:
-    id: \collection model: \model models: [id: \id]
-  t.same actual, expected, 'create action to update a collection'
-
-  actual = update-model model: \model-path id: \id values: v: 1
-  expected = type: \update-model payload:
-    model: \model-path id: \id values: v: 1
-  t.same actual, expected, 'create action to update a model'
-
+function cache t
   items =
     * id: 0 name: \a
     * id: 1 name: \b
-  action = type: \update-collection payload: id: \t model: \t models: items
+  action = type: \replace-collection payload: id: \t model: \t models: items
   reduce = handle-actions reduce-data
   state = t: existing: name: \existing
   merged = reduce state, action .t
@@ -139,7 +141,7 @@ function main t
   expected = name: \existing
   t.same actual, expected, 'keep existing data'
 
-  action = type: \update-collection payload: id: \t models: items
+  action = type: \replace-collection payload: id: \t models: items
   merged = reduce state, action .app
 
   actual = merged?0
@@ -171,6 +173,10 @@ function main t
   expected = 'default path'
   t.same actual, expected, 'cache path defaults to app'
 
+function main t
+  collections t
+  cache t
+  actions t
   selector t
 
   t.end!

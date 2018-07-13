@@ -13,7 +13,7 @@ import
   }
   \./start-app : start-app
   \./collection : {
-    update-model, update-collection
+    update-model, replace-collection
     model-state, collection-state, collection-props
   }
   \./requests : {merge-requests}
@@ -27,7 +27,8 @@ export {
   wrap-plugin, create-effect
   route, nav-link, nav-button
   with-collection, linked-input, toggle, toggle-target
-  update-model, update-collection
+  update-model, replace-collection
+  update-collection: replace-collection
   model-state, collection-state, collection-props
   fetch-object, merge-requests, request-key, exclude
   require-scripts, q, qa
