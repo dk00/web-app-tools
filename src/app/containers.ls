@@ -25,7 +25,10 @@ function input-actions dispatch, {model, id, field=\value}
   on-change: ->
     dispatch update-model {model, id, values: (field): it}
 
-function field-props {value, original-props: {type, children, class: class-name}}
+function field-props {
+  original-props: {type, children, class: class-name, default-value},
+  value=default-value
+}
   {value, type, children, class: class-name}
 
 function input-props {original-props, dispatch}: state

@@ -63,6 +63,13 @@ function basic t
   expected = value: \another-user-input
   t.same actual, expected, 'field update action key defaults to value'
 
+  props = type: identity, id: \flag field: \whatever default-value: \default
+  result = render-once linked-input, {state, props, dispatch} .attributes
+
+  actual = result.value
+  expected = \default
+  t.is actual, expected, 'input value fallbacks to defaultValue'
+
   result = void
   props =
     type: identity, children: ['toggle display']
