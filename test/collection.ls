@@ -1,7 +1,8 @@
 import
   \../src/app/actions : {handle-actions}
   \../src/app/collection : {
-    replace-collection, unshift-collection, push-collection, update-model
+    replace-collection, unshift-collection, push-collection
+    update-model, clear-model
     reduce-collection, reduce-data
     collection-state, collection-props
   }
@@ -106,6 +107,10 @@ function actions t
     model: \model-path id: \id values: v: 1
   t.same actual, expected, 'create action to update a model'
 
+  actual = clear-model model: \model-path id: \id
+  expected = type: \clear-model payload: model: \model-path id: \id
+  t.same actual, expected, 'create action to clear a model'
+
 function collections t
   r = handle-actions reduce-collection
   items =
@@ -174,6 +179,14 @@ function cache t
 
   actual = merged?0
   t.ok actual, 'model path defaults to `app`'
+
+  state = app:
+    location: \main
+    existing: value: 1
+  action = type: \clear-model payload: model: \app id: \existing
+
+  actual = reduce state, action .app?existing?value
+  t.false actual, 'clear model values'
 
   state =
     app:

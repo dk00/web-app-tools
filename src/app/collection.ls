@@ -13,6 +13,8 @@ function push-collection options
 function update-model {model, id, values}
   type: \update-model payload: {model, id, values}
 
+function clear-model options => type: \clear-model payload: options
+
 function model-state {data} {model=\app id} => data[model]?[id]
 
 function field-state state, {field=\value}: props
@@ -36,6 +38,8 @@ function handle-collection merge => (state, {id, model, models}) ->
       if model then {model}
       items: merge state[id]?items, models.map (.id)
 
+function get-model {model} => model || \app
+
 reduce-collection =
   'replace-collection': handle-collection (, added) -> added
   'unshift-collection': handle-collection (existing=[] added) ->
@@ -47,12 +51,17 @@ reduce-data =
   'replace-collection': merge-result
   'unshift-collection': merge-result
   'push-collection': merge-result
-  'update-model': (state, {model=\app id, values}) ->
+  'clear-model': (state, {id}: payload) ->
+    model = get-model payload
+    merge-result state, {model, models: [{id}]}
+  'update-model': (state, {id, values}: payload) ->
+    model = get-model payload
     updated = Object.assign {id} state[model]?[id], values
     merge-result state, {model, models: [updated]}
 
 export {
-  replace-collection, push-collection, unshift-collection, update-model
+  replace-collection, push-collection, unshift-collection
+  update-model, clear-model
   collection-state, collection-props
   model-state, field-state
   reduce-collection, reduce-data
