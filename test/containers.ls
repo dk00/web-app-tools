@@ -28,7 +28,7 @@ function collection t
     render-once component, {state, props}
   .then ->
     actual = it.action.type
-    expected = \update-collection
+    expected = \replace-collection
     t.same actual, expected, 'fetch collection data on mount'
 
 function basic t

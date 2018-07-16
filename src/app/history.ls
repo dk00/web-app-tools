@@ -1,5 +1,5 @@
 import
-  './collection': {update-collection}
+  './collection': {replace-collection}
   '../utils': {parse-search, query-string}
 
 function get-path data: app: {location: {pathname} search: {id, ...search}}
@@ -10,7 +10,7 @@ function push-state env, path
     env.history.push-state {} '' path
 
 function update-location {pathname, search=''}
-  update-collection model: \app models:
+  replace-collection model: \app models:
     * id: \location pathname
     * Object.assign id: \search, parse-search search
 

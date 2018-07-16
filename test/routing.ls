@@ -114,7 +114,7 @@ function main t
   click element
 
   actual = action
-  expected = type: \update-collection payload:
+  expected = type: \replace-collection payload:
     id: void model: \app models:
       * id: \location pathname: \/whatever
       * id: \search

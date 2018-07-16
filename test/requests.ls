@@ -28,7 +28,7 @@ function messages t
   message = result-message result, request
 
   actual = message.action.type
-  expected = \update-collection
+  expected = \replace-collection
   t.is actual, expected, 'create message to update collection'
 
   request = model: \model

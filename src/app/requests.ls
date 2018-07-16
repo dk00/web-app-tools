@@ -1,7 +1,7 @@
-import \./collection : {update-collection}
+import \./collection : {replace-collection}
 
 function result-message models, {collection, model=collection}
-  source: \app action: update-collection {id: collection, model, models}
+  source: \app action: replace-collection {id: collection, model, models}
 
 function request-path {collection, model=collection} {prefix='/'}={}
   prefix + model
