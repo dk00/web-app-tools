@@ -13,7 +13,8 @@ function handle-request-changes state, requests, {handle-result, handle-error}
     .catch handle-error
 
 function fetch-options options, {store}={}
-  Object.assign {} store?get-state!data?app?fetch, options
+  {fetch, user} = store?get-state!data?app or {}
+  Object.assign {user.token} fetch, options
 
 function with-fetch user-options
   state = requests: []

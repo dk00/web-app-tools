@@ -12,7 +12,9 @@ function basic-requests t
   t.is actual, expected, 'set prefix of api URL'
 
   parameters = remarks: 'request parameters' type: [\y \x]
-  requests = merge-requests [model: \p parameters: parameters]
+  requests = [model: \p parameters: parameters]
+  config = token: \access-token
+  requests = merge-requests requests, config
 
   actual = requests.0.path
   expected = '/p'
@@ -21,6 +23,10 @@ function basic-requests t
   actual = requests.0.options?data
   expected = parameters
   t.same actual, expected, 'request parameters'
+
+  actual = requests.0.options?headers
+  expected = Authorization: 'Bearer access-token'
+  t.same actual, expected, 'request token'
 
 function messages t
   result = \models

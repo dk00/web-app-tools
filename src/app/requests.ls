@@ -8,7 +8,11 @@ function request-path {collection, model=collection} {prefix='/'}={}
 
 function merge-requests requests, config
   requests.map (request) ->
-    options = data: request.parameters
+    options = Object.assign {},
+      data: request.parameters
+      if config?token
+        headers: Authorization: "Bearer #{config.token}"
+
     {path: (request-path request, config), options, request}
 
 export {merge-requests, result-message}
