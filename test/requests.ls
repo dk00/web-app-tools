@@ -1,4 +1,4 @@
-import '../src/app/requests': {merge-requests, result-message}
+import '../src/app/requests': {merge-requests, result-message, save-fetch-args}
 
 function basic-requests t
   requests = [collection: \p]
@@ -44,9 +44,44 @@ function messages t
   expected = id: void model: \model models: [\models]
   t.same actual, expected, 'update data cache only'
 
+function save t
+  state = data: app:
+    fetch: prefix: 'https://api.org/v0/'
+    user: token: \access-token
+  meta = collection: \inventory model: \product data: value: \data
+  {url, init} = save-fetch-args state, meta
+
+  actual = "#{init.method} #url"
+  expected = 'post https://api.org/v0/product'
+  t.is actual, expected, 'rest action to create a resource entry'
+
+  actual = init.headers.Authorization
+  expected = 'Bearer access-token'
+  t.is actual, expected, 'update requests includes access token'
+
+  meta = collection: \inventory model: \product id: \new data: value: \data
+  {init} = save-fetch-args state, meta
+  actual = init.method
+  expected = 'post'
+  t.is actual, expected, 'treat {id: new} as insersion'
+
+  actual = init.data
+  expected = value: \data
+  t.same actual, expected, 'data for update'
+
+  state = data: app:
+    fetch: prefix: 'https://api.org/v0/'
+  meta = collection: \inventory model: \product id: \2 data: value: 3
+  {url, init} = save-fetch-args state, meta
+
+  actual = "#{init.method} #url"
+  expected = 'patch https://api.org/v0/product/2'
+  t.is actual, expected, 'rest action to edit a resource entry'
+
 function main t
   basic-requests t
   messages t
+  save t
 
   t.end!
 
