@@ -15,6 +15,7 @@ export \../app/index : {
   replace-collection, push-collection, unshift-collection
   update-collection
   model-state, collection-state, collection-props
-  fetch-object, merge-requests, request-key, exclude
+  fetch-object, merge-requests, save-fetch-args
+  request-key, exclude
   require-scripts, q, qa
 }

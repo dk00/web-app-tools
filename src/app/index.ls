@@ -17,7 +17,7 @@ import
     replace-collection, push-collection, unshift-collection
     model-state, collection-state, collection-props
   }
-  \./requests : {merge-requests}
+  \./requests : {merge-requests, save-fetch-args}
   \../utils : {request-key, exclude}
   \./dom : {require-scripts, q, qa}
 
@@ -32,6 +32,7 @@ export {
   replace-collection, push-collection, unshift-collection
   update-collection: replace-collection
   model-state, collection-state, collection-props
-  fetch-object, merge-requests, request-key, exclude
+  fetch-object, merge-requests, save-fetch-args
+  request-key, exclude
   require-scripts, q, qa
 }
