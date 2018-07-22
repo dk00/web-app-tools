@@ -6,15 +6,18 @@ base =
   entry: \./src/index
   resolve: extensions: <[.ls .jsx .js .sass .scss .yml .json]>
 
+function history-api-fallback app
+  history = require \connect-history-api-fallback
+  convert = require \koa-connect
+  app.use convert history
+
 function development {base-plugins, output-path}
-  {HotModuleReplacementPlugin} = require \webpack
   config:
     output: public-path: \/
-    plugins: base-plugins.concat new HotModuleReplacementPlugin
-    dev-server:
-      content-base: output-path
-      hot: true
-      history-api-fallback: true
+    plugins: base-plugins
+    serve:
+      content: output-path
+      add: history-api-fallback
       host: \0.0.0.0
   style-loader: [\style-loader]
 
