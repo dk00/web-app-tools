@@ -48,11 +48,12 @@ function production {base-plugins, output-path, public-path}
 
 modes = {development, production}
 
-function render-static entry
+function render-static entry, mode
   Object.assign global,
     document: query-selector: ->
     navigator: {}
-    location: pathname: \/
+    location: pathname: \/ host:
+      if mode == \development then 'localhost' else ''
     render: -> render-static.result := it
     add-event-listener: ->
 
@@ -60,7 +61,7 @@ function render-static entry
   require join process.cwd!, entry
   -> render-static.result
 
-function create-html-plugin {output-path, public-path='/' styles}
+function create-html-plugin {mode, output-path, public-path='/' styles}
   HtmlPlugin = require \html-plugin
   {
     name: title='No Name'
@@ -68,7 +69,7 @@ function create-html-plugin {output-path, public-path='/' styles}
   } = (try require "#{output-path}/manifest.json") || {}
   html-options = Object.assign {},
     title: title, theme-color: theme-color
-    prefix: public-path, content: render-static base.entry
+    prefix: public-path, content: render-static base.entry, mode
     manifest: "#{public-path}manifest.json"
     favicon: "#{public-path}favicon.png"
     if styles then {styles}
@@ -86,7 +87,7 @@ function get-config {production, p=production, output-public-path} config={}
 function config-generator {output-path=\www}: options={}
   (command-options, lib-config) ->
     {mode, public-path} = get-config command-options, lib-config
-    base-options = {...options, public-path, output-path: join process.cwd!, output-path}
+    base-options = {...options, mode, public-path, output-path: join process.cwd!, output-path}
     mode-options = Object.assign {} base-options,
       base-plugins: [create-html-plugin base-options]
     {config, style-loader, minimize} = modes[mode] mode-options
