@@ -71,9 +71,18 @@ function create-html-plugin {output-path, public-path='/' styles}
     if styles then {styles}
   new HtmlPlugin html-options
 
+function get-config {production, p=production, output-public-path} config={}
+  {mode, output: {public-path=output-public-path}={}} = config
+
+  public-path: public-path
+  mode:
+    | mode => mode
+    | p => \production
+    | _ => \development
+
 function config-generator {output-path=\www}: options={}
-  (, {mode=\development}: user-config) ->
-    public-path = user-config.output-public-path
+  (command-options, lib-config) ->
+    {mode, public-path} = get-config command-options, lib-config
     base-options = {...options, public-path, output-path: join process.cwd!, output-path}
     mode-options = Object.assign {} base-options,
       base-plugins: [create-html-plugin base-options]

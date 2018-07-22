@@ -43,7 +43,7 @@
     "tape": "",
     "webpack": "",
     "webpack-command": "",
-    "webpack-dev-server": "",
+    "webpack-serve": "",
     "workbox-webpack-plugin": "",
     "zero-fetch": ""
   },
