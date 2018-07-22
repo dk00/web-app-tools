@@ -14,7 +14,7 @@
     "watch-test": "tape-watch test/index.js",
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "nyc --instrument false --source-map false -r text -r html -r cobertura lsc test"
+    "test": "nyc --instrument false --source-map false -r text -r html -r json lsc test"
   },
   "license": "Unlicensed",
   "dependencies": {
@@ -37,14 +37,12 @@
     "path-to-regexp": "",
     "preact": "",
     "preact-render-to-string": "",
-    "prettier": "https://git.io/vpl2F",
     "redux": "",
     "sass-loader": "",
     "style-loader": "",
     "tape": "",
-    "tape-watch": "",
     "webpack": "",
-    "webpack-cli": "",
+    "webpack-command": "",
     "webpack-dev-server": "",
     "workbox-webpack-plugin": "",
     "zero-fetch": ""
@@ -52,7 +50,6 @@
   "devDependencies": {
     "rollup": "",
     "rollup-plugin-babel": "beta",
-    "rollup-plugin-node-resolve": "",
-    "rollup-plugin-replace": ""
+    "rollup-plugin-node-resolve": ""
   }
 }
