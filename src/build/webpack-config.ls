@@ -9,7 +9,7 @@ base =
 function history-api-fallback app
   history = require \connect-history-api-fallback
   convert = require \koa-connect
-  app.use convert history
+  app.use convert history!
 
 function development {base-plugins, output-path}
   config:
@@ -18,7 +18,7 @@ function development {base-plugins, output-path}
     serve:
       content: output-path
       add: history-api-fallback
-      host: \0.0.0.0
+      #TODO Accept connection from anywhere, setting host here breaks websocket URL
   style-loader: [\style-loader]
 
 function production {base-plugins, output-path, public-path}
