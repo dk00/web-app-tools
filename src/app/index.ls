@@ -10,7 +10,8 @@ import
   \./wrap-plugin : wrap-plugin
   \./routing : {route, nav-link, nav-button}
   \./containers : {
-    with-collection, linked-input, toggle, toggle-target
+    with-collection, with-api-data
+    linked-input, toggle, toggle-target
   }
   \./start-app : start-app
   \./collection : {
@@ -28,7 +29,8 @@ export {
   with-state, with-context, with-effect, with-fetch
   wrap-plugin, create-effect
   route, nav-link, nav-button
-  with-collection, linked-input, toggle, toggle-target
+  with-collection, with-api-data
+  linked-input, toggle, toggle-target
   update-model, clear-model
   replace-collection, push-collection, unshift-collection
   update-collection: replace-collection

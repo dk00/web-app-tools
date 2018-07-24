@@ -8,14 +8,16 @@ import
   \./with-fetch : with-fetch
   \./requests : {result-message}
 
-function fetch-options {wrap-result=-> it}
+fetch-options =
   handle-error: -> console.log it
-  handle-result: wrap-result (result, request) ->
+  handle-result: (result, request) ->
     post-message (result-message result, request), \*
+
+with-api-data = with-fetch fetch-options
 
 function with-collection {fetch}={}
   compose ...[]concat do
-    if fetch then with-fetch fetch-options fetch else []
+    if fetch then with-api-data else []
     with-state collection-state
     map-props collection-props
 
@@ -79,4 +81,4 @@ if process.env.NODE_ENV != \production
   toggle.display-name = \toggle
   toggle-target.display-name = \toggle-target
 
-export {with-collection, linked-input, toggle, toggle-target}
+export {with-collection, with-api-data, linked-input, toggle, toggle-target}
