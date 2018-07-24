@@ -8,7 +8,7 @@ function basic-requests t
   t.same actual, expected, 'pass single request'
 
   parameters = remarks: 'request parameters' type: [\y \x]
-  requests = [model: \p parameters: parameters]
+  requests = [model: \p parameters: parameters, transform: -> it]
   config = token: \access-token
   requests = merge-requests requests, config
 
@@ -19,6 +19,10 @@ function basic-requests t
   actual = requests.0.data
   expected = parameters
   t.same actual, expected, 'request parameters'
+
+  actual = typeof requests.0.transform
+  expected = \function
+  t.is actual, expected, 'pass request transform functions'
 
 function messages t
   result = \models

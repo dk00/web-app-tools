@@ -5,8 +5,8 @@ function result-message models, {collection, model=collection}
 
 function request-model {collection, model=collection} => model
 
-function request-options parameters: data
-  if data then data: without-id data
+function request-options {collection, parameters: data, transform}
+  Object.assign {collection, transform}, if data then data: without-id data
 
 function request-path {collection, model=collection} {prefix='/'}={}
   prefix + model
@@ -20,12 +20,9 @@ function fetch-options data, {token}={}
 
 function merge-requests requests, config
   requests.map (request) ->
-    options = fetch-options request.parameters, config
-    {
-      collection: request.collection
+    Object.assign {},
+      request-options request
       model: request-model request
-      ...request-options request
-    }
 
 function request-config data: app: {fetch: {prefix} user: {token}={}}
   {prefix, token}

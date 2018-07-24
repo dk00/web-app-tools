@@ -21,6 +21,10 @@ function setup-fetch {store}
     {url, init} = fetch-args request, options
     fetch-object url, init
 
+function transformed result, request, fetch-model
+  transform = request.transform || -> Promise.resolve it
+  transform result, request, fetch-model
+
 function with-fetch user-options
   state = requests: []
   {handle-result, handle-error} = user-options
@@ -32,7 +36,8 @@ function with-fetch user-options
     handle-request-changes state, next
     .for-each (request) ->
       fetch-model request
-      .then (items) -> handle-result items, request, fetch-model
+      .then (result) -> transformed result, request, fetch-model
+      .then (result) -> handle-result result, request
       .catch handle-error
 
 export default: with-fetch
