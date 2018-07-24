@@ -2,7 +2,8 @@ import
   \zero-fetch : fetch-object
   \./react : {h, create-class}
   \./recompose : {
-    compose, pipe, with-context, with-state, with-effect, map-props
+    compose, pipe, map-props, with-props, default-props
+    with-state, with-context, with-effect,
   }
   \./with-fetch : with-fetch
   \./create-effect : create-effect
@@ -23,8 +24,8 @@ import
 
 export {
   start-app, h, create-class
-  pipe, compose, map-props, with-state, with-context, with-effect
-  with-fetch
+  pipe, compose, map-props, with-props, default-props
+  with-state, with-context, with-effect, with-fetch
   wrap-plugin, create-effect
   route, nav-link, nav-button
   with-collection, linked-input, toggle, toggle-target
