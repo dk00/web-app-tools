@@ -2,25 +2,37 @@ import
   'zero-fetch': fetch-object
   '../utils': {exclude, request-key}
   './with-effect': with-effect
-  './requests': {merge-requests}
+  './requests': {merge-requests, fetch-args}
 
-function handle-request-changes state, requests, {handle-result, handle-error}
+function handle-request-changes state, requests
   new-requests = exclude requests, state.requests, request-key
   state.requests := requests
-  new-requests.for-each ({path, options, request}) ->
-    fetch-object path, options
-    .then (items) -> handle-result items, request
-    .catch handle-error
+  new-requests
+
+function fetch-options data: app: {fetch, user={}}={}
+  Object.assign {user.token} fetch
 
 function request-options options, {store}={}
-  {fetch, user={}} = store?get-state!data?app or {}
-  Object.assign {user.token} fetch, options
+  Object.assign (fetch-options store.get-state!), options
+
+function setup-fetch {store}
+  options = fetch-options store.get-state!
+  (request) ->
+    {url, init} = fetch-args request, options
+    fetch-object url, init
 
 function with-fetch user-options
   state = requests: []
+  {handle-result, handle-error} = user-options
   with-effect (instance-props, context) ->
-    options = request-options user-options, context
-    next = merge-requests instance-props, options
-    handle-request-changes state, next, options
+    return if !context
+    fetch-model = setup-fetch context
+
+    next = merge-requests instance-props
+    handle-request-changes state, next
+    .for-each (request) ->
+      fetch-model request
+      .then (items) -> handle-result items, request, fetch-model
+      .catch handle-error
 
 export default: with-fetch

@@ -1,17 +1,17 @@
 import \../src/utils : {deep-merge, request-key, exclude}
 
 function test-request-key t
-  actual = request-key path: '/p' data: id: [3]
+  actual = request-key model: '/p' data: id: [3]
   expected = '/p {"id":[3]}'
   t.is actual, expected, 'convert requests to string for diff'
 
 function test-exclude t
   existing =
-    * path: \/p data: {}
-    * path: \/r data: id: [2]
+    * model: \/p data: {}
+    * model: \/r data: id: [2]
   items =
-    * path: \/p data: {}
-    * path: \/q data: id: [3]
+    * model: \/p data: {}
+    * model: \/q data: id: [3]
 
   new-items = exclude items, existing, request-key
 

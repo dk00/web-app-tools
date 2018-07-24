@@ -1,4 +1,4 @@
-function request-key {path, data={}}
-  path + ' ' + JSON.stringify data
+function request-key {model, data={}}
+  model + ' ' + JSON.stringify data
 
 export default: request-key

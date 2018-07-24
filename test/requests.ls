@@ -3,30 +3,22 @@ import '../src/app/requests': {merge-requests, result-message, save-fetch-args}
 function basic-requests t
   requests = [collection: \p]
 
-  actual = merge-requests requests .0{path, request}
-  expected = path: \/p request: collection: \p
+  actual = merge-requests requests .0.model
+  expected = \p
   t.same actual, expected, 'pass single request'
-
-  actual = merge-requests requests, prefix: 'https://api.io/' .0.path
-  expected = 'https://api.io/p'
-  t.is actual, expected, 'set prefix of api URL'
 
   parameters = remarks: 'request parameters' type: [\y \x]
   requests = [model: \p parameters: parameters]
   config = token: \access-token
   requests = merge-requests requests, config
 
-  actual = requests.0.path
-  expected = '/p'
-  t.is actual, expected, 'request path'
+  actual = requests.0.model
+  expected = \p
+  t.is actual, expected, 'request model'
 
-  actual = requests.0.options?data
+  actual = requests.0.data
   expected = parameters
   t.same actual, expected, 'request parameters'
-
-  actual = requests.0.options?headers
-  expected = Authorization: 'Bearer access-token'
-  t.same actual, expected, 'request token'
 
 function messages t
   result = \models

@@ -15,7 +15,7 @@ function main t
     render-once wrapped, {state, props}
   .then ->
     actual = it.request
-    expected = collection: \p
+    expected = collection: \p model: \p
     t.same actual, expected, 'apply effect to fetch resource on mount'
 
     actual = it.items.url
