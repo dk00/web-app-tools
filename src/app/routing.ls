@@ -20,14 +20,15 @@ function parse-path location, path, {exact=false}={}
 
 function render-nothing => ''
 
-function get-location {data: app: {location}} {
+function get-location {data: app: {location, search}} {
   component, render, ...rest
 }
-  Object.assign {render: render || component, location} rest
+  Object.assign {render: render || component, location, search} rest
 
-function render-matched {path, location, exact, render}
+function render-matched {path, location, search, exact, render}
   if parse-path location.pathname, path, {exact}
-    (create-factory render) match: params: that
+    props = match: {params: that} location: Object.assign {search} location
+    create-factory render <| props
   else ''
 
 route = with-state get-location <| render-matched

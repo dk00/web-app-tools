@@ -2,8 +2,8 @@ import
   \../src/app/routing : {parse-path, route, nav-link}
   \./mock : {render-once, click, get-attribute, get-children}
 
-function at-location
-  data: app: location: pathname: it
+function at-location pathname, search
+  data: app: {search, location: {pathname}}
 
 function test-link {base, to, run}
   state = at-location '/target/6'
@@ -54,6 +54,14 @@ function exact-route-path t
 
   actual = render-once route, {props, state}
   t.false actual, 'match exactly when exact is specified'
+
+function route-props t
+  state = at-location \/whatever/id q: \search-params
+  props = path: \/ render: (location: search: {q}) -> q
+
+  actual = render-once route, {props, state}
+  expected = 'search-params'
+  t.is actual, expected, 'pass search params as props'
 
 function main t
   path = '/:path/:id'
@@ -121,6 +129,7 @@ function main t
   t.same actual, expected, 'navigate to specified location on click'
 
   exact-route-path t
+  route-props t
   relative-link t
   search-parameters t
   active-class-name t
