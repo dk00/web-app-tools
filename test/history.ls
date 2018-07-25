@@ -77,6 +77,13 @@ function main t
   expected = '/next?query=value'
   t.is actual, expected, 'sync search parameters to browser location'
 
+  entries = w.history.length
+  mock-nav store, '/next' query: \value
+
+  actual = w.history.length - entries
+  expected = 0
+  t.is actual, expected, 'do nothing if state query is not changed'
+
   w.navigate '/another'
 
   actual = store.get-state!data.app.location.pathname

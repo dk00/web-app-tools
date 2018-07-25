@@ -5,9 +5,9 @@ import
 function get-path data: app: {location: {pathname} search: {id, ...search}}
   pathname + if query-string search then '?' + that else ''
 
-function push-state env, path
-  if path != env.location.pathname
-    env.history.push-state {} '' path
+function push-state {location, history} path
+  if path != location.pathname + location.search
+    history.push-state {} '' path
 
 function update-location {pathname, search=''}
   replace-collection model: \app models:
