@@ -1,4 +1,5 @@
-import \../src/utils : {deep-merge, request-key, exclude}
+import \../../src/utils : {deep-merge, request-key, exclude}
+import \./date : test-date
 
 function test-request-key t
   actual = request-key model: '/p' data: id: [3]
@@ -30,6 +31,7 @@ function main t
 
   test-request-key t
   test-exclude t
+  t.test 'Date utilties' test-date
 
   t.end!
 
