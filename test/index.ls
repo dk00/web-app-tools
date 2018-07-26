@@ -5,6 +5,7 @@ units =
   containers: \Containers
   collection: \Collection
   routing: \Routing
+  input: 'Normalized input component factory'
   'with-effect': 'Map nested component props changes to global effects'
   'requests': 'Fetch and update data'
 

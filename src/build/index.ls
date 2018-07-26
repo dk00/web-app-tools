@@ -12,6 +12,7 @@ export \../app/index : {
   route, nav-link, nav-button
   with-collection, with-api-data
   linked-input, toggle, toggle-target
+  date-input-factory, datetime-input-factory
   update-model, clear-model
   replace-collection, push-collection, unshift-collection
   update-collection
