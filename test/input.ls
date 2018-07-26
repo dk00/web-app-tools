@@ -35,6 +35,11 @@ function main t
   actual = value.match /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
   t.ok actual, 'convert to datetime strings work with builtin input ' + value
 
+  {props: {value}} = date-input {}
+
+  actual = value
+  t.ok actual, 'set default date input value ' + value
+
   t.end!
 
 export default: main

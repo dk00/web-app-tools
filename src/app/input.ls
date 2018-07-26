@@ -4,7 +4,7 @@ function wrap-target-value handler, wrap => (e) ->
   handler target: value: wrap e.target.value
 
 function date-input-factory h, type=\date wrap-value=local-date =>
-  ({value, on-change, on-input, ...props}) ->
+  ({value=(new Date), on-change, on-input, ...props}) ->
     h \input Object.assign {type} props,
       value: wrap-value value
       if on-change then on-change: wrap-target-value on-change, server-date
