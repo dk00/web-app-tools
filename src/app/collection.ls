@@ -19,7 +19,7 @@ function model-state {data} {model=\app id} => data[model]?[id]
 
 function field-state state, {field=\value}: props
   value: model-state state, props ?.[field]
-  original-props: props
+  own-props: props
 
 function collection-state {collection: source, data} {collection, ...rest}
   {model=collection, items}? = source[collection]

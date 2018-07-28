@@ -5,6 +5,7 @@ import
     update-model
     collection-state, collection-props, field-state
   }
+  './input': {field-props, input-props}
   \./with-fetch : with-fetch
   \./requests : {result-message}
 
@@ -20,21 +21,6 @@ function with-collection {fetch}={}
     if fetch then with-api-data else []
     with-state collection-state
     map-props collection-props
-
-function input-actions dispatch, {model, id, field=\value}
-  on-change: ->
-    dispatch update-model {model, id, values: (field): it}
-
-function field-props {
-  original-props: {type, children, class: class-name, default-value},
-  value=default-value
-}
-  {value, type, children, class: class-name}
-
-function input-props {original-props, dispatch}: state
-  Object.assign {},
-    field-props state
-    input-actions dispatch, original-props
 
 link-field = compose do
   with-state field-state

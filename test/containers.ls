@@ -32,7 +32,6 @@ function collection t
     t.same actual, expected, 'fetch collection data on mount'
 
 function basic t
-
   action = void
   dispatch = -> action := it
   state = data: app: flag: value: 'link this'
