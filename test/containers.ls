@@ -1,6 +1,7 @@
 import
   \../src/app/containers : {
-    with-collection, with-model, linked-input, toggle, toggle-target
+    with-collection, with-model, with-select-options
+    linked-input, toggle, toggle-target
   }
   \./mock :  {
     render-once, click, get-attribute, get-children
@@ -108,6 +109,19 @@ function basic t
 
   t.end!
 
+function selection t
+  result = void
+  linked = with-select-options -> result := it
+  state = data: select: source: origin: \Origin b: \Backup
+  props = field: \source
+  render-once linked, {state, props}
+
+  actual = result.options
+  expected =
+    * value: \origin label: \Origin
+    * value: \b label: \Backup
+  t.same actual, expected, 'pass constant options to input components'
+
 function test-toggle t
   state = data: custom: flag: value: true
   props = type: \div model: \custom id: \flag class: \menu
@@ -125,6 +139,7 @@ function test-toggle t
 
 function main t
   t.test '> Basic' basic
+  selection t
   t.test '> Toggle' test-toggle
 
 export default: main

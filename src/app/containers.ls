@@ -22,6 +22,20 @@ function with-collection {fetch}={}
     with-state collection-state
     map-props collection-props
 
+function const-options data: {select}, {field}
+  data: select[field]
+
+function options-model {data}
+  options: Object.entries data .map ([value, label]) ->
+    {value, label}
+
+with-constant-options = compose do
+  with-state const-options
+  map-props options-model
+
+function with-select-options
+  with-constant-options it
+
 link-field = compose do
   with-state field-state
   map-props input-props
@@ -67,4 +81,7 @@ if process.env.NODE_ENV != \production
   toggle.display-name = \toggle
   toggle-target.display-name = \toggle-target
 
-export {with-collection, with-api-data, linked-input, toggle, toggle-target}
+export {
+  with-collection, with-api-data, with-select-options
+  linked-input, toggle, toggle-target
+}
