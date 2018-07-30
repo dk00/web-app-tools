@@ -6,7 +6,7 @@ import
 export {webpack-config, rollup-config, test}
 export \../app/index : {
   start-app, h, create-class
-  pipe, compose, map-props, with-props, default-props
+  pipe, compose, branch, map-props, with-props, default-props
   with-state, with-context, with-effect, with-fetch
   wrap-plugin, create-effect
   route, nav-link, nav-button

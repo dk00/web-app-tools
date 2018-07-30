@@ -14,38 +14,50 @@ function compose ...enhancers => (component) ->
 
 function map-props map => (component) ->
   render = create-factory component
-  enhanced = (props) -> render map props
+  map-props = (props) -> render map props
   if process.env.NODE_ENV != \production
-    return with-display-name enhanced, component, \map-props
-  enhanced
+    return with-display-name map-props, component, \map-props
+  map-props
 
 function with-props map => (component) ->
   enhance = map-props (props) -> Object.assign {} props, map props
-  enhanced = enhance component
+  with-props = enhance component
   if process.env.NODE_ENV != \production
-    return with-display-name enhanced, component, \with-props
-  enhanced
+    return with-display-name with-props, component, \with-props
+  with-props
 
 function default-props fallback => (component) ->
   render = create-factory component
-  enhanced = (props) -> render Object.assign {} fallback, props
+  default-props = (props) -> render Object.assign {} fallback, props
   if process.env.NODE_ENV != \production
-    return with-display-name enhanced, component, \default-props
-  enhanced
+    return with-display-name default-props, component, \default-props
+  default-props
+
+function branch test, enhance-true, enhance-false=compose! => (component) ->
+  render-true = render-false = void
+  branch = (props) ->
+    factory = if test props
+      render-true or (render-true := create-factory enhance-true component)
+    else
+      render-false or (render-false := create-factory enhance-false component)
+    factory props
+  if process.env.NODE_ENV != \production
+    return with-display-name branch, component, \branch
+  branch
 
 function with-context context => (component) ->
   hooks =
     get-child-context: -> context
     render: create-factory component
-  enhanced = create-class hooks
+  with-context = create-class hooks
   if process.env.NODE_ENV != \production
-    return with-display-name enhanced, component, \with-context
-  enhanced
+    return with-display-name with-context, component, \with-context
+  with-context
 
 function select-with-props selector => (state, props) ->
   Object.assign {} (select state), own-props: props
 
 export {
-  compose, pipe, map-props, with-props, default-props
+  compose, pipe, branch, map-props, with-props, default-props
   with-context, with-state, with-effect
 }
