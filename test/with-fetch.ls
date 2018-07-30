@@ -11,7 +11,7 @@ function main t
     state = data: app:
       fetch: prefix: 'http://api.com/'
       user: token: \access-token
-    props = collection: \p
+    props = collection: \p fetch: true
     render-once wrapped, {state, props}
   .then ->
     actual = it.request

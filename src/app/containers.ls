@@ -16,11 +16,10 @@ fetch-options =
 
 with-api-data = with-fetch fetch-options
 
-function with-collection {fetch}={}
-  compose ...[]concat do
-    if fetch then with-api-data else []
-    with-state collection-state
-    map-props collection-props
+with-collection = compose do
+  with-api-data
+  with-state collection-state
+  map-props collection-props
 
 function const-options data: {select}, {field}
   data: select[field]

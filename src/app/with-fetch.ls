@@ -25,6 +25,8 @@ function transformed result, request, fetch-model
   transform = request.transform || -> Promise.resolve it
   transform result, request, fetch-model
 
+function enabled requests => requests.filter (.fetch)
+
 function with-fetch user-options
   state = requests: []
   {handle-result, handle-error} = user-options
@@ -32,7 +34,7 @@ function with-fetch user-options
     return if !context
     fetch-model = setup-fetch context
 
-    next = merge-requests instance-props
+    next = merge-requests enabled instance-props
     handle-request-changes state, next
     .for-each (request) ->
       fetch-model request

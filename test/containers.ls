@@ -10,6 +10,9 @@ import
 
 function identity => it
 
+function render-child {node-name: type, instance: {props, context}}
+  render-once type, {props, state: context.store.get-state!}
+
 function collection t
   state =
     collection: dessert:
@@ -17,7 +20,8 @@ function collection t
       items: [1]
     data: dessert: 1: name: \candy
   props = collection: \dessert
-  result = render-once (with-collection {} <| identity), {state, props}
+  nested = render-once (with-collection identity), {state, props}
+  result = render-child nested
 
   actual = result.models
   expected = [name: \candy]
@@ -25,8 +29,8 @@ function collection t
 
   test-fetch (result) ->
     global.post-message = -> result.resolve it
-    component = with-collection fetch: true <| identity
-    render-once component, {state, props}
+    component = with-collection identity
+    render-once component, {state, props: Object.assign fetch: true, props}
   .then ->
     actual = it.action.type
     expected = \replace-collection
