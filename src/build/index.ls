@@ -10,7 +10,7 @@ export \../app/index : {
   with-state, with-context, with-effect, with-fetch
   wrap-plugin, create-effect
   route, nav-link, nav-button
-  with-collection, with-api-data
+  with-collection, with-api-data, with-select-options
   linked-input, toggle, toggle-target
   date-input-factory, datetime-input-factory
   update-model, clear-model

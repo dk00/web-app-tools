@@ -33,5 +33,22 @@ function input-props {own-props, dispatch}: state
     field-props state
     input-actions dispatch, own-props
 
+function is-model-select {field='' model, collection}
+  model || collection || field.match /(.+)Id$/
+
+function select-source {field}: props
+  model-select = is-model-select props
+  default-collection = if model-select then field.slice 0 -2
+  else field
+  collection = props.collection || default-collection
+  model = props.model || collection
+
+  Object.assign props, {collection, model},
+    if model-select then fetch: \lazy
+
+function model-options {models}
+  options: models.map ({id, name}) -> value: id, label: name
+
 export {field-props, input-props}
+export {select-source, model-options}
 export {date-input-factory, datetime-input-factory}

@@ -10,7 +10,7 @@ import
   \./wrap-plugin : wrap-plugin
   \./routing : {route, nav-link, nav-button}
   \./containers : {
-    with-collection, with-api-data
+    with-collection, with-api-data, with-select-options
     linked-input, toggle, toggle-target
   }
   \./input : {date-input-factory, datetime-input-factory}
@@ -34,7 +34,7 @@ export {
   with-state, with-context, with-effect, with-fetch
   wrap-plugin, create-effect
   route, nav-link, nav-button
-  with-collection, with-api-data
+  with-collection, with-api-data, with-select-options
   linked-input, toggle, toggle-target
   date-input-factory, datetime-input-factory
   update-model, clear-model

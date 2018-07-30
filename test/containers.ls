@@ -116,15 +116,40 @@ function basic t
 function selection t
   result = void
   linked = with-select-options -> result := it
-  state = data: select: source: origin: \Origin b: \Backup
+  state =
+    collection: source: model: \source items: [\origin \b]
+    data: source:
+      b: id: \b name: \Backup
+      origin: id: \origin name: \Origin
   props = field: \source
-  render-once linked, {state, props}
+  nested = render-once linked, {state, props}
+  render-child nested
 
   actual = result.options
   expected =
     * value: \origin label: \Origin
     * value: \b label: \Backup
   t.same actual, expected, 'pass constant options to input components'
+
+  #TODO lazy fetch
+  sequence = []
+  global.fetch = ->
+    sequence.push \fetch
+    Promise.resolve headers: get: ->
+  global.post-message = ->
+  props = field: \sourceId
+  nested = render-once linked, {state, props}
+  render-child nested
+
+  actual = result.options
+  expected =
+    * value: \origin label: \Origin
+    * value: \b label: \Backup
+  t.same actual, expected, 'pass model options to input components'
+
+  actual = sequence.join ' '
+  expected = 'fetch'
+  t.is actual, expected, 'fetch missing options and add to state'
 
 function test-toggle t
   state = data: custom: flag: value: true

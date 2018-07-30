@@ -1,11 +1,11 @@
 import
   \./react : {h, create-factory}
-  \./recompose : {pipe, compose, with-state, map-props}
+  \./recompose : {pipe, compose, with-state, map-props, with-props}
   \./collection : {
     update-model
     collection-state, collection-props, field-state
   }
-  './input': {field-props, input-props}
+  './input': {field-props, input-props, select-source, model-options}
   \./with-fetch : with-fetch
   \./requests : {result-message}
 
@@ -21,20 +21,6 @@ with-collection = compose do
   with-state collection-state
   map-props collection-props
 
-function const-options data: {select}, {field}
-  data: select[field]
-
-function options-model {data}
-  options: Object.entries data .map ([value, label]) ->
-    {value, label}
-
-with-constant-options = compose do
-  with-state const-options
-  map-props options-model
-
-function with-select-options
-  with-constant-options it
-
 link-field = compose do
   with-state field-state
   map-props input-props
@@ -45,6 +31,11 @@ function render-field {type, class: class-name, value, on-change, children}
   h type, attributes, children
 
 linked-input = link-field render-field
+
+with-select-options = compose do
+  map-props select-source
+  with-collection
+  with-props model-options
 
 function wrap-toggle-handler {on-change, ...props}: q
   if on-change
