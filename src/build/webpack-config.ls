@@ -4,7 +4,11 @@ import \./babel-options : babel-options
 
 base =
   entry: \./src/index
-  resolve: extensions: <[.ls .jsx .js .sass .scss .yml .json]>
+  resolve:
+    extensions: <[.ls .jsx .js .sass .scss .yml .json]>
+    alias:
+      react: \preact-compat
+      'react-dom': \preact-compat
 
 function history-api-fallback app
   history = require \connect-history-api-fallback
@@ -49,8 +53,17 @@ function production {base-plugins, output-path, public-path}
 modes = {development, production}
 
 function render-static entry, mode
+  dummy-element =
+    set-attribute: ->
+    append-child: ->
+
   Object.assign global,
-    document: query-selector: ->
+    document:
+      query-selector: ->
+      query-selector-all: -> []
+      head: dummy-element
+      createElement: -> dummy-element
+      createTextNode: -> ''
     navigator: {}
     location: pathname: \/ host:
       if mode == \development then 'localhost' else ''
