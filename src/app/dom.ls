@@ -21,5 +21,19 @@ function remove-children node
   range.delete-contents
   node
 
+function add-event-listener target, name, listener, options
+  target.add-event-listener name, listener, options
+  -> target.remove-event-listener name, listener
+
+function passive target, name, listener
+  add-event-listener target, name, listener, passive: true
+
+function till target, name, test => new Promise (resolve) ->
+  remove = add-event-listener target, name, ->
+    if test it.data
+      remove!
+      resolve it.data
+
 export {q, qa}
 export {require-scripts, remove-children}
+export {on: add-event-listener, passive, till}
