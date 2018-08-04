@@ -1,7 +1,34 @@
 import
-  '../src/app/dom': {on: add-event-listener, till, passive}
+  '../src/app/dom': {
+    add-event-listener, till, passive, above-view, on-visibility-change
+  }
 
-function main t
+function bounding-box top, bottom
+  get-bounding-client-rect: -> {top, bottom}
+
+function visibility t
+  actual = above-view (bounding-box 200 300), height: 640
+  t.ok actual, 'element is above if top offset is lower than height'
+
+  actual = above-view (bounding-box 650 750), height: 640
+  t.false actual, 'element is not above if top offset is greater than height'
+
+  result = response = void
+  Object.assign global,
+    document: document-element:
+      client-height: 640
+      client-width: 320
+    add-event-listener: (name, listener) ->
+      response := listener
+
+  on-visibility-change ({height}) -> result := height
+  response!
+
+  actual = result
+  expected = 640
+  t.is actual, expected, 'get visibility change event with details'
+
+function events t
   listeners = {}
   settings = {}
   target =
@@ -34,6 +61,8 @@ function main t
     expected = \target-event
     t.is actual, expected, 'wait for specfic event once'
 
-    t.end!
+function main t
+  visibility t
+  events t .then -> t.end!
 
 export default: main

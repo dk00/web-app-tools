@@ -1,10 +1,12 @@
 import
+  '../app': {on: add-event-listener}
   './webpack-config': webpack-config
   './rollup-config':  rollup-config
   './test': test
 
 export {webpack-config, rollup-config, test}
-export \../app/index : {
+export on: add-event-listener
+export '../app': {
   start-app, h, create-class
   pipe, compose, branch, map-props, with-props, default-props
   with-state, with-context, with-effect, with-fetch
@@ -22,4 +24,5 @@ export \../app/index : {
   local-date, local-datetime
   local-date-json, input-datetime-string, server-date
   require-scripts, q, qa
+  passive, till, on-visibility-change
 }

@@ -26,7 +26,10 @@ import
     local-date, local-datetime
     local-date-json, input-datetime-string, server-date
   }
-  \./dom : {require-scripts, q, qa}
+  \./dom : {
+    require-scripts, q, qa
+    add-event-listener, passive, till, on-visibility-change
+  }
 
 export {
   start-app, h, create-class
@@ -46,4 +49,5 @@ export {
   local-date, local-datetime
   local-date-json, input-datetime-string, server-date
   require-scripts, q, qa
+  on: add-event-listener, passive, till, on-visibility-change
 }

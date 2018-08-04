@@ -5,6 +5,7 @@ import
   './query-string': query-string
   './exclude': exclude
   './request-key': request-key
+  './with-active-class': with-active-class
   './date': {
     local-date, local-datetime
     local-date-json, input-datetime-string, server-date
@@ -16,4 +17,5 @@ export {
   deep-merge, flat-diff
   exclude, request-key
   parse-search, query-string
+  with-active-class
 }

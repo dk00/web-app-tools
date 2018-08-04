@@ -34,6 +34,19 @@ function till target, name, test => new Promise (resolve) ->
       remove!
       resolve it.data
 
+function on-visibility-change listener
+  add-event-listener global, \scroll ->
+    el = document.document-element
+    data = height: el.client-height, width: el.client-width
+    listener data
+
+function above-view element, {height, ratio=1}
+  {top, bottom} = element.get-bounding-client-rect!
+  offset = height - top
+  element-height = bottom - top
+  offset > element-height*ratio
+
 export {q, qa}
 export {require-scripts, remove-children}
-export {on: add-event-listener, passive, till}
+export {add-event-listener, passive, till}
+export {above-view, on-visibility-change}
