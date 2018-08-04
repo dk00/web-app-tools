@@ -15,6 +15,7 @@ export '../app': {
   with-collection, with-api-data, with-select-options
   linked-input, toggle, toggle-target
   date-input-factory, datetime-input-factory
+  active-above
   update-model, clear-model
   replace-collection, push-collection, unshift-collection
   update-collection

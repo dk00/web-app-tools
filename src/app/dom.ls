@@ -43,8 +43,8 @@ function on-visibility-change listener
 function above-view element, {height, ratio=1}
   {top, bottom} = element.get-bounding-client-rect!
   offset = height - top
-  element-height = bottom - top
-  offset > element-height*ratio
+  element-height = Math.min height, bottom - top
+  offset >= element-height*ratio
 
 export {q, qa}
 export {require-scripts, remove-children}
