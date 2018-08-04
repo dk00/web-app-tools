@@ -35,7 +35,7 @@ function till target, name, test => new Promise (resolve) ->
       resolve it.data
 
 function on-visibility-change listener
-  add-event-listener global, \scroll ->
+  passive global, \scroll ->
     el = document.document-element
     data = height: el.client-height, width: el.client-width
     listener data

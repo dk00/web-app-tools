@@ -11,7 +11,10 @@ hooks =
       if above != @state.above then @set-state {above}
   render: ->
     ref = ~> @element := it
-    {type=\div children, ...props} = Object.assign {ref},
+    init = if typeof @props.type == \function
+      set-ref: ref
+    else {ref}
+    {type=\div children, ...props} = Object.assign {} init,
       if @state.above then with-active-class @props else @props
     h type, props, children
 
