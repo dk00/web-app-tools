@@ -15,7 +15,7 @@ hooks =
       set-ref: ref
     else {ref}
     {type=\div children, ...props} = Object.assign {} init,
-      if @state.above then with-active-class @props else @props
+      if @state?above then with-active-class @props else @props
     h type, props, children
 
 active-above = create-class hooks

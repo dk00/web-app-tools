@@ -65,7 +65,7 @@ function render-static entry, mode
       createElement: -> dummy-element
       createTextNode: -> ''
     navigator: {}
-    location: pathname: \/ host:
+    location: pathname: \/ hostname:
       if mode == \development then 'localhost' else ''
     render: -> render-static.result := it
     add-event-listener: ->

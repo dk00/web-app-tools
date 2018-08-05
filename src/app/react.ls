@@ -3,9 +3,9 @@ import preact: {h, render, Component}
 function should-wrap => typeof it == \string || it::?render
 
 function create-class spec
-  ctor = (props) ->
-    if spec.has-own-property \constructor then spec.constructor.call @, props
-    else void
+  ctor = if spec.has-own-property \constructor
+    (props) -> spec.constructor.call @, props
+  else ->
   ctor:: = Object.assign (Object.create Component::), spec, constructor: ctor
   Object.assign ctor, {spec.display-name}
 

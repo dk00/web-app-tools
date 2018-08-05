@@ -20,7 +20,7 @@ function map-props map => (component) ->
   map-props
 
 function with-props map => (component) ->
-  enhance = map-props (props) -> Object.assign {} props, map props
+  enhance = map-props (props) -> Object.assign {} props, (map? props or map)
   with-props = enhance component
   if process.env.NODE_ENV != \production
     return with-display-name with-props, component, \with-props
