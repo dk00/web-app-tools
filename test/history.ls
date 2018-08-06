@@ -31,6 +31,7 @@ function mock-window
     navigate: (path) ->
       instance.location = new URL patch + path
       handle-nav!
+    document: query-selector: ->
 
 function mock-nav store, pathname, search={} hash
   store.notify data: app: {location: {pathname, hash} search}
