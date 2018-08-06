@@ -124,7 +124,7 @@ function main t
   actual = action
   expected = type: \replace-collection payload:
     id: void model: \app models:
-      * id: \location pathname: \/whatever
+      * id: \location pathname: \/whatever hash: ''
       * id: \search
   t.same actual, expected, 'navigate to specified location on click'
 

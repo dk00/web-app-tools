@@ -32,8 +32,8 @@ function mock-window
       instance.location = new URL patch + path
       handle-nav!
 
-function mock-nav store, pathname, search={}
-  store.notify data: app: {location: {pathname} search}
+function mock-nav store, pathname, search={} hash
+  store.notify data: app: {location: {pathname, hash} search}
 
 function test-actions t
   search = '?q=1&nested[value]=2&array[1]=3&array[]=0'
@@ -84,11 +84,21 @@ function main t
   expected = 0
   t.is actual, expected, 'do nothing if state query is not changed'
 
-  w.navigate '/another'
+  mock-nav store, '/next' {} '#target'
 
-  actual = store.get-state!data.app.location.pathname
+  actual = w.location.to-string!includes '#target'
+  t.ok actual, 'sync hash to browser location'
+
+  w.navigate '/another#target'
+  result = store.get-state!data.app.location
+
+  actual = result.pathname
   expected = '/another'
-  t.is actual, expected, 'sync browser location to state'
+  t.is actual, expected, 'sync browser location path to state'
+
+  actual = result.hash
+  expected = '#target'
+  t.is actual, expected, 'sync browser location hash to state'
 
   t.end!
 
