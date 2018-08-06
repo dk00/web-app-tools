@@ -31,6 +31,7 @@ import
     require-scripts, q, qa
     add-event-listener, passive, till, on-visibility-change
   }
+  './count-to': count-to
 
 export {
   start-app, h, create-class
@@ -52,4 +53,5 @@ export {
   local-date-json, input-datetime-string, server-date
   require-scripts, q, qa
   on: add-event-listener, passive, till, on-visibility-change
+  count-to
 }

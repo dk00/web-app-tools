@@ -26,4 +26,5 @@ export '../app': {
   local-date-json, input-datetime-string, server-date
   require-scripts, q, qa
   passive, till, on-visibility-change
+  count-to
 }
