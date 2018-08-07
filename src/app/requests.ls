@@ -18,8 +18,12 @@ function fetch-options data, {token}={}
     request-options parameters: data
     if token then headers: Authorization: "Bearer #{token}"
 
-function merge-requests requests, config
-  requests.map (request) ->
+function should-fetch {fetch, collection: id}, {collection}={}
+  fetch and fetch != \lazy || !collection[id]?items.length
+
+function reduce-requests requests, state
+  requests.filter (request) -> should-fetch request, state
+  .map (request) ->
     Object.assign {},
       request-options request
       model: request-model request
@@ -42,4 +46,4 @@ function save-fetch-args state, options
   url: base-path + tail
   init: Object.assign {method} fetch-options options.data, config
 
-export {merge-requests, result-message, fetch-args, save-fetch-args}
+export {reduce-requests, result-message, fetch-args, save-fetch-args}

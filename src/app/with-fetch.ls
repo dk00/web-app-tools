@@ -2,7 +2,7 @@ import
   'zero-fetch': fetch-object
   '../utils': {exclude, request-key}
   './with-effect': with-effect
-  './requests': {merge-requests, fetch-args}
+  './requests': {reduce-requests, fetch-args}
 
 function handle-request-changes state, requests
   new-requests = exclude requests, state.requests, request-key
@@ -11,9 +11,6 @@ function handle-request-changes state, requests
 
 function fetch-options data: app: {fetch, user={}}={}
   Object.assign {user.token} fetch
-
-function request-options options, {store}={}
-  Object.assign (fetch-options store.get-state!), options
 
 function setup-fetch {store}
   options = fetch-options store.get-state!
@@ -25,8 +22,6 @@ function transformed result, request, fetch-model
   transform = request.transform || -> Promise.resolve it
   transform result, request, fetch-model
 
-function enabled requests => requests.filter (.fetch)
-
 function with-fetch user-options
   state = requests: []
   {handle-result, handle-error} = user-options
@@ -34,7 +29,7 @@ function with-fetch user-options
     return if !context
     fetch-model = setup-fetch context
 
-    next = merge-requests enabled instance-props
+    next = reduce-requests instance-props, context.store.get-state!
     handle-request-changes state, next
     .for-each (request) ->
       fetch-model request

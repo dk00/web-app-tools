@@ -21,7 +21,7 @@ import
     replace-collection, push-collection, unshift-collection
     model-state, collection-state, collection-props
   }
-  \./requests : {merge-requests, save-fetch-args}
+  \./requests : {reduce-requests, save-fetch-args}
   \../utils : {
     request-key, exclude
     local-date, local-datetime
@@ -47,7 +47,7 @@ export {
   replace-collection, push-collection, unshift-collection
   update-collection: replace-collection
   model-state, collection-state, collection-props
-  fetch-object, merge-requests, save-fetch-args
+  fetch-object, reduce-requests, save-fetch-args
   request-key, exclude
   local-date, local-datetime
   local-date-json, input-datetime-string, server-date

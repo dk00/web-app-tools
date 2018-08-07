@@ -1,16 +1,16 @@
-import '../src/app/requests': {merge-requests, result-message, save-fetch-args}
+import '../src/app/requests': {reduce-requests, result-message, save-fetch-args}
 
 function basic-requests t
-  requests = [collection: \p]
+  requests = [collection: \p fetch: true]
 
-  actual = merge-requests requests .0.model
+  actual = reduce-requests requests .0.model
   expected = \p
   t.same actual, expected, 'pass single request'
 
   parameters = remarks: 'request parameters' type: [\y \x]
-  requests = [model: \p parameters: parameters, transform: -> it]
+  requests = [model: \p fetch: true parameters: parameters, transform: -> it]
   config = token: \access-token
-  requests = merge-requests requests, config
+  requests = reduce-requests requests, config
 
   actual = requests.0.model
   expected = \p
@@ -23,6 +23,21 @@ function basic-requests t
   actual = typeof requests.0.transform
   expected = \function
   t.is actual, expected, 'pass request transform functions'
+
+function lazy-loading t
+  requests =
+    * collection: \loaded fetch: \lazy
+    * collection: \to-be-fetched fetch: \lazy
+    * collection: \never-fetch
+  state = collection: loaded: items: [1]
+
+  result = reduce-requests requests, state
+
+  actual = result.find -> it.model == \loaded
+  t.false actual, 'skip fetch if the collection is not empty'
+
+  actual = result.find -> it.model == \never-fetch
+  t.false actual, 'skip fetch if fetch option is not set'
 
 function messages t
   result = \models
@@ -76,6 +91,7 @@ function save t
 
 function main t
   basic-requests t
+  lazy-loading t
   messages t
   save t
 
