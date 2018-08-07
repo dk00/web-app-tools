@@ -46,6 +46,14 @@ function above-view element, {height, ratio=1}
   element-height = Math.min height, bottom - top
   offset >= element-height*ratio
 
+function scroll-to-anchor {location: {hash} document}: env, scroll
+  if hash
+    options = Object.assign behavior: \smooth, scroll
+    document.query-selector hash ?.scroll-into-view options
+  else
+    options = Object.assign top: 0 behavior: \instant, scroll
+    env.scroll-to options
+
 export {q, qa}
 export {require-scripts, remove-children}
 export {add-event-listener, passive, till}
