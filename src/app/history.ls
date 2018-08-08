@@ -6,13 +6,9 @@ function get-path data: app: {location: {pathname, hash=''} search: {id, ...sear
   query = if query-string search then '?' + that else ''
   pathname + query + hash
 
-function scroll-to-anchor {location: {hash} document}
-  hash and document.query-selector hash ?.scroll-into-view behavior: \smooth
-
 function push-state {location, history}: env, path
   if path != location.pathname + location.search + location.hash
     history.push-state {} '' path
-    scroll-to-anchor env
 
 function update-location {pathname, search='' hash}
   replace-collection model: \app models:

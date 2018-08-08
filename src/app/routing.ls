@@ -3,6 +3,7 @@ import
   \./react : {h, create-factory}
   \./recompose : {with-state}
   './history': {update-location}
+  './dom': {scroll-to-anchor}
 
 function extract-parameters path, pattern, keys
   parsed = pattern.exec path
@@ -39,15 +40,20 @@ function resolve-url path, base => new URL path, patch + base
 function active-class {active-class-name=\active others}
   (others?class || '') + ' ' + active-class-name
 
+function anchor-path {pathname, hash} => pathname + hash
+
+function url-equal a, b => (anchor-path a) == anchor-path b
+
 function render-link props
-  {type=\a location, to: href, others, children, dispatch} = props
+  {type=\a location, to: href, scroll, others, children, dispatch} = props
   url = resolve-url href, location.pathname
-  active = url.pathname == location.pathname
+  active = url-equal url, location
   props = Object.assign {} others, {href},
     if active then class: active-class props
     on-click: ->
       it.prevent-default!
       if !active then dispatch update-location url
+      Promise.resolve!then -> scroll-to-anchor global, scroll
   h type, props, children
 
 function render-button {to, location, active-class-name, children, dispatch, ...rest}

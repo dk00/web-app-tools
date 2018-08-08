@@ -57,4 +57,4 @@ function scroll-to-anchor {location: {hash} document}: env, scroll
 export {q, qa}
 export {require-scripts, remove-children}
 export {add-event-listener, passive, till}
-export {above-view, on-visibility-change}
+export {above-view, on-visibility-change, scroll-to-anchor}

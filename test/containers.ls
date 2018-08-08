@@ -148,8 +148,8 @@ function selection t
   t.same actual, expected, 'pass model options to input components'
 
   actual = sequence.join ' '
-  expected = 'fetch'
-  t.is actual, expected, 'fetch missing options and add to state'
+  expected = ''
+  t.is actual, expected, 'skip fetching if have cached option data to select'
 
 function test-toggle t
   state = data: custom: flag: value: true

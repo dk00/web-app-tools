@@ -3,7 +3,7 @@ import
   \./mock : {render-once, click, get-attribute, get-children}
 
 function at-location pathname, search
-  data: app: {search, location: {pathname}}
+  data: app: {search, location: {pathname, hash: ''}}
 
 function test-link {base, to, run}
   state = at-location '/target/6'
@@ -64,6 +64,10 @@ function route-props t
   t.is actual, expected, 'pass search params as props'
 
 function main t
+  Object.assign global,
+    location: {}
+    query-selector: ->
+    scroll-to: ->
   path = '/:path/:id'
   location = \/whatever/id
 

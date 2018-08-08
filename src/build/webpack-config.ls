@@ -88,7 +88,7 @@ function create-html-plugin {mode, output-path, public-path='/' styles}
     if styles then {styles}
   new HtmlPlugin html-options
 
-function get-config {production, p=production, output-public-path} config={}
+function get-config {production, p=production, 'output-public-path': output-public-path} config={}
   {mode, output: {public-path=output-public-path}={}} = config
 
   public-path: public-path
