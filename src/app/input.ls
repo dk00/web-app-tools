@@ -38,9 +38,8 @@ function is-model-select {field='' model, collection}
 
 function select-source {field}: props
   model-select = is-model-select props
-  default-collection = if model-select then field.slice 0 -2
+  collection = props.collection || if model-select then field.replace /Id$/ ''
   else field
-  collection = props.collection || default-collection
   model = props.model || collection
 
   Object.assign props, {collection, model},

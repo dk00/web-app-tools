@@ -14,7 +14,7 @@
     "watch-test": "tape-watch test/index.js",
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "nyc --instrument false --source-map false -r text -r html -r json lsc test"
+    "test": "nyc --instrument false --source-map false -r text -r html -r json -r lcovonly lsc test"
   },
   "license": "Unlicensed",
   "dependencies": {

@@ -1,9 +1,14 @@
-import '../src/app/input': {date-input-factory, datetime-input-factory}
+import '../src/app/input': {date-input-factory, datetime-input-factory, select-source}
 
 function element-meta type, props, ...children
   {type, props, children}
 
-function main t
+function selection t
+  actual = select-source collection: \select.type model: \origin field: 'tId' .collection
+  expected = \select.type
+  t.same actual, expected, 'config source collection with `select` option'
+
+function date t
   result = void
   date-input = date-input-factory element-meta
 
@@ -35,6 +40,9 @@ function main t
   actual = value.match /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
   t.ok actual, 'convert to datetime strings work with builtin input ' + value
 
+function main t
+  date t
+  selection t
   t.end!
 
 export default: main
