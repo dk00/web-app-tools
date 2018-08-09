@@ -14,7 +14,7 @@ export '../app': {
   route, nav-link, nav-button
   with-collection, with-api-data, with-select-options
   linked-input, toggle, toggle-target
-  date-input-factory, datetime-input-factory
+  date-input-factory, datetime-input-factory, select-source
   active-above
   update-model, clear-model
   replace-collection, push-collection, unshift-collection
