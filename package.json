@@ -1,17 +1,15 @@
 {
-  "name": "web-app-scripts",
+  "name": "web-app-tools",
   "version": "0.0.1",
-  "description": "0 config web app",
+  "description": "Web app packages, all in 1",
   "main": "./lib/index.js",
   "module": "./dist/index.esm.js",
   "bin": "./bin/index.js",
   "files": [
     "dist",
-    "lib",
-    "bin"
+    "lib"
   ],
   "scripts": {
-    "watch-test": "tape-watch test/index.js",
     "build": "rollup -c",
     "pretest": "npm run build",
     "test": "nyc --instrument false --source-map false -r text -r html -r json -r lcovonly lsc test"
