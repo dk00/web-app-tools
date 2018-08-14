@@ -62,8 +62,8 @@ function render-static entry, mode
       query-selector: ->
       query-selector-all: -> []
       head: dummy-element
-      createElement: -> dummy-element
-      createTextNode: -> ''
+      create-element: -> dummy-element
+      create-text-node: -> ''
     navigator: {}
     location: pathname: \/ hostname:
       if mode == \development then 'localhost' else ''
@@ -71,7 +71,10 @@ function render-static entry, mode
     add-event-listener: ->
 
   register!
-  require join process.cwd!, entry
+  try require join process.cwd!, entry
+  catch
+    console.error e.message
+    console.error 'Try to fix app for first render in node environment'
   -> render-static.result
 
 function create-html-plugin {mode, output-path, public-path='/' styles}
@@ -88,21 +91,19 @@ function create-html-plugin {mode, output-path, public-path='/' styles}
     if styles then {styles}
   new HtmlPlugin html-options
 
-function get-config {production, p=production, 'output-public-path': output-public-path} config={}
-  {mode, output: {public-path=output-public-path}={}} = config
-
+function get-config {production, p=production, 'output-public-path': public-path}
   public-path: public-path
-  mode:
-    | mode => mode
-    | p => \production
-    | _ => \development
+  mode: if p then \production else \development
 
-function config-generator {output-path=\www}: options={}
-  (command-options, lib-config) ->
-    {mode, public-path} = get-config command-options, lib-config
+function config-generator {output-path=\www env}: options={}
+  (command-options) ->
+    {EnvironmentPlugin} = require \webpack
+    {mode, public-path} = get-config command-options
     base-options = {...options, mode, public-path, output-path: join process.cwd!, output-path}
-    mode-options = Object.assign {} base-options,
-      base-plugins: [create-html-plugin base-options]
+    base-plugins = [].concat do
+      create-html-plugin base-options
+      if env then new EnvironmentPlugin env else []
+    mode-options = Object.assign {base-plugins} base-options
     {config, style-loader, minimize} = modes[mode] mode-options
     rules =
       * use: loader: \babel-loader options: babel-options!
