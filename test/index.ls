@@ -8,7 +8,9 @@ units =
   input: 'Normalized input component factory'
   'with-effect': 'Map nested component props changes to global effects'
   'with-fetch': 'Wrap components to fetch data on mount'
-  'requests': 'Fetch and update data'
+  requests: 'Fetch and update data'
+  config: 'Build config'
+
 
 function test units, path=\test
   {join} = require \path
