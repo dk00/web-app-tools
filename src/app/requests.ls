@@ -28,7 +28,7 @@ function reduce-requests requests, state
       request-options request
       model: request-model request
 
-function request-config data: app: {fetch: {prefix} user: {token}={}}
+function request-config data: app: {service: {prefix, token}={}}
   {prefix, token}
 
 function request-action {id}
@@ -46,4 +46,4 @@ function save-fetch-args state, options
   url: base-path + tail
   init: Object.assign {method} fetch-options options.data, config
 
-export {reduce-requests, result-message, fetch-args, save-fetch-args}
+export {reduce-requests, result-message, request-config, fetch-args, save-fetch-args}

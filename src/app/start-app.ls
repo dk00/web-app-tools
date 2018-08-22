@@ -1,8 +1,9 @@
 import
-  \./react : {h, render}
-  \./recompose : {with-context}
-  \./store : craft-store
-  \./history : {sync-history, update-location}
+  './react': {h, render}
+  './recompose': {with-context}
+  './store': craft-store
+  './history': {sync-history, update-location}
+  './local-config': {sync-config}
 
 function with-default {env=@ || window, el='#root' init, actions=[]}: options
   actions =
@@ -29,8 +30,10 @@ function start-app app, user-options
   mount = env.render || render
   replace-app = !-> root := mount (h with-store it), container, root
   replace-app app
-  sync-history store, env
-  listen-actions store, env
+  if env.window
+    sync-config store, env
+    sync-history store, env
+    listen-actions store, env
 
   if module.hot
     replace-options = !-> store.replace-reducer craft-reduce it

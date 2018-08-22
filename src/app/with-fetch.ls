@@ -2,20 +2,17 @@ import
   'zero-fetch': fetch-object
   '../utils': {exclude, request-key}
   './with-effect': with-effect
-  './requests': {reduce-requests, fetch-args}
+  './requests': {reduce-requests, request-config, fetch-args}
 
 function handle-request-changes state, requests
   new-requests = exclude requests, state.requests, request-key
   state.requests := requests
   new-requests
 
-function fetch-options data: app: {fetch, user={}}={}
-  Object.assign {user.token} fetch
-
 function setup-fetch {store}
-  options = fetch-options store.get-state!
+  config = request-config store.get-state!
   (request) ->
-    {url, init} = fetch-args request, options
+    {url, init} = fetch-args request, config
     fetch-object url, init
 
 function transformed result, request, fetch-model

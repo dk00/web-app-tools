@@ -8,9 +8,9 @@ function main t
       handle-result: (items, request) -> result.resolve {items, request}
       handle-error: -> console.log it
     wrapped = with-fetch options <| ->
-    state = data: app:
-      fetch: prefix: 'http://api.com/'
-      user: token: \access-token
+    state = data: app: service:
+      prefix: 'http://api.com/'
+      token: \access-token
     props = collection: \p fetch: true
     render-once wrapped, {state, props}
   .then ->

@@ -56,9 +56,9 @@ function messages t
   t.same actual, expected, 'update data cache only'
 
 function save t
-  state = data: app:
-    fetch: prefix: 'https://api.org/v0/'
-    user: token: \access-token
+  state = data: app: service:
+    prefix: 'https://api.org/v0/'
+    token: \access-token
   meta = collection: \inventory model: \product data: value: \data
   {url, init} = save-fetch-args state, meta
 
@@ -81,7 +81,7 @@ function save t
   t.same actual, expected, 'data for update'
 
   state = data: app:
-    fetch: prefix: 'https://api.org/v0/'
+    service: prefix: 'https://api.org/v0/'
   meta = collection: \inventory model: \product id: \2 data: value: 3
   {url, init} = save-fetch-args state, meta
 

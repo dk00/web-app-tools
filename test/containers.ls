@@ -118,7 +118,7 @@ function selection t
   linked = with-select-options -> result := it
   state =
     collection: source: model: \source items: [\origin \b]
-    data: source:
+    data: app: {} source:
       b: id: \b name: \Backup
       origin: id: \origin name: \Origin
   props = field: \source
