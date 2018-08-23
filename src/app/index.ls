@@ -3,7 +3,7 @@ import
   \./react : {h, create-class}
   \./recompose : {
     compose, pipe, branch, map-props, with-props, default-props
-    with-state, with-context, with-effect
+    with-state, with-handlers, with-context, with-effect
   }
   \./async-component : async-component
   \./with-fetch : with-fetch
@@ -37,7 +37,8 @@ import
 export {
   start-app, h, create-class
   pipe, compose, branch, map-props, with-props, default-props
-  with-state, with-context, with-effect, with-fetch, async-component
+  with-state, with-handlers,
+  with-context, with-effect, with-fetch, async-component
   wrap-plugin, create-effect
   route, nav-link, nav-button
   with-collection, with-api-data, with-select-options

@@ -9,7 +9,8 @@ export on: add-event-listener
 export '../app': {
   start-app, h, create-class
   pipe, compose, branch, map-props, with-props, default-props
-  with-state, with-context, with-effect, with-fetch, async-component
+  with-state, with-handlers,
+  with-context, with-effect, with-fetch, async-component
   wrap-plugin, create-effect
   route, nav-link, nav-button
   with-collection, with-api-data, with-select-options

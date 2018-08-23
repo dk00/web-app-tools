@@ -1,7 +1,8 @@
 import
-  \./react : {create-class, create-factory}
-  \./with-display-name : with-display-name
-  \./with-state : with-state
+  './react': {create-class, create-factory}
+  './with-display-name': with-display-name
+  './with-state': with-state
+  './with-handlers': with-handlers
   './with-effect': with-effect
 
 function pipe ...enhancers => (component) ->
@@ -59,5 +60,5 @@ function select-with-props selector => (state, props) ->
 
 export {
   compose, pipe, branch, map-props, with-props, default-props
-  with-context, with-state, with-effect
+  with-context, with-state, with-handlers, with-effect
 }

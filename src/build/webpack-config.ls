@@ -101,8 +101,8 @@ function config-generator {output-path=\www env}: options={}
     {mode, public-path} = get-config command-options
     base-options = {...options, mode, public-path, output-path: join process.cwd!, output-path}
     base-plugins = [].concat do
-      create-html-plugin base-options
       if env then new EnvironmentPlugin env else []
+      create-html-plugin base-options
     mode-options = Object.assign {base-plugins} base-options
     {config, style-loader, minimize} = modes[mode] mode-options
     rules =
