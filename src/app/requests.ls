@@ -21,7 +21,9 @@ function fetch-options data, {token}={}
 function should-fetch {fetch, collection: id}, {collection}={}
   fetch and fetch != \lazy || !collection[id]?items.length
 
-function reduce-requests requests, state
+function reduce-requests source, state
+  requests = [].concat ...source.map ({requests=[] ...request}) ->
+    requests.concat request
   requests.filter (request) -> should-fetch request, state
   .map (request) ->
     Object.assign {},

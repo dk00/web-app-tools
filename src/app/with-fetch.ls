@@ -22,11 +22,11 @@ function transformed result, request, fetch-model
 function with-fetch user-options
   state = requests: []
   {handle-result, handle-error} = user-options
-  with-effect (instance-props, context) ->
+  with-effect (requests, context) ->
     return if !context
     fetch-model = setup-fetch context
 
-    next = reduce-requests instance-props, context.store.get-state!
+    next = reduce-requests requests, context.store.get-state!
     handle-request-changes state, next
     .for-each (request) ->
       fetch-model request
