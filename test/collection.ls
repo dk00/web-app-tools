@@ -35,13 +35,11 @@ function selector t
   expected = others: \should-be-passed
   t.same actual, expected, 'other props should be passed'
 
-  state =
-    collection: dessert: items: 'model id list'
-    data: dessert: 'model cache'
+  state = collection: \dessert rest: {}
 
-  actual = collection-state state, props .model
+  actual = collection-props state .model
   expected = \dessert
-  t.same actual, expected, 'model path defaults to collection id'
+  t.is actual, expected, 'model path defaults to collection id'
 
   state = collection: {} data: {}
 
@@ -80,7 +78,7 @@ function selector t
     * collection: \cart-items key: \id name: \Id
   t.same actual, expected, 'pass fields for collection'
 
-  actual = collection-props {}
+  actual = collection-props rest: {}
   expected = collection: void model: void models: [] fields: []
   t.same actual, expected, 'binding collection list with empty state'
 

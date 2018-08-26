@@ -4,6 +4,7 @@ import
   \./collection : {
     update-model
     collection-state, collection-props, field-state
+    list-state, list-props
   }
   './input': {field-props, input-props, select-source, model-options}
   \./with-fetch : with-fetch
@@ -21,6 +22,11 @@ with-collection = compose do
   with-state collection-state
   map-props collection-props
 
+with-list-data = compose do
+  with-api-data
+  with-state list-state
+  map-props list-props
+
 link-field = compose do
   with-state field-state
   map-props input-props
@@ -37,7 +43,7 @@ with-select-options = compose do
   with-collection
   with-props model-options
 
-function wrap-toggle-handler {on-change, ...props}: q
+function wrap-toggle-handler {on-change, ...props}
   if on-change
     Object.assign {} props, on-click: -> on-change target: value: !props.value
   else props
@@ -72,6 +78,6 @@ if process.env.NODE_ENV != \production
   toggle-target.display-name = \toggle-target
 
 export {
-  with-collection, with-api-data, with-select-options
+  with-list-data, with-collection, with-api-data, with-select-options
   linked-input, toggle, toggle-target
 }

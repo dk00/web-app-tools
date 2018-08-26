@@ -13,7 +13,7 @@ export '../app': {
   with-context, with-effect, with-fetch, async-component
   wrap-plugin, create-effect
   route, nav-link, nav-button
-  with-collection, with-api-data, with-select-options
+  with-list-data, with-collection, with-api-data, with-select-options
   linked-input, toggle, toggle-target
   date-input-factory, datetime-input-factory, select-source
   active-above

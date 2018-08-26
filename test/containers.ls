@@ -1,10 +1,10 @@
 import
   \../src/app/containers : {
-    with-collection, with-model, with-select-options
+    with-list-data, with-collection, with-model, with-select-options
     linked-input, toggle, toggle-target
   }
   \./mock :  {
-    render-once, click, get-attribute, get-children
+    render-once, unmount, click, get-attribute, get-children
     mock-fetch, test-fetch
   }
 
@@ -113,6 +113,26 @@ function basic t
 
   t.end!
 
+function list-data t
+  result = void
+  props =
+    collection: \language
+    model: \lang
+    fields: [\name \ratio]
+  state =
+    collection: language: items: [\en \ja]
+    data: app: {} field:
+      'lang.name': name: \Name
+      'lang.ratio': name: \Ratio
+  list = with-list-data -> result := it
+  node = render-once list, {state, props}
+  render-once node.node-name, {state, props: node.attributes}
+  unmount node
+
+  actual = result.items?join ' '
+  expected = 'en ja'
+  t.is actual, expected, 'get id of list items'
+
 function selection t
   result = void
   linked = with-select-options -> result := it
@@ -131,7 +151,6 @@ function selection t
     * value: \b label: \Backup
   t.same actual, expected, 'pass constant options to input components'
 
-  #TODO lazy fetch
   sequence = []
   global.fetch = ->
     sequence.push \fetch
@@ -168,6 +187,7 @@ function test-toggle t
 
 function main t
   t.test '> Basic' basic
+  list-data t
   selection t
   t.test '> Toggle' test-toggle
 

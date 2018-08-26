@@ -21,11 +21,23 @@ function field-state state, {field=\value}: props
   value: model-state state, props ?.[field]
   own-props: props
 
-function collection-state {collection: source, data} {collection, ...rest}
-  {model=collection, items}? = source[collection]
-  {collection, model, data.field, items, data: data[model], rest}
+function list-state {collection: source, data} {collection, ...rest}
+  {model, items}? = source[collection]
+  {items, collection, model, rest}
 
-function collection-props {collection, model, field={} items=[] data, rest}
+function selector-model {rest, collection, model=rest.model || collection}
+  model
+
+function list-props {items=[] rest, collection, dispatch}: state
+  Object.assign {} rest,
+    {dispatch, items, collection, model: selector-model state}
+
+function collection-state {data}: state, props
+  result = list-state state, props
+  Object.assign {data: data[result.model], data.field} result
+
+function collection-props {collection, field={} items=[] data, rest}: state
+  model = selector-model state
   fields = Object.values field .filter -> it.collection == collection
   Object.assign {collection, model, fields, models: items.map (data.)} rest
 
@@ -62,7 +74,7 @@ reduce-data =
 export {
   replace-collection, push-collection, unshift-collection
   update-model, clear-model
-  collection-state, collection-props
+  list-state, list-props, collection-state, collection-props
   model-state, field-state
   reduce-collection, reduce-data
 }

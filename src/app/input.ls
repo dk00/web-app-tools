@@ -33,17 +33,10 @@ function input-props {own-props, dispatch}: state
     field-props state
     input-actions dispatch, own-props
 
-function is-model-select {field='' model, collection}
-  model || collection || field.match /(.+)Id$/
-
 function select-source {field}: props
-  model-select = is-model-select props
-  collection = props.collection || if model-select then field.replace /Id$/ ''
-  else field
+  collection = props.collection || field.replace /Id$/ ''
   model = props.model || collection
-
-  Object.assign props, {collection, model},
-    if model-select then fetch: \lazy
+  Object.assign props, {collection, model} fetch: \lazy
 
 function model-options {models}
   options: models.map ({id, name}) -> value: id, label: name
