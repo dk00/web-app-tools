@@ -21,7 +21,7 @@ function field-state state, {field=\value}: props
   value: model-state state, props ?.[field]
   own-props: props
 
-function list-state {collection: source, data} {collection, ...rest}
+function list-state {collection: source, data} {requests=[], collection=requests.0.collection, ...rest}
   {model, items}? = source[collection]
   {items, collection, model, rest}
 

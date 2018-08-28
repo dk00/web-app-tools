@@ -1,8 +1,10 @@
 import
   \../src/app/containers : {
-    with-list-data, with-collection, with-model, with-select-options
+    with-list-data, with-collection, with-model
     linked-input, toggle, toggle-target
   }
+  '../src/app/collection': {collection-state, collection-props}
+  '../src/app/input': {have-options, select-source, model-options}
   \./mock :  {
     render-once, unmount, click, get-attribute, get-children
     mock-fetch, test-fetch
@@ -18,7 +20,9 @@ function collection t
     collection: dessert:
       model: \dessert
       items: [1]
-    data: dessert: 1: name: \candy
+    data:
+      app: service: {}
+      dessert: 1: name: \candy
   props = collection: \dessert
   nested = render-once (with-collection identity), {state, props}
   result = render-child nested
@@ -134,16 +138,15 @@ function list-data t
   t.is actual, expected, 'get id of list items'
 
 function selection t
-  result = void
-  linked = with-select-options -> result := it
   state =
     collection: source: model: \source items: [\origin \b]
     data: app: {} source:
       b: id: \b name: \Backup
       origin: id: \origin name: \Origin
-  props = field: \source
-  nested = render-once linked, {state, props}
-  render-child nested
+  props = field: \source type: \select
+
+  result = if have-options props
+    model-options collection-props collection-state state, select-source props
 
   actual = result.options
   expected =
@@ -151,14 +154,9 @@ function selection t
     * value: \b label: \Backup
   t.same actual, expected, 'pass constant options to input components'
 
-  sequence = []
-  global.fetch = ->
-    sequence.push \fetch
-    Promise.resolve headers: get: ->
-  global.post-message = ->
   props = field: \sourceId
-  nested = render-once linked, {state, props}
-  render-child nested
+  source = select-source props
+  result =  model-options collection-props collection-state state, source
 
   actual = result.options
   expected =
@@ -166,9 +164,8 @@ function selection t
     * value: \b label: \Backup
   t.same actual, expected, 'pass model options to input components'
 
-  actual = sequence.join ' '
-  expected = ''
-  t.is actual, expected, 'skip fetching if have cached option data to select'
+  actual = source.requests.every -> it.fetch == \lazy
+  t.ok actual, 'skip fetching if have cached option data to select'
 
 function test-toggle t
   state = data: custom: flag: value: true

@@ -33,14 +33,20 @@ function input-props {own-props, dispatch}: state
     field-props state
     input-actions dispatch, own-props
 
+function have-options {field, type=field.type || ''}
+  type.starts-with \select
+
 function select-source {field}: props
-  collection = props.collection || field.replace /Id$/ ''
-  model = props.model || collection
-  Object.assign props, {collection, model} fetch: \lazy
+  config = if field.key then field else Object.assign key: field, props
+  {key} = config
+  collection = config.select || config.collection || key.replace /Id$/ ''
+  model = config.model || collection
+  request = {collection, model, fetch: \lazy}
+  {...props, requests: [request]}
 
 function model-options {models}
   options: models.map ({id, name}) -> value: id, label: name
 
 export {field-props, input-props}
-export {select-source, model-options}
+export {have-options, select-source, model-options}
 export {date-input-factory, datetime-input-factory}

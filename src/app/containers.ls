@@ -1,12 +1,12 @@
 import
   \./react : {h, create-factory}
-  \./recompose : {pipe, compose, with-state, map-props, with-props}
+  \./recompose : {pipe, compose, with-state, map-props, with-props, branch}
   \./collection : {
     update-model
     collection-state, collection-props, field-state
     list-state, list-props
   }
-  './input': {field-props, input-props, select-source, model-options}
+  './input': {field-props, input-props, have-options, select-source, model-options}
   \./with-fetch : with-fetch
   \./requests : {result-message}
 
@@ -38,7 +38,7 @@ function render-field {type, class: class-name, value, on-change, children}
 
 linked-input = link-field render-field
 
-with-select-options = compose do
+with-select-options = branch have-options, compose do
   map-props select-source
   with-collection
   with-props model-options

@@ -13,12 +13,10 @@ function main t
   expected = \production
   t.is actual, expected, 'production mode'
 
-
   result = webpack-config env: ['PATH'] <| {}
 
-  actual = result.plugins.1.constructor.name
-  expected = \EnvironmentPlugin
-  t.is actual, expected, 'add environment variables'
+  actual = result.plugins.some -> it.constructor.name == \EnvironmentPlugin
+  t.ok actual, 'add environment variables'
 
   t.end!
 
