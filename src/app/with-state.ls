@@ -26,8 +26,9 @@ function nested store
     if flat-diff prev, selected then changed := true else next.notify!
 
   handle-mount = if select != pass then component-did-mount: !->
-    instance.component-will-unmount = store.subscribe ~>
-      handle-change! && instance.set-state empty
+    handle-store-update = ~> handle-change! && instance.set-state empty
+    instance.component-will-unmount = store.subscribe handle-store-update
+    handle-store-update!
   Object.assign instance, handle-mount,
     get-child-context: -> context
     component-will-receive-props: !->
