@@ -20,4 +20,4 @@ function craft-store {env, actions=[]}: options
   .reduce reduce, initial-state options
   create-store reduce, state, env?__REDUX_DEVTOOLS_EXTENSION__?!
 
-export default: craft-store
+export {craft-store, craft-reduce}

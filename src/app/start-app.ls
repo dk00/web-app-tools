@@ -1,7 +1,7 @@
 import
   './react': {h, render}
   './recompose': {with-context}
-  './store': craft-store
+  './store': {craft-store, craft-reduce}
   './history': {sync-history, update-location}
   './local-config': {sync-config}
 
