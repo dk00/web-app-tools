@@ -25,7 +25,10 @@ function development {base-plugins, output-path}
       #TODO Accept connection from anywhere, setting host here breaks websocket URL
   style-loader: [\style-loader]
 
-function production {base-plugins, output-path, public-path}
+function production {
+  base-plugins, output-path, public-path
+  navigate-fallback-blacklist
+}
   {DefinePlugin} = require \webpack
   MinifyPlugin = require \babel-minify-webpack-plugin
   {GenerateSW} = require \workbox-webpack-plugin
@@ -39,6 +42,7 @@ function production {base-plugins, output-path, public-path}
         clients-claim: true
         skip-waiting: true
         navigate-fallback: public-path || '/'
+        navigate-fallback-blacklist: navigate-fallback-blacklist
     optimization:
       runtime-chunk: \single
       split-chunks:
