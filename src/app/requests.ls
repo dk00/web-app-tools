@@ -18,8 +18,13 @@ function fetch-options data, {token}={}
     request-options parameters: data
     if token then headers: Authorization: "Bearer #{token}"
 
-function should-fetch {fetch, collection: id}, {collection}={}
-  fetch and fetch != \lazy || !collection[id]?items.length
+function syncing {collection, data} request
+  model = request-model request
+  collection?sync?items.some -> data.sync[it]model == model
+
+function should-fetch {fetch, collection: id}: request, state={}
+  !syncing state, request and
+  fetch and fetch != \lazy || !state.collection[id]?items.length
 
 function reduce-requests source, state
   requests = [].concat ...source.map ({requests=[] ...request}) ->

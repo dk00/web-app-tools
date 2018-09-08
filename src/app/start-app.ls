@@ -35,9 +35,16 @@ function start-app app, user-options
     sync-history store, env
     listen-actions store, env
 
+<<<<<<< HEAD
   if module.hot
     replace-options = !-> store.replace-reducer craft-reduce it
     init {replace-app, replace-options}
   else env.navigator.service-worker?register \/service-worker.js
+=======
+  if !module.hot
+    env.navigator.service-worker?register \/service-worker.js
+  replace-options = !-> store.replace-reducer craft-reduce it
+  init? {replace-app, replace-options}
+>>>>>>> 6829a25... Suspend fetching if target model is syncing
 
 export default: start-app

@@ -89,11 +89,28 @@ function save t
   expected = 'patch https://api.org/v0/product/2'
   t.is actual, expected, 'rest action to edit a resource entry'
 
+function suspend t
+  requests =
+    * collection: \saving fetch: true
+    * collection: \other fetch: true
+  state =
+    collection: sync: items: [0 1]
+    data: sync:
+      0: model: \saving
+      1: model: \whatever
+  result = reduce-requests requests, state
+
+  actual = [\saving \other]map (model) -> result.some -> it.model == model
+  .join ' '
+  expected = 'false true'
+  t.is actual, expected, 'suspend fetching while syncing'
+
 function main t
   basic-requests t
   lazy-loading t
   messages t
   save t
+  suspend t
 
   t.end!
 
