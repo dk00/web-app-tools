@@ -6,7 +6,7 @@ function result-message models, {collection, model=collection}
 function request-model {collection, model=collection} => model
 
 function request-options {collection, parameters: data, transform}
-  Object.assign {collection, transform}, if data then data: without-id data
+  Object.assign {collection, transform}, if data then {data}
 
 function request-path {collection, model=collection} {prefix='/'}={}
   prefix + model
@@ -51,6 +51,6 @@ function save-fetch-args state, options
   base-path = request-path options, config
 
   url: base-path + tail
-  init: Object.assign {method} fetch-options options.data, config
+  init: Object.assign {method} fetch-options (without-id options.data), config
 
 export {reduce-requests, result-message, request-config, fetch-args, save-fetch-args}

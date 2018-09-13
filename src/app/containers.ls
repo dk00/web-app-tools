@@ -43,9 +43,11 @@ with-select-options = branch have-options, compose do
   with-collection
   with-props model-options
 
-function wrap-toggle-handler {on-change, ...props}
+function wrap-toggle-handler {on-change, ...props} {propagate}
   if on-change
-    Object.assign {} props, on-click: -> on-change target: value: !props.value
+    Object.assign {} props, on-click: ->
+      it.stop-propagation! if !propagate
+      on-change target: value: !props.value
   else props
 
 function add-active-class {value, ...props}
@@ -54,12 +56,13 @@ function add-active-class {value, ...props}
     existing = if props.class then that + ' ' else ''
     Object.assign {} props, class: "#{existing}active"
 
-function toggle-props props
-  add-active-class wrap-toggle-handler props
+function toggle-props props, outer-props
+  add-active-class wrap-toggle-handler props, outer-props
 
 function wrap-toggle props
-  Object.assign {} props, type:
-    pipe toggle-props, create-factory props.type
+  factory = create-factory props.type
+  Object.assign {} props, type: (inner-props) ->
+    factory toggle-props inner-props, props
 
 toggle = compose do
   map-props wrap-toggle
