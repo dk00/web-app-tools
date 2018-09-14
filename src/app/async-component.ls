@@ -9,11 +9,12 @@ function async-component load-component, placeholder=empty
     display-name: \async-component
     component-did-mount: ->
       load-component!then ~>
-        @render = create-factory it.default
+        factory = create-factory it.default
+        @render = -> factory @props
         @set-state loaded: true
     render: create-factory placeholder
   if process.env.NODE_ENV != \production
-    return with-display-name with-effect, component, \async-component
+    return with-display-name async-component, load-component, \async-component
   async-component
 
 export default: async-component

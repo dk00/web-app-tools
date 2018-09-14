@@ -1,7 +1,9 @@
 import \./babel-options : babel-options
 
 default-options =
-  plugins: [\@babel/transform-modules-commonjs]
+  plugins:
+    \dynamic-import-node
+    \@babel/transform-modules-commonjs
   extensions: <[.ls .jsx .js]>
 
 function nop =>
@@ -14,7 +16,7 @@ function register options={}
     require \livescript
     delete require.extensions\.ls
   ignore-extensions <[.css .sass .scss]>
-  option-list = [default-options, babel-options!, options]
+  option-list = [default-options, babel-options runtime: false; options]
   require \@babel/register <| Object.assign {} ...option-list,
     plugins: []concat ...option-list.map (.plugins || [])
 

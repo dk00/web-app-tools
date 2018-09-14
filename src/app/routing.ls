@@ -4,6 +4,7 @@ import
   \./recompose : {with-state}
   './history': {update-location}
   './dom': {scroll-to-anchor}
+  './async-component': async-component
 
 function extract-parameters path, pattern, keys
   parsed = pattern.exec path
@@ -26,11 +27,15 @@ function get-location {data: app: {location, search}} {
 }
   Object.assign {render: render || component, location, search} rest
 
+function async-render request, props
+  h (async-component -> request), props
+
 function render-matched {path, location, search, exact, render}
-  if parse-path location.pathname, path, {exact}
+  element = if parse-path location.pathname, path, {exact}
     props = match: {params: that} location: Object.assign {search} location
     create-factory render <| props
   else ''
+  if element.then then async-render element, props else element
 
 route = with-state get-location <| render-matched
 

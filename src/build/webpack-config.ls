@@ -115,7 +115,7 @@ function config-generator {output-path=\www env}: options={}
         exclude: /node_modules/
       * test: /\.(sass|scss)$/
         use: []concat style-loader, <[css-loader sass-loader]>map ->
-          loader: it, options: {url: false source-map: true minimize}
+          loader: it, options: {url: false source-map: !minimize, minimize}
 
     Object.assign {mode, module: {rules}} base, config
 
