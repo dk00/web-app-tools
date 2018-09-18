@@ -1,4 +1,6 @@
-import \./collection : {replace-collection}
+import
+  'zero-fetch': fetch-object
+  \./collection : {replace-collection}
 
 function result-message models, {collection, model=collection}
   source: \app action: replace-collection {id: collection, model, models}
@@ -53,4 +55,10 @@ function save-fetch-args state, options
   url: base-path + tail
   init: Object.assign {method} fetch-options (without-id options.data), config
 
-export {reduce-requests, result-message, request-config, fetch-args, save-fetch-args}
+function config-fetch state
+  config = request-config state
+  (request) ->
+    {url, init} = fetch-args request, config
+    fetch-object url, init
+
+export {reduce-requests, result-message, config-fetch, save-fetch-args}

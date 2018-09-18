@@ -1,19 +1,12 @@
 import
-  'zero-fetch': fetch-object
   '../utils': {exclude, request-key}
   './with-effect': with-effect
-  './requests': {reduce-requests, request-config, fetch-args}
+  './requests': {reduce-requests, config-fetch}
 
 function handle-request-changes state, requests
   new-requests = exclude requests, state.requests, request-key
   state.requests := requests
   new-requests
-
-function setup-fetch {store}
-  config = request-config store.get-state!
-  (request) ->
-    {url, init} = fetch-args request, config
-    fetch-object url, init
 
 function transformed result, request, fetch-model
   transform = request.transform || -> Promise.resolve it
@@ -24,7 +17,7 @@ function with-fetch user-options
   {handle-result, handle-error} = user-options
   with-effect (requests, context) ->
     return if !context
-    fetch-model = setup-fetch context
+    fetch-model = config-fetch context.store.get-state!
 
     next = reduce-requests requests, context.store.get-state!
     handle-request-changes state, next

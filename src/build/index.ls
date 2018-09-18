@@ -21,7 +21,7 @@ export '../app': {
   replace-collection, push-collection, unshift-collection
   update-collection
   model-state, collection-state, collection-props
-  fetch-object, reduce-requests, save-fetch-args
+  fetch-object, config-fetch, save-fetch-args
   request-key, exclude
   local-date, local-datetime
   local-date-json, input-datetime-string, server-date
