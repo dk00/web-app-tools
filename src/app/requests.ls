@@ -15,10 +15,11 @@ function request-path {collection, model=collection} {prefix='/'}={}
 
 function without-id {id, ...rest} => rest
 
-function fetch-options data, {token}={}
+function fetch-options data, {token}={}, {model, id, data: _, ...options}
   Object.assign {},
     request-options parameters: data
     if token then headers: Authorization: "Bearer #{token}"
+    options
 
 function syncing {collection, data} request
   model = request-model request
@@ -44,8 +45,11 @@ function request-action {id}
   if id && id != \new then method: \patch tail: "/#id" else method: \post tail: ''
 
 function fetch-args request, options
-  url: request-path request, options
-  init: fetch-options request.data, options
+  {method, tail} = request-action request
+  base-path = request-path request, options
+
+  url: base-path + tail
+  init: fetch-options request.data, options, request
 
 function save-fetch-args state, options
   config = request-config state
