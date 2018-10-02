@@ -57,7 +57,7 @@ function save-fetch-args state, options
   base-path = request-path options, config
 
   url: base-path + tail
-  init: Object.assign {method} fetch-options (without-id options.data), config
+  init: Object.assign {method} fetch-options (without-id options.data), config, options
 
 function config-fetch state
   config = request-config state

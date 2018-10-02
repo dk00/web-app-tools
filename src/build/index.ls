@@ -17,7 +17,7 @@ export '../app': {
   linked-input, toggle, toggle-target
   date-input-factory, datetime-input-factory, select-source
   active-above
-  update-model, clear-model
+  update-model, clear-model, remove-models
   replace-collection, push-collection, unshift-collection
   update-collection
   model-state, collection-state, collection-props

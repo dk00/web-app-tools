@@ -14,7 +14,11 @@ function render-once component, {props={} state={} dispatch, options}: config
       Object.assign element, {component, instance: self}
     else element
 
-function click element => element.attributes.on-click prevent-default: ->
+mock-event =
+  prevent-default: ->
+  stop-propagation: ->
+
+function click element => element.attributes.on-click mock-event
 
 function set-props {component, instance} props
   instance.props = props
@@ -46,5 +50,5 @@ function test-fetch render
 export {
   render-once, click, set-props, unmount
   get-attribute, get-children,
-  mock-fetch, test-fetch
+  mock-fetch, test-fetch, mock-event
 }

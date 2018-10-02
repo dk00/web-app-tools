@@ -7,10 +7,9 @@ import
   '../src/app/input': {have-options, select-source, model-options}
   \./mock :  {
     render-once, unmount, click, get-attribute, get-children
-    mock-fetch, test-fetch
+    mock-fetch, test-fetch, mock-event
   }
-
-function identity => it
+  '../src/utils': {identity}
 
 function render-child {node-name: type, instance: {props, context}}
   render-once type, {props, state: context.store.get-state!}
@@ -98,7 +97,7 @@ function basic t
   expected = 'toggle display'
   t.is actual, expected, 'pass toggle content'
 
-  result.on-click!
+  result.on-click mock-event
 
   actual = action
   expected = type: \update-model payload:

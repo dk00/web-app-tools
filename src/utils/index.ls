@@ -11,8 +11,10 @@ import
     local-date, local-datetime
     local-date-json, input-datetime-string, server-date
   }
+  './shared': {identity}
 
 export {
+  identity
   local-date, local-datetime
   local-date-json, input-datetime-string, server-date
   deep-merge, flat-diff, map-values

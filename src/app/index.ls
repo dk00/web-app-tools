@@ -18,7 +18,7 @@ import
   './active-above': active-above
   \./start-app : start-app
   \./collection : {
-    update-model, clear-model
+    update-model, clear-model, remove-models
     replace-collection, push-collection, unshift-collection
     model-state, collection-state, collection-props
   }
@@ -45,7 +45,7 @@ export {
   linked-input, toggle, toggle-target
   date-input-factory, datetime-input-factory, select-source
   active-above
-  update-model, clear-model
+  update-model, clear-model, remove-models
   replace-collection, push-collection, unshift-collection
   update-collection: replace-collection
   model-state, collection-state, collection-props

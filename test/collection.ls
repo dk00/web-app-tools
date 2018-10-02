@@ -156,6 +156,13 @@ function collections t
   expected = '3 0 1'
   t.is actual, expected, 'add to start of a collection'
 
+  action = type: \remove-models payload: id: \t models: [3]
+  next-state = r state, action
+
+  actual = next-state.t.items.join ' '
+  expected = ''
+  t.is actual, expected, 'remove specified models from collection'
+
   actual = list-props items: [] rest: {} .loaded
   t.ok actual, 'add loaded state to list props'
 
@@ -215,6 +222,13 @@ function cache t
   actual = reduce state, action ?.app?location?pathname
   expected = 'default path'
   t.same actual, expected, 'cache path defaults to app'
+
+  state = sync: 3: {id: 3}
+  action = type: \remove-models payload: id: \sync models: [3]
+
+  actual = Object.keys (reduce state, action .sync) .join ' '
+  expected = ''
+  t.is actual, expected, 'clear data of specified model'
 
 function main t
   collections t

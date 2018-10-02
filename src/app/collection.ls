@@ -1,3 +1,5 @@
+import '../utils': {exclude}
+
 function update-collection type=\replace-collection {id, model, models}
   {type, payload: {id, model, models: []concat models}}
 
@@ -14,6 +16,9 @@ function update-model {model, id, values}
   type: \update-model payload: {model, id, values}
 
 function clear-model options => type: \clear-model payload: options
+
+function remove-models {id, model, models}
+  type: \remove-models payload: {id, model, models}
 
 function model-state {data} {model=\app id} => data[model]?[id]
 
@@ -58,6 +63,10 @@ reduce-collection =
     []concat added, existing
   'push-collection': handle-collection (existing=[] added) ->
     []concat existing, added
+  'remove-models': (state, {id, models}) ->
+    if state[id]
+      (id): Object.assign {} state[id], items: exclude state[id]items, models
+    else {}
 
 reduce-data =
   'replace-collection': merge-result
@@ -70,10 +79,16 @@ reduce-data =
     model = get-model payload
     updated = Object.assign {id} state[model]?[id], values
     merge-result state, {model, models: [updated]}
+  'remove-models': (state, {id, model=id, models}) ->
+    data = state[model]
+    if data
+      entries = exclude (Object.keys data), models .map -> (it): data[it]
+      (model): Object.assign {} ...entries
+    else {}
 
 export {
   replace-collection, push-collection, unshift-collection
-  update-model, clear-model
+  update-model, clear-model, remove-models
   list-state, list-props, collection-state, collection-props
   model-state, field-state
   reduce-collection, reduce-data
