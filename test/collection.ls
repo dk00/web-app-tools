@@ -5,6 +5,7 @@ import
     update-model, clear-model
     reduce-collection, reduce-data
     collection-state, collection-props
+    list-props
   }
 
 function selector t
@@ -154,6 +155,9 @@ function collections t
   actual = next-state.t.items.join ' '
   expected = '3 0 1'
   t.is actual, expected, 'add to start of a collection'
+
+  actual = list-props items: [] rest: {} .loaded
+  t.ok actual, 'add loaded state to list props'
 
 function cache t
   items =

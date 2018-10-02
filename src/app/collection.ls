@@ -28,9 +28,9 @@ function list-state {collection: source, data} {requests=[], collection=requests
 function selector-model {rest, collection, model=rest.model || collection}
   model
 
-function list-props {items=[] rest, collection, dispatch}: state
+function list-props {items, rest, collection, dispatch}: state
   Object.assign {} rest,
-    {dispatch, items, collection, model: selector-model state}
+    {dispatch, items: items || [], loaded: items, collection, model: selector-model state}
 
 function collection-state {data}: state, props
   result = list-state state, props
