@@ -35,10 +35,11 @@ function till target, name, test => new Promise (resolve) ->
       resolve it.data
 
 function on-visibility-change listener
-  passive global, \scroll ->
-    el = document.document-element
-    data = height: el.client-height, width: el.client-width
-    listener data
+  el = document.document-element
+  handle-position-change = ->
+    listener height: el.client-height, width: el.client-width
+  handle-position-change!
+  passive global, \scroll handle-position-change
 
 function above-view element, {height, ratio=1}
   {top, bottom} = element.get-bounding-client-rect!

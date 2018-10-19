@@ -5,7 +5,7 @@ import
 
 hooks =
   display-name: \active-above
-  component-did-mount: ->
+  component-did-mount: !->
     @component-will-unmount = on-visibility-change (env) ~>
       above = above-view @element, Object.assign {} env, @props
       if above != @state.above then @set-state {above}
