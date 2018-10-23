@@ -1,10 +1,9 @@
 {
   "name": "web-app-tools",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Web app packages, all in 1",
   "main": "./lib/index.js",
   "module": "./dist/index.esm.js",
-  "bin": "./bin/index.js",
   "files": [
     "dist",
     "lib"
