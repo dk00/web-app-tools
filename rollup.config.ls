@@ -12,7 +12,7 @@ config-list = targets.map ([input, output, format]) ->
   output: file: output, format: format, sourcemap: true strict: false
   plugins:
     resolve jsnext: true extensions: <[.ls .js]>
-    babel!
+    babel require \./.babelrc
 
   external: Object.keys <| require \./package.json .dependencies
 

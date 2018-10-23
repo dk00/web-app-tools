@@ -1,6 +1,6 @@
 {
   "name": "web-app-tools",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Web app packages, all in 1",
   "main": "./lib/index.js",
   "module": "./dist/index.esm.js",
@@ -33,13 +33,13 @@
     "css-loader": "",
     "extract-loader": "",
     "file-loader": "",
-    "html-plugin": "",
     "koa-connect": "",
     "node-sass": "",
     "nyc": "",
     "path-to-regexp": "",
     "preact": "",
     "preact-render-to-string": "",
+    "pwa-utils": "",
     "redux": "",
     "sass-loader": "",
     "style-loader": "",
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "rollup": "",
-    "rollup-plugin-babel": "beta",
+    "rollup-plugin-babel": "4.0.0-beta.8",
     "rollup-plugin-node-resolve": ""
   }
 }

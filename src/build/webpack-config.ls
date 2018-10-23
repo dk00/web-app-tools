@@ -79,19 +79,10 @@ function render-static entry, mode
     console.error 'Try to fix app for first render in node environment'
   -> render-static.result
 
-function create-html-plugin {mode, output-path, public-path='/' styles}
-  HtmlPlugin = require \html-plugin
-  {
-    name: title='No Name'
-    theme_color: theme-color
-  } = (try require "#{output-path}/manifest.json") || {}
-  html-options = Object.assign {},
-    title: title, theme-color: theme-color
-    prefix: public-path, content: render-static base.entry, mode
-    manifest: "#{public-path}manifest.json"
-    favicon: "#{public-path}favicon.png"
-    if styles then {styles}
-  new HtmlPlugin html-options
+function create-pwa-plugin {mode, output-path, public-path='/' web-app}
+  {GenerateWebApp} = require \pwa-utils
+  new GenerateWebApp Object.assign {public-path}, web-app,
+    content: render-static base.entry, mode
 
 function get-config {production, p=production, 'output-public-path': public-path}
   public-path: public-path
@@ -104,7 +95,7 @@ function config-generator {output-path=\www env}: options={}
     base-options = {...options, mode, public-path, output-path: join process.cwd!, output-path}
     base-plugins = [].concat do
       if env then new EnvironmentPlugin env else []
-      create-html-plugin base-options
+      create-pwa-plugin base-options
     mode-options = Object.assign {base-plugins} base-options
     {config, style-loader, minimize} = modes[mode] mode-options
     rules =
