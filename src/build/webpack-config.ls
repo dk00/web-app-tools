@@ -1,14 +1,13 @@
-import path: {join}
-import \./register : register
-import \./babel-options : babel-options
+import
+  path: {join}
+  './register': register
+  './babel-options': babel-options
+  '../utils': {identity}
 
 base =
   entry: \./src/index
   resolve:
     extensions: <[.ls .jsx .js .sass .scss .yml .json]>
-    alias:
-      react: \preact-compat
-      'react-dom': \preact-compat
 
 function history-api-fallback app
   history = require \connect-history-api-fallback
@@ -79,7 +78,7 @@ function render-static entry, mode
     console.error 'Try to fix app for first render in node environment'
   -> render-static.result
 
-function create-pwa-plugin {mode, output-path, public-path='/' web-app}
+function create-pwa-plugin {mode, public-path='/' web-app}
   {GenerateWebApp} = require \pwa-utils
   new GenerateWebApp Object.assign {public-path}, web-app,
     content: render-static base.entry, mode
@@ -88,11 +87,14 @@ function get-config {production, p=production, 'output-public-path': public-path
   public-path: public-path
   mode: if p then \production else \development
 
-function config-generator {output-path=\www env}: options={}
+function config-generator {output-path=\www env, change=identity}: options={}
   (command-options) ->
     {EnvironmentPlugin} = require \webpack
     {mode, public-path} = get-config command-options
-    base-options = {...options, mode, public-path, output-path: join process.cwd!, output-path}
+    base-options = {
+      ...options, mode, public-path,
+      output-path: join process.cwd!, output-path
+    }
     base-plugins = [].concat do
       if env then new EnvironmentPlugin env else []
       create-pwa-plugin base-options
@@ -106,6 +108,6 @@ function config-generator {output-path=\www env}: options={}
         use: []concat style-loader, <[css-loader sass-loader]>map ->
           loader: it, options: {url: false source-map: !minimize, minimize}
 
-    Object.assign {mode, module: {rules}} base, config
+    change Object.assign {mode, module: {rules}} base, config
 
 export default: config-generator

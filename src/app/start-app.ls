@@ -19,7 +19,6 @@ function listen-actions store, env
     if source == \app then store.dispatch action
 
 function start-app app, user-options
-  require \preact/devtools if module.hot
   {env, el, init} = options = with-default user-options
 
   store = craft-store options
