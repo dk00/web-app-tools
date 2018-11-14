@@ -1,5 +1,5 @@
 import
-  \../src/app/routing : {parse-path, route, nav-link}
+  \../src/app/routing : {route, nav-link}
   \./mock : {render-once, click, get-attribute, get-children}
 
 function at-location pathname, search
@@ -70,16 +70,6 @@ function main t
     scroll-to: ->
   path = '/:path/:id'
   location = \/whatever/id
-
-  actual = parse-path location, path
-  expected = path: \whatever id: \id
-  t.same actual, expected, 'parse location with specified path'
-
-  actual = parse-path \somewhere \whatever
-  t.false actual, 'return nothing if the location does not match'
-
-  actual = parse-path '/match-start/1' '/match-start'
-  t.true actual, 'match route path at the beginning'
 
   props = path: \/target render: -> \matched
   state = at-location \/target

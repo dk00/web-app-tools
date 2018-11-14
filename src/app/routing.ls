@@ -6,8 +6,9 @@ import
   './dom': {scroll-to-anchor}
   './async-component': async-component
 
-function extract-parameters path, pattern, keys
-  parsed = pattern.exec path
+function parse-path location, {path, exact=false}
+  keys = []
+  parsed = path-to-regexp path, keys, end: exact .exec location
   if !parsed then void
   else
     entries = parsed.slice 1 .map (matched, index) ->
@@ -15,29 +16,27 @@ function extract-parameters path, pattern, keys
       #TODO keys w/o name
     Object.assign {} ...entries
 
-function parse-path location, path, {exact=false}={}
-  keys = []
-  pattern = path-to-regexp path, keys, end: exact
-  extract-parameters location, pattern, keys
-
 function render-nothing => ''
 
-function get-location {data: app: {location, search}} {
-  component, render, ...rest
-}
-  Object.assign {render: render || component, location, search} rest
+function get-location {data: app: {location, search}} props
+  Object.assign {location, search} props
 
 function async-render request, props
   h (async-component -> request), props
 
-function render-matched {path, location, search, exact, render}
-  element = if parse-path location.pathname, path, {exact}
-    props = match: {params: that} location: Object.assign {search} location
+function get-route-state {data: app: {location, search}} props
+  matched = parse-path location.pathname, props
+  if matched then {location, search, ...props} else void
+
+function render-matched {path, location, search, exact, component, render=component}
+  element = if !location then ''
+  else
+    params = parse-path location.pathname, {path, exact}
+    props = match: {params} location: {search, ...location}
     create-factory render <| props
-  else ''
   if element.then then async-render element, props else element
 
-route = with-state get-location <| render-matched
+route = with-state get-route-state <| render-matched
 
 patch = 'http://placeholder'
 function resolve-url path, base => new URL path, patch + base
