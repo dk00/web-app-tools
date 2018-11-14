@@ -15,12 +15,6 @@ function test-link {base, to, run}
   {element, action}
 
 function relative-link t
-  {element, action} = test-link base: '/target/6' to: \1 run: true
-
-  actual = action.payload.models.0.pathname
-  expected = '/target/1'
-  t.same actual, expected, 'treat link relative if not starting with slash'
-
   {element} = test-link base: '/target/6' to: \6
 
   actual = get-attribute element, \class ?includes \active

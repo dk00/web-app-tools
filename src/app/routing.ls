@@ -18,9 +18,6 @@ function parse-path location, {path, exact=false}
 
 function render-nothing => ''
 
-function get-location {data: app: {location, search}} props
-  Object.assign {location, search} props
-
 function async-render request, props
   h (async-component -> request), props
 
@@ -48,24 +45,30 @@ function anchor-path {pathname, hash} => pathname + hash
 
 function url-equal a, b => (anchor-path a) == anchor-path b
 
-function render-link props
-  {type=\a location, to: href, scroll, others, children, dispatch} = props
-  url = resolve-url href, location.pathname
+with-link-state = with-state ({data: app: {location}} props) ->
+  url = resolve-url props.to, location.pathname
   active = url-equal url, location
-  props = Object.assign {} others, {href},
+  {active, ...props}
+
+function render-link props
+  {type=\a to: href, scroll, others, children, active, dispatch} = props
+  on-click = ->
+    it.prevent-default!
+    if !active
+      dispatch update-location resolve-url href, location.pathname
+    Promise.resolve!then -> scroll-to-anchor global, scroll
+  link-props = Object.assign {on-click} others,
+    if type == \a then {href}
     if active then class: active-class props
-    on-click: ->
-      it.prevent-default!
-      if !active then dispatch update-location url
-      Promise.resolve!then -> scroll-to-anchor global, scroll
-  h type, props, children
+
+  h type, link-props, children
 
 function render-button {to, location, active-class-name, children, dispatch, ...rest}
   others = Object.assign  type: \button, rest
   render-link {type: \button to, location, active-class-name, children, dispatch, others}
 
-nav-link = with-state get-location <| render-link
-nav-button = with-state get-location <| render-button
+nav-link = with-link-state render-link
+nav-button = with-link-state render-button
 
 if process.env.NODE_ENV != \production
   route.display-name = \route
