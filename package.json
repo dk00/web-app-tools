@@ -1,7 +1,7 @@
 {
   "name": "web-app-tools",
-  "version": "0.0.5",
-  "description": "Web app packages, all in 1",
+  "version": "0.1.0-alpha.0",
+  "description": "Web app packages, all in 1 without bloating",
   "main": "./lib/index.js",
   "module": "./dist/index.esm.js",
   "files": [
