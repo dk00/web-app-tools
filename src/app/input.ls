@@ -23,7 +23,7 @@ function input-actions dispatch, {model, id, field=\value}
     dispatch update-model {model, id, values: (field): it}
 
 function field-props {
-  own-props: {type, children, class: styles, default-value},
+  own-props: {type, children, class-name, class: styles=class-name, default-value},
   value=default-value
 }
   {value, type, children, class: styles}

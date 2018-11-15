@@ -31,10 +31,11 @@ link-field = compose do
   with-state field-state
   map-props input-props
 
-function render-field {type, class: class-name, value, on-change, children}
-  attributes = Object.assign {value, class: class-name} if on-change
+function render-field {type, class: styles, class-name=styles, value, on-change, children}
+  attributes = Object.assign {value, class-name} if on-change
     on-change: (target: {value}) -> on-change value
-  h type, attributes, children
+  if type == \input then h type, attributes
+  else h type, attributes, children
 
 linked-input = link-field render-field
 
@@ -53,8 +54,8 @@ function wrap-toggle-handler {on-change, ...props} {propagate}
 function add-active-class {value, ...props}
   if !value then props
   else
-    existing = if props.class then that + ' ' else ''
-    Object.assign {} props, class: "#{existing}active"
+    existing = if props.class-name || props.class then that + ' ' else ''
+    Object.assign {} props, class-name: "#{existing}active"
 
 function toggle-props props, outer-props
   add-active-class wrap-toggle-handler props, outer-props

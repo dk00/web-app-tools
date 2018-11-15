@@ -1,5 +1,6 @@
 import
   './react': {create-class, create-factory}
+  './react': {h, store-context}
   './with-display-name': with-display-name
   './with-state': with-state
   './with-handlers': with-handlers
@@ -46,17 +47,14 @@ function branch test, enhance-true, enhance-false=compose! => (component) ->
     return with-display-name branch, component, \branch
   branch
 
-function with-context context => (component) ->
-  hooks =
-    get-child-context: -> context
-    render: create-factory component
-  with-context = create-class hooks
+function with-context value => (component) ->
+  render = create-factory component
+  with-context = (props) ->
+    h store-context.Provider, {value},
+      render props, props.children
   if process.env.NODE_ENV != \production
     return with-display-name with-context, component, \with-context
   with-context
-
-function select-with-props selector => (state, props) ->
-  Object.assign {} (select state), own-props: props
 
 export {
   compose, pipe, branch, map-props, with-props, default-props

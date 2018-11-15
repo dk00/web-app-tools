@@ -1,6 +1,12 @@
-import preact: {h, render, Component}
+import
+  react: {create-element: h, create-context}
+  'react-dom': {render}
 
-function should-wrap => typeof it == \string || it::?render
+import react: {Component}
+
+store-context = create-context {}
+
+function should-wrap => typeof it == \string || it.hooks || it::?render
 
 function create-class spec
   ctor = if spec.has-own-property \constructor
@@ -14,4 +20,5 @@ function create-factory component
     h component, props, children
   else component
 
-export {h, render, Component, create-class, create-factory}
+export {Component, create-class, create-factory}
+export {h, render, create-context, store-context}

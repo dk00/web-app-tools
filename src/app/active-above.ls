@@ -1,23 +1,21 @@
 import
-  '../utils': {with-active-class}
+  '../utils': {with-active-class, map-attributes}
   './dom': {on-visibility-change, above-view}
-  './react': {h, create-class}
+  './react': {h}
+  './hooks': {use-state, use-effect, use-ref}
 
-hooks =
-  display-name: \active-above
-  component-did-mount: !->
-    @component-will-unmount = on-visibility-change (env) ~>
-      above = above-view @element, Object.assign {} env, @props
-      if above != @state.above then @set-state {above}
-  render: ->
-    ref = ~> @element := it
-    init = if typeof @props.type == \function
-      set-ref: ref
-    else {ref}
-    {type=\div children, ...props} = Object.assign {} init,
-      if @state?above then with-active-class @props else @props
-    h type, props, children
+function active-above {type=\div children, ...props}
+  element = use-ref!
+  [above, set-above] = use-state false
+  use-effect !-> on-visibility-change (env) ->
+    next = if element.current
+      above-view element.current, Object.assign {} env, props
+    else above
+    if above != next then set-above next
+  , []
 
-active-above = create-class hooks
+  final-props = Object.assign ref: element, inner-ref: element,
+    if above then with-active-class props else map-attributes props
+  h type, final-props, children
 
 export default: active-above

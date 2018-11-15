@@ -1,6 +1,6 @@
 # web-app-tools
 
-Web app packages, all in 1, no bloating.
+Web app packages, all in 1 without bloating.
 
 [![build status](https://travis-ci.org/dk00/web-app-tools.svg)](https://travis-ci.org/dk00/web-app-tools)
 [![coverage](https://codecov.io/gh/dk00/web-app-tools/branch/master/graph/badge.svg)](https://codecov.io/gh/dk00/web-app-tools)
@@ -13,14 +13,13 @@ Starts your app with minimal config and code, and keep bundled js tiny.
 
 ## Built with
 
-- [Preact](https://github.com/developit/preact)
+- [React](https://reactjs.org/)
 - [Redux](https://github.com/reduxjs/redux)
 - [Webpack 4](https://github.com/webpack/webpack)
 - [Babel](https://github.com/babel/babel)
 
 ## Features
 
-- Tiny
 - Hot Module Replacement
 - Offline
 
@@ -41,4 +40,4 @@ Starts your app with minimal config and code, and keep bundled js tiny.
 
 ### Collections
 
-### Higher Order Components
+### Hooks

@@ -74,7 +74,7 @@ function render-static entry, mode
   register!
   try require join process.cwd!, entry
   catch
-    console.error e.message
+    console.error e
     console.error 'Try to fix app for first render in node environment'
   -> render-static.result
 

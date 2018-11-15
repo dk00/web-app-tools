@@ -59,12 +59,12 @@ function render-link props
     Promise.resolve!then -> scroll-to-anchor global, scroll
   link-props = Object.assign {on-click} others,
     if type == \a then {href}
-    if active then class: active-class props
+    if active then class-name: active-class props
 
   h type, link-props, children
 
-function render-button {to, location, active-class-name, children, dispatch, ...rest}
-  others = Object.assign  type: \button, rest
+function render-button {to, location, active-class-name, children, dispatch, active, ...rest}
+  others = Object.assign type: \button, rest
   render-link {type: \button to, location, active-class-name, children, dispatch, others}
 
 nav-link = with-link-state render-link
