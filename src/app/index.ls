@@ -1,59 +1,95 @@
 import
-  \zero-fetch : fetch-object
-  \./react : {h, create-class}
-  \./recompose : {
-    compose, pipe, branch, map-props, with-props, default-props
-    with-state, with-handlers, with-context, with-effect
+  'zero-fetch': fetch-object
+  './requests': {config-fetch}
+  './dom': {
+    require-scripts, q, qa
+    add-event-listener, passive, till, on-visibility-change
   }
-  \./async-component : async-component
-  \./with-fetch : with-fetch
-  \./create-effect : create-effect
-  \./wrap-plugin : wrap-plugin
-  \./routing : {route, nav-link, nav-button}
-  \./containers : {
-    with-list-data, with-collection, with-api-data, with-select-options
-    linked-input, toggle, toggle-target
+  './react': {h, store-context}
+  './hooks': {
+    use-state, use-effect, use-ref, use-context
+    use-store, use-store-state
+    use-memo, use-callback
   }
-  \./input : {date-input-factory, datetime-input-factory, select-source}
-  './active-above': active-above
-  \./start-app : start-app
-  \./collection : {
+  './recompose': {
+    compose, pipe, branch, map-props, with-props, default-props, with-context
+  }
+  './routing': {route, nav-link, nav-button}
+  './collection': {
     update-model, clear-model, remove-models
     replace-collection, push-collection, unshift-collection
     model-state, collection-state, collection-props
   }
-  \./requests : {config-fetch, save-fetch-args}
-  \../utils : {
+  './start-app': start-app
+  './containers': {linked-input, toggle, toggle-target}
+  './active-above': active-above
+  './count-to': count-to
+
+import
+  '../utils': {
     request-key, exclude
     local-date, local-datetime
     local-date-json, input-datetime-string, server-date
   }
-  \./dom : {
-    require-scripts, q, qa
-    add-event-listener, passive, till, on-visibility-change
+  './requests': {save-fetch-args}
+  './react': {create-class}
+  './recompose': {with-state, with-effect, with-handlers}
+  './async-component': async-component
+  './containers': {
+    with-list-data, with-collection, with-api-data, with-select-options
   }
-  './count-to': count-to
+  './with-fetch': with-fetch
+  './input': {date-input-factory, datetime-input-factory, select-source}
 
 export {
-  start-app, h, create-class
-  pipe, compose, branch, map-props, with-props, default-props
-  with-state, with-handlers,
-  with-context, with-effect, with-fetch, async-component
-  wrap-plugin, create-effect
-  route, nav-link, nav-button
-  with-list-data, with-collection, with-api-data, with-select-options
-  linked-input, toggle, toggle-target
-  date-input-factory, datetime-input-factory, select-source
-  active-above
+  # UI Base
+  start-app, h
+
+  # Hooks
+  use-state, use-effect, use-ref, use-context
+  use-store, use-store-state
+  use-memo, use-callback
+
+  # Backbone
   update-model, clear-model, remove-models
   replace-collection, push-collection, unshift-collection
-  update-collection: replace-collection
   model-state, collection-state, collection-props
-  fetch-object, config-fetch, save-fetch-args
+
+  # Routing
+  route, nav-link, nav-button
+
+  # Network Data
+  fetch-object, config-fetch
+
+  # DOM
+  require-scripts, q, qa
+  on: add-event-listener, add-event-listener, passive
+  till, on-visibility-change
+
+  # Recompose
+  compose, pipe, branch, map-props, with-props, default-props, with-context
+
+  # Simple Interations
+  linked-input, toggle, toggle-target
+
+  # Effects
+  active-above, count-to
+
+  # Under Consideration
+  store-context
+  async-component
+
   request-key, exclude
   local-date, local-datetime
   local-date-json, input-datetime-string, server-date
-  require-scripts, q, qa
-  on: add-event-listener, passive, till, on-visibility-change
-  count-to
+
+  # Deprecated
+  save-fetch-args
+  with-fetch
+  with-state, with-effect, with-handlers
+  with-list-data, with-collection, with-api-data, with-select-options
+
+  create-class
+
+  date-input-factory, datetime-input-factory, select-source
 }

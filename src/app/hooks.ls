@@ -6,8 +6,7 @@ import
   '../utils': {flat-diff}
   './react': {store-context}
 
-function use-store
-  use-context store-context
+function use-store => use-context store-context
 
 function use-store-state selector, props
   store = use-context store-context
@@ -23,5 +22,5 @@ function use-store-state selector, props
   use-effect setup, []
   derived-state.current
 
-export {use-state, use-reducer, use-context, use-memo, use-callback, use-ref}
-export {use-effect, use-store, use-store-state}
+export {use-state, use-effect, use-ref, use-context, use-store, use-store-state}
+export {use-memo, use-callback}
