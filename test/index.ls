@@ -18,3 +18,9 @@ function test units, path=\test
     tape units[name] || name, (require join prefix, name .default)
 
 test units
+
+function main
+  {describe} = require \riteway
+  describe 'search params handling' (require './search-params' .default)
+
+main!

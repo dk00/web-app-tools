@@ -1,6 +1,6 @@
 {
   "name": "web-app-tools",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Web app packages, all in 1 without bloating",
   "main": "./lib/index.js",
   "module": "./dist/index.esm.js",
@@ -40,6 +40,7 @@
     "react": "^16.7.0-alpha.0",
     "react-dom": "^16.7.0-alpha.0",
     "redux": "^4.0.1",
+    "riteway": "^4.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "tape": "^4.9.1",

@@ -1,6 +1,9 @@
 function parse-search
   entries = new URLSearchParams it.replace /^\?/ '' .entries!
-  Object.assign {} ...Array.from entries, ([name, value]) ->
-    (name): value
+  Array.from entries .reduce (result, [name, value]) ->
+    if name of result then result[name] := []concat result[name], value
+    else result[name] := value
+    result
+  , {}
 
 export default: parse-search
