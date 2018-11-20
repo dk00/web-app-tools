@@ -1,4 +1,4 @@
-function map-attributes {class: styles, class-name=styles, ...rest}
-  {class-name, ...rest}
+function map-attributes {class-name, class: styles=class-name, ...rest}
+  {class-name: styles, ...rest}
 
 export default: map-attributes
