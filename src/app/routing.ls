@@ -1,5 +1,6 @@
 import
   \path-to-regexp : path-to-regexp
+  '../utils': {map-attributes}
   \./react : {h, create-factory}
   \./recompose : {with-state}
   './history': {update-location}
@@ -57,9 +58,9 @@ function render-link props
     if !active
       dispatch update-location resolve-url href, location.pathname
     Promise.resolve!then -> scroll-to-anchor global, scroll
-  link-props = Object.assign {on-click} others,
+  link-props = map-attributes Object.assign {on-click} others,
     if type == \a then {href}
-    if active then class-name: active-class props
+    if active then class: active-class props
 
   h type, link-props, children
 

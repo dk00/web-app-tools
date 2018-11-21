@@ -7,9 +7,9 @@ import
   }
   './react': {h, store-context}
   './hooks': {
-    use-state, use-effect, use-ref, use-context
+    use-state, use-reducer, use-effect, use-ref
     use-store, use-store-state
-    use-memo, use-callback
+    use-context, use-memo, use-callback
   }
   './recompose': {
     compose, pipe, branch, map-props, with-props, default-props, with-context
@@ -46,9 +46,9 @@ export {
   start-app, h
 
   # Hooks
-  use-state, use-effect, use-ref, use-context
+  use-state, use-reducer, use-effect, use-ref
   use-store, use-store-state
-  use-memo, use-callback
+  use-context, use-memo, use-callback
 
   # Backbone
   update-model, clear-model, remove-models

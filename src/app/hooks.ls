@@ -10,17 +10,21 @@ function use-store => use-context store-context
 
 function use-store-state selector, props
   store = use-context store-context
-  get-next = -> selector store.get-state!, props
-  derived-state = use-ref get-next!
+  own-props = use-ref!
+  derived-state = use-ref!
   [, notify-update] = use-state!
+  if flat-diff props, own-props.current
+    own-props.current := props
+    derived-state.current := selector store.get-state!, own-props.current
+
   #FIXME unmounted children should not get notified
   setup = -> store.subscribe ->
-    next = get-next!
-    if flat-diff next, derived-state.current
-      derived-state.current := next
-      notify-update!
+    prev = derived-state.current
+    derived-state.current := selector store.get-state!, own-props.current
+    if flat-diff prev, derived-state.current then notify-update!
   use-effect setup, []
+  #TODO skip component update if derived state is unchanged
   derived-state.current
 
-export {use-state, use-effect, use-ref, use-context, use-store, use-store-state}
-export {use-memo, use-callback}
+export {use-state, use-reducer, use-effect, use-ref, use-store, use-store-state}
+export {use-context, use-memo, use-callback}

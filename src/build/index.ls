@@ -7,9 +7,9 @@ import
 export {webpack-config, rollup-config, test}
 export '../app': {
   start-app, h
-  use-state, use-effect, use-ref, use-context
+  use-state, use-reducer, use-effect, use-ref
   use-store, use-store-state
-  use-memo, use-callback
+  use-context, use-memo, use-callback
   update-model, clear-model, remove-models
   replace-collection, push-collection, unshift-collection
   model-state, collection-state, collection-props
