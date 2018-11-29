@@ -10,7 +10,7 @@ function use-store => use-context store-context
 
 function use-store-state selector, props
   store = use-context store-context
-  own-props = use-ref!
+  own-props = use-ref use-store
   derived-state = use-ref!
   [, notify-update] = use-state!
   if flat-diff props, own-props.current
@@ -24,7 +24,7 @@ function use-store-state selector, props
     if flat-diff prev, derived-state.current then notify-update!
   use-effect setup, []
   #TODO skip component update if derived state is unchanged
-  derived-state.current
+  {store.dispatch, ...derived-state.current}
 
 export {use-state, use-reducer, use-effect, use-ref, use-store, use-store-state}
 export {use-context, use-memo, use-callback}
