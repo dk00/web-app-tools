@@ -34,7 +34,6 @@ import
   './requests': {save-fetch-args}
   './react': {create-class}
   './recompose': {with-state, with-effect, with-handlers}
-  './async-component': async-component
   './containers': {
     with-list-data, with-collection, with-api-data, with-select-options
   }
@@ -77,7 +76,6 @@ export {
 
   # Under Consideration
   store-context
-  async-component
 
   request-key, exclude
   local-date, local-datetime

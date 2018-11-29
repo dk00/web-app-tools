@@ -22,7 +22,6 @@ export '../app': {
   linked-input, toggle, toggle-target
   active-above, count-to
   store-context
-  async-component
   request-key, exclude
   local-date, local-datetime
   local-date-json, input-datetime-string, server-date

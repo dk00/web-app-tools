@@ -2,10 +2,10 @@ import
   \path-to-regexp : path-to-regexp
   '../utils': {map-attributes}
   \./react : {h, create-factory}
+  './hooks': {use-state, use-effect, use-ref}
   \./recompose : {with-state}
   './history': {update-location}
   './dom': {scroll-to-anchor}
-  './async-component': async-component
 
 function parse-path location, {path, exact=false}
   keys = []
@@ -17,22 +17,36 @@ function parse-path location, {path, exact=false}
       #TODO keys w/o name
     Object.assign {} ...entries
 
-function render-nothing => ''
+function empty => ''
 
-function async-render request, props
-  h (async-component -> request), props
+function async-render {on-load, own-props}
+  component = use-ref empty
+  [loaded, set-loaded] = use-state false
+  use-effect !->
+    loaded || on-load ->
+      component.current = it.default
+      set-loaded true
+  , []
+  h component.current, own-props, own-props.children
 
 function get-route-state {data: app: {location, search}} props
   matched = parse-path location.pathname, props
   if matched then {location, search, ...props} else void
 
-function render-matched {path, location, search, exact, component, render=component}
-  element = if !location then ''
+function route-props {path, location, search, exact}
+  if !location then void
   else
     params = parse-path location.pathname, {path, exact}
-    props = match: {params} location: {search, ...location}
-    create-factory render <| props
-  if element.then then async-render element, props else element
+    match: {params}
+    location: {search, ...location}
+
+function render-matched {component, render=component, ...options}
+  props = route-props options
+  if !props then ''
+  else
+    element = create-factory render <| props
+    if !element.then then element
+    else h async-render, own-props: props, on-load: -> element.then it
 
 route = with-state get-route-state <| render-matched
 
