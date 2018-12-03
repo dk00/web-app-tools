@@ -27,7 +27,7 @@ function async-render {on-load, own-props}
       component.current = it.default
       set-loaded true
   , []
-  h component.current, own-props, own-props.children
+  component.current own-props
 
 function get-route-state {data: app: {location, search}} props
   matched = parse-path location.pathname, props
@@ -40,13 +40,18 @@ function route-props {path, location, search, exact}
     match: {params}
     location: {search, ...location}
 
+function wrap-render render => (props) ->
+  r = render.resolved || render
+  element = create-factory r <| props
+  if !element.then then element
+  else
+    element.then -> render.resolved = it.default
+    h async-render, own-props: props, on-load: -> element.then it
+
 function render-matched {component, render=component, ...options}
   props = route-props options
   if !props then ''
-  else
-    element = create-factory render <| props
-    if !element.then then element
-    else h async-render, own-props: props, on-load: -> element.then it
+  else h (wrap-render render), props
 
 route = with-state get-route-state <| render-matched
 
