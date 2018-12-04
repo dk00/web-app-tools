@@ -2,7 +2,7 @@ import
   \path-to-regexp : path-to-regexp
   '../utils': {map-attributes}
   \./react : {h, create-factory}
-  './hooks': {use-state, use-effect, use-ref}
+  './hooks': {use-state, use-effect, use-ref, use-store-state}
   \./recompose : {with-state}
   './history': {update-location}
   './dom': {scroll-to-anchor}
@@ -40,20 +40,23 @@ function route-props {path, location, search, exact}
     match: {params}
     location: {search, ...location}
 
-function wrap-render render => (props) ->
-  r = render.resolved || render
-  element = create-factory r <| props
-  if !element.then then element
-  else
-    element.then -> render.resolved = it.default
+function setup-route render, props, cached
+  cached.current = create-factory render
+  element = cached.current props
+  if element.then
+    element.then -> cached.current = it.default
     h async-render, own-props: props, on-load: -> element.then it
+  else element
 
-function render-matched {component, render=component, ...options}
-  props = route-props options
-  if !props then ''
-  else h (wrap-render render), props
+function render-route {render, own-props, cached}
+  if cached.current then cached.current own-props
+  else setup-route render, own-props, cached
 
-route = with-state get-route-state <| render-matched
+function route {component, render=component, ...options}
+  cached = use-ref!
+  own-props = route-props use-store-state get-route-state, options
+  if !own-props then ''
+  else h render-route, {render, own-props, cached}
 
 patch = 'http://placeholder'
 function resolve-url path, base => new URL path, patch + base

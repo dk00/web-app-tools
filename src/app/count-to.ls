@@ -3,7 +3,7 @@ import
   './hooks': {use-state, use-effect, use-ref}
 
 function step current, value, duration=16
-  diff = value - current
+  diff = (Math.floor value) - current
   sign = Math.sign diff
   sign + Math.floor diff / duration
 
@@ -17,7 +17,6 @@ function count-to {class-name, class: name=class-name, value=0 inner-ref: ref}
       request-animation-frame ->
         set-value -> it + delta
         updating.current := false
-    ->
 
   h \span {ref} current
 

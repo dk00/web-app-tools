@@ -13,14 +13,13 @@ function with-effect apply-effects
     with-effect = (props) ->
       context = store: use-store!
       me = use-ref {}
+      me.current := {props, context}
       use-effect ->
-        me.current := {props, context}
-        instances.push me.current
+        instances.push me
         -> instances := instances.filter (!= me)
       , []
       use-effect !->
-        me.current.props := props
-        handle-changes instances, apply-effects
+        handle-changes (instances.map -> it.current), apply-effects
       render-nested props
 
     if process.env.NODE_ENV != \production
