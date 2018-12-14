@@ -78,7 +78,8 @@ function render-link props
   on-click = ->
     it.prevent-default!
     if !active
-      dispatch update-location resolve-url href, location.pathname
+      action = update-location resolve-url href, location.pathname
+      post-message {source: \app action} \*
     Promise.resolve!then -> scroll-to-anchor global, scroll
   link-props = map-attributes Object.assign {on-click} others,
     if type == \a then {href}

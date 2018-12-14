@@ -1,4 +1,4 @@
-import '../src/app/history' : {update-location, sync-history}
+import '../src/app/history' : {update-location, sync-location}
 
 function mock-store
   state = {}
@@ -59,7 +59,7 @@ function main t
 
   store = mock-store!
   w = mock-window!
-  sync-history store, w
+  sync-location store, w
   mock-nav store, '/next'
 
   actual = w.location.pathname

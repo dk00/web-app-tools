@@ -1,4 +1,6 @@
-import './collection': {update-model}
+import
+  './dom': {add-event-listener}
+  './collection': {update-model}
 
 function try-parse
   try return JSON.parse it
@@ -15,7 +17,7 @@ function sync-config store, {local-storage}: env
     data = store.get-state!data.app.service
     if data != last
       local-storage.config = JSON.stringify last := data
-  env.add-event-listener \storage ->
+  add-event-listener env, \storage ->
     store.dispatch update-model id: \service values: load-config env
 
 export {sync-config, initial-config}

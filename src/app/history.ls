@@ -1,5 +1,6 @@
 import
   './collection': {replace-collection}
+  './dom': {add-event-listener}
   '../utils': {parse-search, query-string}
 
 function get-path data: app: {location: {pathname, hash=''} search: {id, ...search}}
@@ -15,10 +16,12 @@ function update-location {pathname, search='' hash}
     * {id: \location pathname, hash}
     * Object.assign id: \search, parse-search search
 
-function sync-history store, env
-  store.subscribe ->
-    push-state env, get-path store.get-state!
-  env.add-event-listener \popstate ->
-    store.dispatch update-location env.location
+function sync-location store, env
+  un =
+    store.subscribe ->
+      push-state env, get-path store.get-state!
+    add-event-listener env, \popstate ->
+      store.dispatch update-location env.location
+  -> un.for-each -> it!
 
-export {sync-history, update-location}
+export {sync-location, update-location}
