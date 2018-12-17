@@ -9,15 +9,13 @@ import
 function craft-reduce {reduce}
   compose-reduce Object.assign {collection, data} reduce
 
-function initial-state {env, state={}}
-  deep-merge state, collection: {} data: {}
-
-function craft-store {env, actions=[]}: options
+function craft-store {env, state, actions=[]}: options
   reduce = craft-reduce options
-  state = actions.concat do
+  initial-state = deep-merge state, collection: {} data: {}
+  initial-actions =
     update-location env.location
     update-model id: \service values: initial-config env, options
-  .reduce reduce, initial-state options
+  state = initial-actions.concat actions .reduce reduce, initial-state
   create-store reduce, state, env?__REDUX_DEVTOOLS_EXTENSION__?!
 
 export {craft-store, craft-reduce}

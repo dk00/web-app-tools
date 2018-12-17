@@ -8,8 +8,7 @@ import
   './local-config': {sync-config}
 
 function with-default {env=@ || window, el='#root' init, actions=[]}: options
-  actions =
-    []concat actions, update-location env.location
+  actions = []concat actions, update-location env.location
   Object.assign {} options, {env, el, init}
 
 function listen-actions store, env
@@ -36,7 +35,7 @@ function start-app app, user-options
       sync-config store, env
       handle-location store, env
       listen-actions store, env
-    init {replace-app, replace-options}
+    init? {replace-app, replace-options}
     -> clean-ups.for-each -> it?!
   mount (h starter, {app, env, store, setup, ...options}), container
 
