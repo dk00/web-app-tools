@@ -26,14 +26,15 @@ function field-state state, {field=\value}: props
   value: model-state state, props ?.[field]
   own-props: props
 
-function list-state {collection: source, data} {requests=[], collection=requests.0.collection, ...rest}
+function list-state {collection: source, data} {requests=[], collection=requests.0.collection}: props
   {model, items}? = source[collection]
-  {items, collection, model, rest}
+  {items, collection, model, own-props: props}
 
-function selector-model {rest, collection, model=rest.model || collection}
+function selector-model {own-props, collection, model=own-props.model || collection}
   model
 
-function list-props {items, rest, collection, dispatch}: state
+function list-props {items, collection, dispatch, own-props}: state
+  {requests: _, collection: _, ...rest} = own-props
   Object.assign {} rest,
     {dispatch, items: items || [], loaded: items, collection, model: selector-model state}
 
@@ -41,7 +42,8 @@ function collection-state {data}: state, props
   result = list-state state, props
   Object.assign {data: data[result.model], data.field} result
 
-function collection-props {collection, field={} items=[] data, rest}: state
+function collection-props {collection, field={} items=[] data, own-props}: state
+  {requests: _, collection: _, ...rest} = own-props
   model = selector-model state
   fields = Object.values field .filter -> it.collection == collection
   Object.assign {collection, model, fields, models: items.map (data.)} rest

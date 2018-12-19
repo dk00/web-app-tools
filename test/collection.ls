@@ -32,11 +32,11 @@ function selector t
   expected = 'field cache'
   t.is actual, expected, 'include field data'
 
-  actual = result.rest
-  expected = others: \should-be-passed
-  t.same actual, expected, 'other props should be passed'
+  actual = result.own-props.others
+  expected = \should-be-passed
+  t.is actual, expected, 'other props should be passed'
 
-  state = collection: \dessert rest: {}
+  state = collection: \dessert own-props: {}
 
   actual = collection-props state .model
   expected = \dessert
@@ -58,7 +58,7 @@ function selector t
     data:
       1: value: \pudding
       3: value: \candy
-    rest: others: 'should be added'
+    own-props: others: 'should be added'
   result = collection-props state
 
   actual = result.models
@@ -79,7 +79,7 @@ function selector t
     * collection: \cart-items key: \id name: \Id
   t.same actual, expected, 'pass fields for collection'
 
-  actual = collection-props rest: {}
+  actual = collection-props own-props: {}
   expected = collection: void model: void models: [] fields: []
   t.same actual, expected, 'binding collection list with empty state'
 
@@ -163,7 +163,7 @@ function collections t
   expected = ''
   t.is actual, expected, 'remove specified models from collection'
 
-  actual = list-props items: [] rest: {} .loaded
+  actual = list-props items: [] own-props: {} .loaded
   t.ok actual, 'add loaded state to list props'
 
 function cache t
