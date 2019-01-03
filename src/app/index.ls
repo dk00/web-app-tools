@@ -66,7 +66,7 @@ export {
   till, on-visibility-change
 
   # Recompose
-  compose, pipe, branch, map-props, with-props, default-props, with-context
+  compose, pipe, branch, map-props, with-props, default-props
 
   # Simple Interations
   linked-input, toggle, toggle-target
@@ -86,7 +86,7 @@ export {
   with-fetch
   with-state, with-effect, with-handlers
   with-list-data, with-collection, with-api-data, with-select-options
-
+  with-context
   create-class
 
   date-input-factory, datetime-input-factory, select-source

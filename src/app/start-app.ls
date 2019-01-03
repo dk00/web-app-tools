@@ -2,7 +2,6 @@ import
   './react': {h, render, store-context}
   './hooks': {use-state, use-effect, use-context}
   './dom': {add-event-listener}
-  './recompose': {with-context}
   './store': {craft-store, craft-reduce}
   './history': {sync-location, update-location}
   './local-config': {sync-config}
