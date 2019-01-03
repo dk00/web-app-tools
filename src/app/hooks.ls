@@ -3,7 +3,7 @@ import
     use-state, use-reducer, use-context, use-effect
     use-memo, use-callback, use-ref
   }
-  '../utils': {flat-diff}
+  '../utils': {flat-diff, identity}
   './react': {store-context}
 
 function use-store => use-context store-context
@@ -16,14 +16,16 @@ function use-store-state selector, props
   if flat-diff props, own-props.current
     own-props.current := props
     derived-state.current := selector store.get-state!, own-props.current
-
-  #FIXME unmounted children should not get notified
-  setup = -> store.subscribe ->
-    prev = derived-state.current
-    derived-state.current := selector store.get-state!, own-props.current
-    if flat-diff prev, derived-state.current then notify-update!
+  setup = ->
+    handle-changes = ->
+      prev = derived-state.current
+      derived-state.current := selector store.get-state!, own-props.current
+      if flat-diff prev, derived-state.current then notify-update!
+    un = store.subscribe handle-changes
+    ->
+      handle-changes := identity
+      un!
   use-effect setup, []
-  #TODO skip component update if derived state is unchanged
   {store.dispatch, ...derived-state.current}
 
 export {use-state, use-reducer, use-effect, use-ref, use-store, use-store-state}
