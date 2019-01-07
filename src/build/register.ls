@@ -1,9 +1,9 @@
-import \./babel-options : babel-options
+import './babel-options' : babel-options
 
 default-options =
   plugins:
-    \dynamic-import-node
-    \@babel/transform-modules-commonjs
+    require.resolve \babel-plugin-dynamic-import-node
+    require.resolve \@babel/plugin-transform-modules-commonjs
   extensions: <[.ls .jsx .js]>
 
 function nop =>

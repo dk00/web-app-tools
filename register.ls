@@ -1,5 +1,8 @@
 default-options =
-  plugins: [\@babel/transform-modules-commonjs]
+  plugins:
+    require.resolve \@babel/plugin-transform-modules-commonjs
+    require.resolve \babel-plugin-livescript
+    ...
   extensions: <[.ls .jsx .js]>
 
 function register options={}

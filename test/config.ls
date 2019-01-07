@@ -7,7 +7,10 @@ function main t
   expected = \development
   t.is actual, expected, 'development mode'
 
-  result = webpack-config! p: true
+  tmp = process.env.NODE_ENV
+  process.env.NODE_ENV = \production
+  result = webpack-config!!
+  process.env.NODE_ENV = tmp
 
   actual = result.mode
   expected = \production

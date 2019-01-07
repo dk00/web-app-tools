@@ -7,34 +7,39 @@ Web app packages, all in 1 without bloating.
 [![npm](https://img.shields.io/npm/v/web-app-tools.svg)](https://npm.im/web-app-tools)
 [![dependencies](https://david-dm.org/dk00/web-app-tools/status.svg)](https://david-dm.org/dk00/web-app-tools)
 
-https://medium.com/@ericclemmons/javascript-fatigue-48d4011b6fc4
+Yet another customized `react-scripts`, with minimal dependencies and customizations for building web apps.
 
-Alternative to `react-scripts`, without unnecessary things and with some customizations.
+## Why
 
-# Why
+After [ejecting](https://medium.com/@timarney/but-i-dont-wanna-eject-3e3da5826e39) from `create-react-app`, we gain full control of everything, and we must manage all of them. There's no way back.
 
-Customizations without having to customize everything.
+Instead of no configuration, we write minimal configurations only for customized parts.
 
-After [ejecting](https://medium.com/@timarney/but-i-dont-wanna-eject-3e3da5826e39) from `create-react-app`, we can customize everything, and we have to customize everything. There's no way back.
-
-# Features
+## Features
 
 - One Dependency: Essential elements to build web applications are provided.
 - Good Defaults: Start with almost no configurations.
-- Simple Configuration: Customize without entire configurations, write configurations only for needed parts and customize easily.
-- Keep updating
+- Smart Configuration: Customize without entire configurations, write configurations only for needed parts and customize easily.
+- Keep updated: since there's no ejection, we can simply upgrade this package.
 - Tiny Bundle Size: Dependencies are carefully chosen to avoid bloating, tree shakable packages are used if possible.
-- Offline
+- Offline Ready: Assets are cached for offline use and `manifest.json` is generated for adding to the home screen.
 
-# Quick Start
+## Getting Started
+
+Make sure [yarn] is installed, it's required to enable [PnP] at this time.
+
+[PnP] is ⚡lighting fast⚡, you should try it!
+
+[yarn]: https://yarnpkg.com/en/docs/install
+[PnP]: https://gapintelligence.com/blog/2018/yarn-plug-n-play-vs-node_modules
 
 Create the project directory:
 
 ```sh
 mkdir my-web-app
 cd my-web-app
-npm init -y
-npm i web-app-tools@next
+yarn init -y
+yarn add -D web-app-tools
 ```
 
 And these files:
@@ -47,12 +52,15 @@ And these files:
   "version": "0.0.1",
   "description": "My App",
   "scripts": {
-    "start": "webpack-serve",
+    "start": "webpack-dev-server",
     "build": "rimraf www/*js && webpack -p",
     "pretest": "npm run build",
     "test": "nyc --instrument false --source-map false -r text -r html -r json -r lcovonly node test"
   },
   "license": "Unlicensed",
+  "installConfig": {
+    "pnp": true
+  },
   "devDependencies": {
     "rimraf": "^2.6.2",
     "web-app-tools": "next",
@@ -112,4 +120,39 @@ Start development server:
 npm start
 ```
 
-Go to http://localhost:8080
+Go to http://localhost:8080 and start hacking!
+
+## API
+
+### `webpackConfig()`
+
+Return a [Webpack config object](https://webpack.js.org/configuration/configuration-types/#exporting-a-function).
+
+Things removed:
+
+- `case-sensitive-paths-webpack-plugin`
+- `postcss-safe-parser`
+- `react-dev-utils`
+  - `InlineChunkHtmlPlugin`
+  - `InterpolateHtmlPlugin`
+  - `WatchMissingNodeModulesPlugin`
+  - `ModuleScopePlugin`
+  - `getCSSModuleLocalIdent`
+
+Things added:
+
+- PnP
+- `pwa-utils` for `manifest.json` and `index.html`
+
+**Options**
+
+- `name`: Name of the application, will appear as tab title and home screen app name.
+
+**Optional Options**
+
+- `outputPath`: [`output.path`](https://webpack.js.org/configuration/output/#output-path) of Webpack, default to `www` for Cordova.
+- `webApp`: Options for generating [`manifest.json`](https://developers.google.com/web/fundamentals/web-app-manifest/)
+- `workbox`: Options for [`GenerateSW`](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin-GenerateSW) plugin from `workbox-webpack-plugin`
+- `env`: Names of used environment variables, will be passed to [EnvironmentPlugin](https://webpack.js.org/plugins/environment-plugin/)
+
+### `startApp()`

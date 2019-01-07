@@ -1,4 +1,5 @@
 *.log
+.pnp*
 node_modules
 coverage
 .nyc_output

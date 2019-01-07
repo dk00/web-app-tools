@@ -4,73 +4,99 @@ import
   './babel-options': babel-options
   '../utils': {identity}
 
+pnp-plugin = require \pnp-webpack-plugin
+
 base =
-  entry: \./src/index
+  entry: './src/index'
   resolve:
     extensions: <[.ls .jsx .js .sass .scss .yml .json]>
+    plugins: [pnp-plugin]
+  resolve-loader: plugins: [pnp-plugin.module-loader module]
 
-function history-api-fallback app
-  history = require \connect-history-api-fallback
-  convert = require \koa-connect
-  app.use convert history!
+function js-rule
+  loader: \babel-loader options: babel-options!
+  test: /\.(ls|jsx|js)$/
+  exclude: /node_modules/
 
-function development {base-plugins, output-path}
-  config:
-    output: public-path: \/
-    plugins: base-plugins
-    serve:
-      content: output-path
-      add: history-api-fallback
-      #TODO Accept connection from anywhere, setting host here breaks websocket URL
-  style-loader: [\style-loader]
+function css-rule {mode}={}
+  mini-css = require \mini-css-extract-plugin
+  dev = mode == \development
+  options = url: false source-map: dev, minimize: !dev
+  output-loader = if dev then \style-loader else mini-css.loader
+  input-loaders = <[css-loader sass-loader]>map -> {loader: it, options}
 
-function production {base-plugins, output-path, public-path, workbox}
+  use: []concat output-loader, input-loaders
+  test: /\.(sass|scss)$/
+
+function base-plugins {mode, env, public-path='/', web-app}
+  {EnvironmentPlugin} = require \webpack
+  {GenerateWebApp} = require \pwa-utils
+  web-app-options = Object.assign {public-path}, web-app,
+    content: render-static {base.entry, mode}
+  [].concat do
+    if env then new EnvironmentPlugin env else []
+    new GenerateWebApp web-app-options
+
+function development options
+  {HotModuleReplacementPlugin} = require \webpack
+
+  mode: \development
+  output: public-path: '/'
+  module: rules: [js-rule!, css-rule mode: \development]
+  plugins:
+    ...base-plugins options
+    new HotModuleReplacementPlugin
+  dev-server:
+    hot: true
+    content-base: options.output-path
+    host: \0.0.0.0
+    history-api-fallback: true
+
+function production {output-path, public-path, workbox}: options
   {DefinePlugin} = require \webpack
-  MinifyPlugin = require \babel-minify-webpack-plugin
+  MinifyPlugin = require \terser-webpack-plugin
   {GenerateSW} = require \workbox-webpack-plugin
 
-  config:
-    output: {path: output-path, public-path}
-    plugins:
-      new DefinePlugin \module.hot : \false
-      ...base-plugins
-      new GenerateSW options = {
-        clients-claim: true
-        skip-waiting: true
-        navigate-fallback: public-path || '/'
-        ...workbox
-      }
-    optimization:
-      runtime-chunk: \single
-      split-chunks:
-        chunks: \all
-        automatic-name-delimiter: \.
-      minimizer: [new MinifyPlugin]
-  style-loader:
-    * * loader: \file-loader options: name: '[name].css'
-      \extract-loader
-  minimize: true
+  mode: \production
+  output: {path: output-path, public-path}
+  module: rules: [js-rule!, css-rule!]
+  plugins:
+    new DefinePlugin \module.hot : \false
+    ...base-plugins options
+    new GenerateSW {
+      clients-claim: true
+      skip-waiting: true
+      navigate-fallback: public-path || '/'
+      ...workbox
+    }
+  optimization:
+    runtime-chunk: \single
+    split-chunks:
+      chunks: \all
+      automatic-name-delimiter: \.
+    minimizer: [new MinifyPlugin]
 
 modes = {development, production}
 
-function render-static entry, mode
+function mock-dom {mode}
   dummy-element =
     set-attribute: ->
     append-child: ->
 
-  Object.assign global,
-    document:
-      query-selector: ->
-      query-selector-all: -> []
-      head: dummy-element
-      create-element: -> dummy-element
-      create-text-node: -> ''
-    navigator: {}
-    location: pathname: \/ hostname:
-      if mode == \development then 'localhost' else ''
-    render: -> render-static.result := it
-    add-event-listener: ->
+  document:
+    query-selector: ->
+    query-selector-all: -> []
+    head: dummy-element
+    create-element: -> dummy-element
+    create-text-node: -> ''
+  navigator: {}
+  location: pathname: \/ hostname:
+    if mode == \development then 'localhost' else ''
+  render: -> render-static.result := it
+  add-event-listener: ->
 
+function render-static {entry, mode}
+  Object.assign global, mock-dom {mode}
   register!
   try require join process.cwd!, entry
   catch
@@ -78,36 +104,16 @@ function render-static entry, mode
     console.error 'Try to fix app for first render in node environment'
   -> render-static.result
 
-function create-pwa-plugin {mode, public-path='/' web-app}
-  {GenerateWebApp} = require \pwa-utils
-  new GenerateWebApp Object.assign {public-path}, web-app,
-    content: render-static base.entry, mode
-
 function get-config {production, p=production, 'output-public-path': public-path}
   public-path: public-path
   mode: if p then \production else \development
 
-function config-generator {output-path=\www env, change=identity}: options={}
-  (command-options) ->
-    {EnvironmentPlugin} = require \webpack
-    {mode, public-path} = get-config command-options
-    base-options = {
-      ...options, mode, public-path,
-      output-path: join process.cwd!, output-path
-    }
-    base-plugins = [].concat do
-      if env then new EnvironmentPlugin env else []
-      create-pwa-plugin base-options
-    mode-options = Object.assign {base-plugins} base-options
-    {config, style-loader, minimize} = modes[mode] mode-options
-    rules =
-      * use: loader: \babel-loader options: babel-options!
-        test: /\.(ls|jsx|js)$/
-        exclude: /node_modules/
-      * test: /\.(sass|scss)$/
-        use: []concat style-loader, <[css-loader sass-loader]>map ->
-          loader: it, options: {url: false source-map: !minimize, minimize}
-
-    change Object.assign {mode, module: {rules}} base, config
+function config-generator {output-path=\www env}: options={} => ->
+  mode = process.env.NODE_ENV || \development
+  base-options = {
+    ...options, mode
+    output-path: join process.cwd!, output-path
+  }
+  Object.assign {} base, modes[mode] base-options
 
 export default: config-generator

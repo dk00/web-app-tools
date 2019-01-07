@@ -10,10 +10,10 @@ units =
 function test units, path=\test
   {join} = require \path
   tape = require \tape
-  register = require \../register
+  register = require '../register'
   prefix = join process.cwd!, path
   list = if process.argv.length > 2 then process.argv.slice 2
-  register if list then {} else plugins: [\istanbul]
+  register if list then {} else plugins: [require.resolve 'babel-plugin-istanbul']
   (list || Object.keys units)for-each (name) ->
     tape units[name] || name, (require join prefix, name .default)
 
