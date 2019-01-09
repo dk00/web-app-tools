@@ -2,9 +2,9 @@ import
   '../app': {add-event-listener}
   './webpack-config': webpack-config
   './rollup-config':  rollup-config
-  './test': test
+  './story': story
 
-export {webpack-config, rollup-config, test}
+export {webpack-config, rollup-config, story}
 export '../app': {
   start-app, h
   use-state, use-reducer, use-effect, use-ref

@@ -122,9 +122,50 @@ npm start
 
 Go to http://localhost:8080 and start hacking!
 
-## API
+## Infrastructure
 
-### `webpackConfig()`
+### `startApp(app, options)`
+
+Render the app into DOM, and wire up features automatically.
+
+`app` is the top level component of the app.
+
+**Options**
+
+- `container`: DOM element to be mounted, default is `document.querySelector('#root')`.
+- `init({replaceApp, replaceContext})`: Callback function to setup HMR, use `module.accept` with `replaceApp`, `replaceContext`.
+- `provider`: Optional, this can add some opt-in features like shared state.
+- `env`: Target window to render, default is `window`. Inject DOM mocks when using server-side rendering.
+
+### `story(description, TestFunction)`
+
+Create a block of related tests. This function is named `story` instead of `spec` to reminder to [avoid testing implementation details](https://blog.kentcdodds.com/testing-implementation-details-ccb8d269586).
+
+`story` is almost identical to [`describe` of `riteway`](https://github.com/ericelliott/riteway#describe)
+
+**Example**
+
+```js
+import {story} from 'web-app-tools'
+
+story('sum()', async assert => {
+  assert({
+    given: 'no arguments',
+    should: 'return 0',
+    actual: sum(),
+    expected: 0
+  });
+
+  assert({
+    given: 'zero',
+    should,
+    actual: sum(2, 0),
+    expected: 2
+  });
+})
+```
+
+### `webpackConfig(options)`
 
 Return a [Webpack config object](https://webpack.js.org/configuration/configuration-types/#exporting-a-function).
 
@@ -154,5 +195,3 @@ Things added:
 - `webApp`: Options for generating [`manifest.json`](https://developers.google.com/web/fundamentals/web-app-manifest/)
 - `workbox`: Options for [`GenerateSW`](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin-GenerateSW) plugin from `workbox-webpack-plugin`
 - `env`: Names of used environment variables, will be passed to [EnvironmentPlugin](https://webpack.js.org/plugins/environment-plugin/)
-
-### `startApp()`

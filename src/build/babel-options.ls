@@ -1,4 +1,4 @@
-function babel-options {targets}={}
+function babel-options
   plugins:
     require.resolve '@babel/plugin-proposal-function-bind'
     require.resolve '@babel/plugin-proposal-do-expressions'
