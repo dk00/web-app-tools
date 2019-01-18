@@ -90,13 +90,13 @@ function mock-dom {mode}
     create-element: -> dummy-element
     create-text-node: -> ''
   navigator: {}
-  location: pathname: \/ hostname:
-    if mode == \development then 'localhost' else ''
+  location: new URL 'http://localhost'
   render: -> render-static.result := it
   add-event-listener: ->
 
 function render-static {entry, mode}
-  Object.assign global, mock-dom {mode}
+  dom = mock-dom {mode}
+  Object.assign global, dom, window: dom
   register!
   try require join process.cwd!, entry
   catch

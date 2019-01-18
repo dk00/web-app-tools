@@ -17,7 +17,7 @@ function babel-options
     require.resolve '@babel/plugin-syntax-dynamic-import'
     require.resolve '@babel/plugin-syntax-import-meta'
     require.resolve 'babel-plugin-livescript'
-    [require.resolve '@babel/plugin-transform-react-jsx'; pragma: \h pragma-frag: \Fragment use-built-ins: true]
+    [require.resolve '@babel/plugin-transform-react-jsx'; pragma: \h pragma-frag: \fragment use-built-ins: true]
     require.resolve 'babel-plugin-transform-component-name'
   generator-opts: jsesc-option: minimal: true
 

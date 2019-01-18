@@ -17,6 +17,7 @@ Instead of no configuration, we write minimal configurations only for customized
 
 ## Features
 
+- React, Redux, Sass
 - One Dependency: Essential elements to build web applications are provided.
 - Good Defaults: Start with almost no configurations.
 - Smart Configuration: Customize without entire configurations, write configurations only for needed parts and customize easily.
@@ -84,7 +85,7 @@ Top-level component:
 
 **src/app.jsx**
 
-```jsx
+```tsx
 import {h} from 'web-app-tools'
 
 const app = () =>
@@ -102,16 +103,14 @@ Entry file, start the app with HMR enabled:
 ```js
 import {startApp} from 'web-app-tools'
 import app from './app'
-import options from './options'
 
-const init = ({replaceApp, replaceOptions}) => {
+const init = replaceApp => {
   if (module.hot) {
     module.hot.accept('./app', () => replaceApp(app))
-    module.hot.accept('./options', () => replaceOptions(options))
   }
 }
 
-startApp(app, Object.assign({init}, options))
+startApp(app, {init})
 ```
 
 Start development server:
@@ -126,44 +125,15 @@ Go to http://localhost:8080 and start hacking!
 
 ### `startApp(app, options)`
 
-Render the app into DOM, and wire up features automatically.
+Render the app into DOM, and wire up HMR in development environment.
 
 `app` is the top level component of the app.
 
 **Options**
 
-- `container`: DOM element to be mounted, default is `document.querySelector('#root')`.
-- `init({replaceApp, replaceContext})`: Callback function to setup HMR, use `module.accept` with `replaceApp`, `replaceContext`.
-- `provider`: Optional, this can add some opt-in features like shared state.
+- `container`: DOM element (or CSS selector) to be mounted, default is `#root`.
+- `init(replaceApp)`: Callback function to setup HMR.
 - `env`: Target window to render, default is `window`. Inject DOM mocks when using server-side rendering.
-
-### `story(description, TestFunction)`
-
-Create a block of related tests. This function is named `story` instead of `spec` to reminder to [avoid testing implementation details](https://blog.kentcdodds.com/testing-implementation-details-ccb8d269586).
-
-`story` is almost identical to [`describe` of `riteway`](https://github.com/ericelliott/riteway#describe)
-
-**Example**
-
-```js
-import {story} from 'web-app-tools'
-
-story('sum()', async assert => {
-  assert({
-    given: 'no arguments',
-    should: 'return 0',
-    actual: sum(),
-    expected: 0
-  });
-
-  assert({
-    given: 'zero',
-    should,
-    actual: sum(2, 0),
-    expected: 2
-  });
-})
-```
 
 ### `webpackConfig(options)`
 
@@ -195,3 +165,181 @@ Things added:
 - `webApp`: Options for generating [`manifest.json`](https://developers.google.com/web/fundamentals/web-app-manifest/)
 - `workbox`: Options for [`GenerateSW`](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin-GenerateSW) plugin from `workbox-webpack-plugin`
 - `env`: Names of used environment variables, will be passed to [EnvironmentPlugin](https://webpack.js.org/plugins/environment-plugin/)
+
+## Redux Bindings
+
+Provider to use Redux with Hooks that can be opted-in.
+
+### `<StoreProvider reducer={{}} initialState={{}} actions={[]}>`
+
+Create a Redux store and make it available to nested components, and wire up HMR in development environment.
+
+**Props**
+
+- `reducer` (function): The reducer function.
+- `reducer` (object): See [`combineReducers`](https://redux.js.org/api/combinereducers).
+- `initialState`
+- `actions`: Additional actions to populate initial state.
+- `init(replaceReducer)`: Setup HMR,
+
+**Example**
+
+```js
+import reducers from './reducers'
+
+const init = replaceReducer =>
+  module.hot.accept('./reducers', replaceReducer)
+
+const app = () =>
+  <StoreProvider reducers={reducers} init={init}>
+    <App />
+  </StoreProvider>
+
+export default app
+```
+
+### `useStore()`
+
+### `useStoreState(selector, props)`
+
+## The Stack
+
+Redux binding, routing, shared state and some essential features, all integrated into one provider, and completely opted-in.
+
+### `<StackProvider reducer={{}} initialState={{}} actions={[]}>`
+
+Replace `<StoreProvider>` with this to enable following features.
+
+## Routing
+
+Declarative routing like [React Router](https://reacttraining.com/react-router/web), provides minimal features with minimal cost.
+
+### `<Route path="/" exact render={}>`
+
+### `<NavLink to="/" type="a" others={}>`
+
+## Shared State
+
+Shared state with minimal code, managed by Redux.
+
+State shape might change, always retrieve collections from the state with selectors.
+
+### `[state, setState] = useSharedState(id, initialValue)`
+
+Like `useState` but `state` is syncing across components.
+
+**Example**
+
+```jsx
+
+const PriceInput = () => {
+  const [price, setPrice] = useSharedState('price', 0)
+  return (
+    <input type="number" value={price} onChange={e => setPrice(e.target.value)} />
+  )
+}
+
+const AmountInput = () => {
+  const [amount, setAmount] = useSharedState('amount', 0)
+  return (
+    <input type="number" value={amount} onChange={e => setAmount(e.target.value)} />
+  )
+}
+
+const SubTotal = () => {
+  const [price] = useSharedState('price')
+  const [amount] = useSharedState('amount')
+  return price * amount
+}
+
+const Order = () =>
+<div>
+  <label>
+    Price:
+    <PriceInput />
+  </label>
+  <label>
+    Amount:
+    <AmountInput />
+  </label>
+  <div>Sub total: <SubTotal /> </div>
+</div>
+```
+
+### `getDocument({model='app', id='default'})`
+
+### `getCollection({model, id='default'})`
+
+**Example**
+
+```js
+useStoreState(state => {
+  # Get all users
+  const users = getCollection(state, {model: 'user'})
+  /*
+  [
+    {
+      id: 2,
+      name: 'alice'
+    },
+    {
+      id: 3,
+      name: 'bob'
+    }
+  ]
+  */
+})
+```
+
+### `updateDocument({model='app', values})`
+
+### `replaceCollection({model, id='default', models})`
+
+```js
+const {dispatch} = useStore()
+
+// Update posts
+dispatch({
+  model: 'post',
+  models: [{
+    id: 'post1',
+    body: '...'
+  }, {
+    id: 'post2',
+    body: '...'
+  }]
+})
+```
+
+## Utility Components
+
+Basic interactions.
+
+### `<Toggle type="div" id="default">`
+
+Renders an element with internal state alternating between `true` / `false` on click.
+
+`active` class is added when its state is `true`, you can set active style rules by this CSS class.
+
+**Props**
+
+- `type`: Element type to be rendered.
+- `id`: Identifier of shared state value. `useSharedState` with the same `id` returns the same value.
+
+### `<ToogleTarget type="div" id="default">`
+
+`<Toogle>` without `onClick` handlers.
+
+### `<LinkedInput type="text" id="default">`
+
+Renders an input element, with its value linked to shared state.
+
+## Visual Effects
+
+### `<CountTo value="0" step="1">`
+
+Renders a numbers that counts up from 0.
+
+### `<ActiveAbove>`
+
+Wrap nested elements with `<div>`, add `active` class only when the element is scrolled above of fold.

@@ -1,6 +1,9 @@
 module.exports = {
   clearMocks: true,
   coverageDirectory: 'coverage',
+  coveragePathIgnorePatterns: [
+    '.*'
+  ],
   moduleFileExtensions: [
     'ls',
     'js',

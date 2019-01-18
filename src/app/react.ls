@@ -1,10 +1,8 @@
 import
-  react: {create-element: h, create-context}
+  react: {create-element: h, Fragment, create-context}
   'react-dom': {render}
 
 import react: {Component}
-
-store-context = create-context {}
 
 function should-wrap => typeof it == \string || it.hooks || it::?render
 
@@ -20,5 +18,5 @@ function create-factory component
     h component, props, children
   else component
 
-export {Component, create-class, create-factory}
-export {h, render, create-context, store-context}
+export {create-class, create-factory}
+export {h, fragment: Fragment, render, create-context}

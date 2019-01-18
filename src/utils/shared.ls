@@ -1,3 +1,6 @@
+# Gatered here to avoid tiny and duplicated functions scattering in the module
 function identity => it
+function empty => ''
+function unimplemented => \unimplemented
 
-export {identity}
+export {identity, empty, unimplemented}

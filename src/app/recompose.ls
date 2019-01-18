@@ -1,10 +1,4 @@
-import
-  './react': {create-class, create-factory}
-  './react': {h, store-context}
-  './with-display-name': with-display-name
-  './with-state': with-state
-  './with-handlers': with-handlers
-  './with-effect': with-effect
+import './react': {h, create-factory}
 
 function pipe ...enhancers => (component) ->
   enhancers.reduce (component, enhance) -> enhance component
@@ -47,16 +41,4 @@ function branch test, enhance-true, enhance-false=compose! => (component) ->
     return with-display-name branch, component, \branch
   branch
 
-function with-context value => (component) ->
-  render = create-factory component
-  with-context = (props) ->
-    h store-context.Provider, {value},
-      render props, props.children
-  if process.env.NODE_ENV != \production
-    return with-display-name with-context, component, \with-context
-  with-context
-
-export {
-  compose, pipe, branch, map-props, with-props, default-props
-  with-context, with-state, with-handlers, with-effect
-}
+export {compose, pipe, branch, map-props, with-props, default-props}

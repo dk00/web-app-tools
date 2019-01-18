@@ -12,7 +12,7 @@
   "scripts": {
     "build": "rollup -c",
     "pretest": "yarn run build",
-    "test": "jest",
+    "test": "jest --coverage",
     "watch-test": "jest --clearCache; jest --watch"
   },
   "license": "Unlicense",
@@ -57,6 +57,7 @@
     "pwa-utils": "^0.2.1",
     "react": "16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2",
+    "react-testing-library": "^5.4.4",
     "redux": "^4.0.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",

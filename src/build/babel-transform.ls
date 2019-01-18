@@ -3,11 +3,15 @@ import
   './babel-options': babel-options
 
 function get-babel-options path
-  cjs = require.resolve '@babel/plugin-transform-modules-commonjs'
+  plugins =
+    require.resolve '@babel/plugin-transform-modules-commonjs'
+    require.resolve 'babel-plugin-istanbul'
+
   options = babel-options!
   Object.assign {} options,
     filename: path
-    plugins: []concat options.plugins, cjs
+    babelrc: false
+    plugins: []concat options.plugins, plugins
     source-maps: \inline
 
 function process src, path
