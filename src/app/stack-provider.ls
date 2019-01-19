@@ -2,6 +2,7 @@ import
   './react': {h}
   './hooks': {use-effect}
   './store': {store-provider, use-store, use-store-state}
+  './cache': {reduce-entities, update-document}
   './routing': {location-actions, navigate}
 
 default-URL = 'http://localhost'
@@ -20,14 +21,18 @@ function sync-env
   ''
 
 function stack-provider {reducer={} initial-state={} actions=[] init, children}
+  setup-actions =
+    navigate window.location
+    update-document {}
   options =
     reducer: {
       location: location-actions
+      entities: reduce-entities
     }
     initial-state: initial-state
-    actions: []concat navigate window.location .concat actions
+    actions: setup-actions.concat actions
     init: init
-    children: [h sync-env].concat children
+    children: [h sync-env, key: \sync-env].concat children
 
   store-provider options
 

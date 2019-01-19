@@ -4,18 +4,17 @@ import
     add-event-listener, passive, till, on-visibility-change
   }
   './recompose': {compose, pipe}
-  './react': {h, fragment}
+  './react': {h, fragment, memo}
   './hooks': {
     use-state, use-reducer, use-effect, use-ref
     use-context, use-memo, use-callback
   }
   './store': {store-provider, use-store, use-store-state}
   './stack-provider': stack-provider
-  './routing': {route, nav-link}
-  './collection': {
-    update-model, clear-model, remove-models
-    replace-collection, push-collection, unshift-collection
-    model-state, collection-state, collection-props
+  './routing': {route, nav-link, navigate}
+  './cache': {
+    use-shared-state, get-document
+    update-document
   }
   './start-app': start-app
   './active-above': active-above
@@ -39,27 +38,28 @@ import
 
 export {
   # UI Base
-  start-app, h, fragment: fragment, Fragment: fragment
+  start-app, h, fragment: fragment, Fragment: fragment, memo
 
   # Hooks
   use-state, use-reducer, use-effect, use-ref
   use-context, use-memo, use-callback
 
   # Bindings
-  update-model, clear-model, remove-models
-  replace-collection, push-collection, unshift-collection
-
   StoreProvider: store-provider, store-provider
   StackProvider: stack-provider, stack-provider
   use-store, use-store-state
 
   # Routing
-  route, nav-link
+  route, nav-link, navigate
+
+  # Cache
+  use-shared-state, get-document
+  update-document
 
   # Recompose
   compose, pipe
 
-  # Simple Interations
+  # Utility Components
   linked-input, toggle, toggle-target
 
   # Effects
@@ -71,8 +71,6 @@ export {
   till, on-visibility-change
 
   # Deprecated
-  model-state, collection-state, collection-props
-
   request-key, exclude
   local-date, local-datetime
   local-date-json, input-datetime-string, server-date

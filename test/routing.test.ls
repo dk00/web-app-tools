@@ -1,5 +1,5 @@
 import
-  'react-testing-library': {render, fire-event, wait-for-element, cleanup}
+  'react-testing-library': {render, fire-event, cleanup}
   '../src/app/stack-provider': stack-provider
   '../src/app/react': {h}
   '../src/app/routing': {route, nav-link}

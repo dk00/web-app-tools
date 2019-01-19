@@ -1,5 +1,5 @@
 import
-  react: {create-element: h, Fragment, create-context}
+  react: {create-element: h, Fragment, create-context, memo}
   'react-dom': {render}
 
 import react: {Component}
@@ -19,4 +19,4 @@ function create-factory component
   else component
 
 export {create-class, create-factory}
-export {h, fragment: Fragment, render, create-context}
+export {h, fragment: Fragment, render, create-context, memo}

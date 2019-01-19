@@ -166,9 +166,22 @@ Things added:
 - `workbox`: Options for [`GenerateSW`](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin-GenerateSW) plugin from `workbox-webpack-plugin`
 - `env`: Names of used environment variables, will be passed to [EnvironmentPlugin](https://webpack.js.org/plugins/environment-plugin/)
 
+**Babel Options**
+
+Option of JSX is `{pragma: 'h', pragmaFrag: 'fragment'}`, import `h` and `fragment` to use JSX.
+
+```tsx
+import {h, fragment} from 'web-app-tools'
+
+const MyComponent = () =>
+  <>
+    <h1>My Component</h1>
+  </>
+```
+
 ## Redux Bindings
 
-Provider to use Redux with Hooks that can be opted-in.
+Provider to use Redux with Hooks.
 
 ### `<StoreProvider reducer={{}} initialState={{}} actions={[]}>`
 
@@ -200,7 +213,18 @@ export default app
 
 ### `useStore()`
 
+Get the `store` object.
+
 ### `useStoreState(selector, props)`
+
+Subscribe to store updates. returns the object `selector` returned.
+
+`selector` is the function to derive data from state.
+
+Every time the store is updated, `selector` is called to get derived data,
+ and initiate update of the component if derived data is changed(shallow equality).
+
+ If `selector` returned with new objects, then the component will update on every store update. So `selector` should compose result with objects from state, or use `reselect`.
 
 ## The Stack
 
@@ -218,6 +242,12 @@ Declarative routing like [React Router](https://reacttraining.com/react-router/w
 
 ### `<NavLink to="/" type="a" others={}>`
 
+### `navigate(to)`
+
+An action creator for `history.push()`.
+
+`to` is same as `to` of `<NavLink>`.
+
 ## Shared State
 
 Shared state with minimal code, managed by Redux.
@@ -226,7 +256,9 @@ State shape might change, always retrieve collections from the state with select
 
 ### `[state, setState] = useSharedState(id, initialValue)`
 
-Like `useState` but `state` is syncing across components.
+Global version of `useState`, `state` value is shared across components.
+
+On first render, state will be set to `initialValue` if the value in the state is `undefined`.
 
 **Example**
 
@@ -268,7 +300,7 @@ const Order = () =>
 
 ### `getDocument({model='app', id='default'})`
 
-### `getCollection({model, id='default'})`
+### `getCollection({model, name='default'})`
 
 **Example**
 
@@ -291,9 +323,9 @@ useStoreState(state => {
 })
 ```
 
-### `updateDocument({model='app', values})`
+### `updateDocument({model='app', id='default', values})`
 
-### `replaceCollection({model, id='default', models})`
+### `replaceCollection({model, name='default', models})`
 
 ```js
 const {dispatch} = useStore()
