@@ -343,29 +343,6 @@ dispatch({
 })
 ```
 
-## Utility Components
-
-Basic interactions.
-
-### `<Toggle type="div" id="default">`
-
-Renders an element with internal state alternating between `true` / `false` on click.
-
-`active` class is added when its state is `true`, you can set active style rules by this CSS class.
-
-**Props**
-
-- `type`: Element type to be rendered.
-- `id`: Identifier of shared state value. `useSharedState` with the same `id` returns the same value.
-
-### `<ToogleTarget type="div" id="default">`
-
-`<Toogle>` without `onClick` handlers.
-
-### `<LinkedInput type="text" id="default">`
-
-Renders an input element, with its value linked to shared state.
-
 ## Visual Effects
 
 ### `<CountTo value="0" step="1">`

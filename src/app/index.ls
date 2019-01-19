@@ -20,21 +20,7 @@ import
   './active-above': active-above
   './count-to': count-to
 
-import
-  '../utils': {
-    request-key, exclude
-    local-date, local-datetime
-    local-date-json, input-datetime-string, server-date
-  }
-  './requests': {config-fetch, save-fetch-args}
-  './react': {create-class}
-  './recompose': {
-    branch, map-props, with-props, default-props
-  }
-  './containers': {
-    linked-input, toggle, toggle-target
-  }
-  './input': {date-input-factory, datetime-input-factory, select-source}
+import './recompose': {branch, map-props, with-props, default-props}
 
 export {
   # UI Base
@@ -71,14 +57,5 @@ export {
   till, on-visibility-change
 
   # Deprecated
-  request-key, exclude
-  local-date, local-datetime
-  local-date-json, input-datetime-string, server-date
-
-  config-fetch
-  save-fetch-args
   branch, map-props, with-props, default-props
-  create-class
-
-  date-input-factory, datetime-input-factory, select-source
 }
