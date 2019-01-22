@@ -28,14 +28,16 @@ function css-rule {mode}={}
   use: []concat output-loader, input-loaders
   test: /\.(sass|scss)$/
 
-function base-plugins {mode, env, public-path='/', web-app}
+function base-plugins {mode, env, public-path='/', sw, web-app}
   {EnvironmentPlugin} = require \webpack
   {GenerateWebApp} = require \pwa-utils
-  web-app-options = Object.assign {public-path}, web-app,
-    content: render-static {base.entry, mode}
   [].concat do
     if env then new EnvironmentPlugin env else []
-    new GenerateWebApp web-app-options
+    if sw then []
+    else
+      web-app-options = Object.assign {public-path}, web-app,
+        content: render-static {base.entry, mode}
+      new GenerateWebApp web-app-options
 
 function development options
   {HotModuleReplacementPlugin} = require \webpack
@@ -43,6 +45,7 @@ function development options
   mode: \development
   output: public-path: '/'
   module: rules: [js-rule!, css-rule mode: \development]
+  cache: options.cache || {type: \filesystem}
   plugins:
     ...base-plugins options
     new HotModuleReplacementPlugin
@@ -52,28 +55,33 @@ function development options
     host: \0.0.0.0
     history-api-fallback: true
 
-function production {output-path, public-path, workbox}: options
+function production {output-path, public-path, sw, cache}: options
   {DefinePlugin} = require \webpack
   MinifyPlugin = require \terser-webpack-plugin
-  {GenerateSW} = require \workbox-webpack-plugin
 
   mode: \production
-  output: {path: output-path, public-path}
+  output: {
+    path: output-path, public-path
+    ...(sw && filename: 'service-worker.js')
+  }
   module: rules: [js-rule!, css-rule!]
+  cache: options.cache || {type: \filesystem}
   plugins:
     new DefinePlugin \module.hot : \false
     ...base-plugins options
-    new GenerateSW {
-      clients-claim: true
-      skip-waiting: true
-      navigate-fallback: public-path || '/'
-      ...workbox
-    }
-  optimization:
+  optimization: if sw
+    runtime-chunk: false
+    split-chunks: false
+    minimizer: [new MinifyPlugin]
+  else
     runtime-chunk: \single
     split-chunks:
       chunks: \all
       automatic-name-delimiter: \.
+      cacheGroups: vendors:
+        filename: \vendors.js
+        test: /[\\/]node_modules[\\/]/
+        priority: -10
     minimizer: [new MinifyPlugin]
 
 modes = {development, production}
@@ -104,16 +112,17 @@ function render-static {entry, mode}
     console.error 'Try to fix app for first render in node environment'
   -> render-static.result
 
-function get-config {production, p=production, 'output-public-path': public-path}
-  public-path: public-path
-  mode: if p then \production else \development
+function config-generator {output-path=\www env, sw}: options={}
+  (, {mode=\development}) ->
+    base-options = {
+      ...options, mode, sw: false
+      output-path: join process.cwd!, output-path
+    }
+    main = Object.assign {} base, modes[mode] base-options
+    sw-config = if sw
+      Object.assign {} base, entry: sw, modes[mode] {...base-options, sw: true}
+    else []
 
-function config-generator {output-path=\www env}: options={} => ->
-  mode = process.env.NODE_ENV || \development
-  base-options = {
-    ...options, mode
-    output-path: join process.cwd!, output-path
-  }
-  Object.assign {} base, modes[mode] base-options
+    []concat main, sw-config
 
 export default: config-generator
