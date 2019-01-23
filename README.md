@@ -224,7 +224,7 @@ Subscribe to store updates. returns the object `selector` returned.
 Every time the store is updated, `selector` is called to get derived data,
  and initiate update of the component if derived data is changed(shallow equality).
 
- If `selector` returned with new objects, then the component will update on every store update. So `selector` should compose result with objects from state, or use `reselect`.
+If `selector` returned with new objects, then the component will update on every store update. So `selector` should compose result with objects from state, or use `reselect`.
 
 ## The Stack
 
@@ -236,7 +236,7 @@ Replace `<StoreProvider>` with this to enable following features.
 
 ## Routing
 
-Declarative routing like [React Router](https://reacttraining.com/react-router/web), provides minimal features with minimal cost.
+Declarative routing like [React Router](https://reacttraining.com/react-router/web), provides minimal features and costs minimal.
 
 ### `<Route path="/" exact render={}>`
 
@@ -252,7 +252,13 @@ An action creator for `history.push()`.
 
 Shared state with minimal code, managed by Redux.
 
-State shape might change, always retrieve collections from the state with selectors.
+Data is modeled as collections of documents, you can store data to state and retrieve it.
+
+A collection is an ordered set of documents of the same type, a document can be referenced by many collections.
+
+A document is an serializable JavaScript object that have unique `id` (among objects of the same type).
+
+Avoid relying on state shape, it might change, always retrieve collections from the state with selectors.
 
 ### `[state, setState] = useSharedState(id, initialValue)`
 
@@ -298,42 +304,54 @@ const Order = () =>
 </div>
 ```
 
-### `getDocument({model='app', id='default'})`
+### `getDocument({type='app', id='default'})`
 
-### `getCollection({model, name='default'})`
+Get document values of specified `type` and `id`.
+
+### `getCollection({type, name='default'})`
+
+Get collection of specified name, returns a list of `id` and an object contains values of each ``
 
 **Example**
 
 ```js
 useStoreState(state => {
   # Get all users
-  const users = getCollection(state, {model: 'user'})
-  /*
-  [
-    {
-      id: 2,
-      name: 'alice'
+  const users = getCollection(state, {name: 'user'})
+  /* returns
+  {
+    byId: {
+      2: {
+        id: 2,
+        name: 'alice'
+      },
+      3: {
+        id: 3,
+        name: 'bob'
+      }
     },
-    {
-      id: 3,
-      name: 'bob'
-    }
-  ]
+    items: [2, 3]  
+  }
   */
 })
 ```
 
-### `updateDocument({model='app', id='default', values})`
+### `updateDocument({type='app', id='shared', values})`
 
-### `replaceCollection({model, name='default', models})`
+Update specified document in state, will merge and overwrite existing values.
+
+### `replaceCollection({name='default', type='app', documents})`
+
+`type` can be omitted when replacing existing collections.
 
 ```js
 const {dispatch} = useStore()
 
 // Update posts
 dispatch({
-  model: 'post',
-  models: [{
+  name: 'posts',
+  type: 'post',
+  documents: [{
     id: 'post1',
     body: '...'
   }, {

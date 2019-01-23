@@ -3,8 +3,12 @@ import
   './utils': {delay}
   '../src/app/react': {h}
   '../src/app/stack-provider': stack-provider
-  '../src/app/cache': {use-shared-state}
   '../src/app/store': {use-store-state}
+  '../src/app/cache': {
+    use-shared-state, reduce-entities
+    get-document, get-collection
+    update-document, replace-collection
+  }
 
 after-each cleanup
 
@@ -31,3 +35,19 @@ describe 'Shared state' ->
 
     changed = query-all-by-text \changed
     expect changed.length .to-be 1
+
+describe 'Cache actions' ->
+  test 'Given update-document action with empty state, should create it' ->
+    entities = reduce-entities {} update-document values: test: 1
+    result = get-document {entities}
+    expect result .to-equal test: 1
+
+  test 'Given replace-collection action with empty state, should add to state' ->
+    entities = reduce-entities {} replace-collection type: \test documents:
+      * id: 2 name: \doc-2
+      * id: 3 name: \doc-3
+
+    result = get-collection {entities} type: \test
+    expect result .to-equal documents: [2 3] by-id:
+      2: id: 2 name: \doc-2
+      3: id: 3 name: \doc-3
