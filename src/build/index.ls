@@ -5,7 +5,8 @@ import
 
 export {webpack-config, rollup-config}
 export '../app': {
-  start-app, h, fragment, Fragment, memo
+  start-app, enable-HMR
+  h, fragment, Fragment, memo
   use-state, use-reducer, use-effect, use-ref
   use-context, use-memo, use-callback
   StoreProvider, store-provider

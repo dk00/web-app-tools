@@ -101,16 +101,14 @@ Entry file, start the app with HMR enabled:
 **src/index.js**
 
 ```js
-import {startApp} from 'web-app-tools'
+import {h, startApp, enableHMR} from 'web-app-tools'
 import app from './app'
 
-const init = replaceApp => {
-  if (module.hot) {
-    module.hot.accept('./app', () => replaceApp(app))
-  }
-}
+const wrapped = module.hot? enableHMR(app, replaceApp =>
+  module.hot.accept('./app', () => replaceApp(app))
+): app
 
-startApp(app, {init})
+startApp(wrapped)
 ```
 
 Start development server:
@@ -132,8 +130,13 @@ Render the app into DOM, and wire up HMR in development environment.
 **Options**
 
 - `container`: DOM element (or CSS selector) to be mounted, default is `#root`.
-- `init(replaceApp)`: Callback function to setup HMR.
 - `env`: Target window to render, default is `window`. Inject DOM mocks when using server-side rendering.
+
+### `enableHMR(init)`
+
+Wrap a component, re-render with edited component when the module is built.
+
+- `init(replaceApp)`: Callback function to setup HMR.
 
 ### `webpackConfig(options)`
 

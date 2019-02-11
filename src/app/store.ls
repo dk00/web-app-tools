@@ -38,7 +38,8 @@ function use-store-state selector, props
     handle-changes = ->
       prev = derived-state.current
       derived-state.current := selector store.get-state!, own-props.current
-      if flat-diff prev, derived-state.current then notify-update!
+      if flat-diff prev, derived-state.current
+        notify-update []
     un = store.subscribe handle-changes
     ->
       handle-changes := identity
