@@ -11,7 +11,7 @@ function sample-element
     h route, path: '/' render: -> h \div,, \home
     h route, path: '/first' render: ->
       h \div,, \first
-    h nav-link, {to: '/first'} \to1
+    h nav-link, {to: '/first' others: class-name: \anchor} \to1
 
 describe \Routing ->
   test 'Given initial state, should render only matched components' ->
@@ -31,3 +31,6 @@ describe \Routing ->
 
     match-count = query-all-by-text \first .length
     expect match-count .to-be 1
+
+    anchor-class = get-by-text \to1 .class-name
+    expect anchor-class .to-be 'anchor active'

@@ -307,7 +307,7 @@ const Order = () =>
 </div>
 ```
 
-### `getDocument({type='app', id='default'})`
+### `getDocument({type='app', id='shared'})`
 
 Get document values of specified `type` and `id`.
 
@@ -333,7 +333,7 @@ useStoreState(state => {
         name: 'bob'
       }
     },
-    items: [2, 3]  
+    documents: [2, 3]  
   }
   */
 })

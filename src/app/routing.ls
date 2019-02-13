@@ -1,6 +1,6 @@
 import
   'path-to-regexp': path-to-regexp
-  './react': {h, create-factory}
+  './react': {h}
   './store': {use-store, use-store-state}
 
 function get-route-match {location}: state, {pattern, keys}
@@ -20,8 +20,7 @@ function match-options {path, exact}
 
 function route {path, exact, render}
   props = use-store-state get-route-match, match-options {path, exact}
-  factory = create-factory render
-  if props.match then factory props else ''
+  if props.match then h render, props else ''
 
 location-actions =
   navigate: (, to) ->
@@ -30,6 +29,9 @@ location-actions =
 
 function navigate => type: \navigate payload: it
 
+function add-active {class-name, class: styles=class-name || ''}={}
+  styles + ' active'
+
 function nav-link {type=\a to, exact, others, children}
   {dispatch} = use-store!
   props = use-store-state get-route-match, match-options {path: to, exact}
@@ -37,6 +39,8 @@ function nav-link {type=\a to, exact, others, children}
     on-click: ->
       it.prevent-default!
       dispatch navigate to
+    if props.match then class-name: add-active others
+
   h type, attributes, children
 
 export {route, nav-link, location-actions, navigate}
