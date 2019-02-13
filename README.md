@@ -311,9 +311,9 @@ const Order = () =>
 
 Get document values of specified `type` and `id`.
 
-### `getCollection({type, name='default'})`
+### `getCollection(state, {type, name='default'})`
 
-Get collection of specified name, returns a list of `id` and an object contains values of each ``
+Get collection of specified name, returns a list of `id` and an object contains values of each `id`
 
 **Example**
 

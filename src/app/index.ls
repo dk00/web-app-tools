@@ -13,8 +13,8 @@ import
   './stack-provider': stack-provider
   './routing': {route, nav-link, navigate}
   './cache': {
-    use-shared-state, get-document
-    update-document
+    use-shared-state, get-document, get-collection
+    update-document, replace-collection
   }
   './start-app': start-app
   './enable-hmr': enable-HMR
@@ -41,14 +41,11 @@ export {
   route, nav-link, navigate
 
   # Cache
-  use-shared-state, get-document
-  update-document
+  use-shared-state, get-document, get-collection
+  update-document, replace-collection
 
   # Recompose
   compose, pipe
-
-  # Utility Components
-  linked-input, toggle, toggle-target
 
   # Effects
   active-above, count-to

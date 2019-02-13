@@ -21,23 +21,21 @@ function js-rule
 function css-rule {mode}={}
   mini-css = require \mini-css-extract-plugin
   dev = mode == \development
-  options = url: false source-map: dev, minimize: !dev
+  options = url: false source-map: dev
   output-loader = if dev then \style-loader else mini-css.loader
   input-loaders = <[css-loader sass-loader]>map -> {loader: it, options}
 
   use: []concat output-loader, input-loaders
   test: /\.(sass|scss)$/
 
-function base-plugins {mode, env, public-path='/', sw, web-app}
+function base-plugins {mode, env, public-path='/', web-app}
   {EnvironmentPlugin} = require \webpack
   {GenerateWebApp} = require \pwa-utils
+  web-app-options = Object.assign {public-path}, web-app,
+    content: render-static {base.entry, mode}
   [].concat do
     if env then new EnvironmentPlugin env else []
-    if sw then []
-    else
-      web-app-options = Object.assign {public-path}, web-app,
-        content: render-static {base.entry, mode}
-      new GenerateWebApp web-app-options
+    new GenerateWebApp web-app-options
 
 function development options
   {HotModuleReplacementPlugin} = require \webpack
@@ -55,30 +53,31 @@ function development options
     host: \0.0.0.0
     history-api-fallback: true
 
-function production {output-path, public-path, sw, cache}: options
+function sw-plugins
+  {exists-sync} = require \fs
+  if exists-sync './src/sw.js'
+    {InjectManifest} = require \workbox-webpack-plugin
+    [new InjectManifest sw-src: './src/sw.js']
+  else []
+
+function production {output-path, public-path, cache}: options
   {DefinePlugin} = require \webpack
   MinifyPlugin = require \terser-webpack-plugin
 
   mode: \production
-  output: {
-    path: output-path, public-path
-    ...(sw && filename: 'service-worker.js')
-  }
+  output: {path: output-path, public-path}
   module: rules: [js-rule!, css-rule!]
   cache: options.cache || {type: \filesystem}
   plugins:
     new DefinePlugin \module.hot : \false
     ...base-plugins options
-  optimization: if sw
-    runtime-chunk: false
-    split-chunks: false
-    minimizer: [new MinifyPlugin]
-  else
+    ...sw-plugins!
+  optimization:
     runtime-chunk: \single
     split-chunks:
       chunks: \all
       automatic-name-delimiter: \.
-      cacheGroups: vendors:
+      cache-groups: vendors:
         filename: \vendors.js
         test: /[\\/]node_modules[\\/]/
         priority: -10
@@ -112,17 +111,12 @@ function render-static {entry, mode}
     console.error 'Try to fix app for first render in node environment'
   -> render-static.result
 
-function config-generator {output-path=\www env, sw}: options={}
+function config-generator {output-path=\www env}: options={}
   (, {mode=\development}) ->
     base-options = {
-      ...options, mode, sw: false
+      ...options, mode
       output-path: join process.cwd!, output-path
     }
-    main = Object.assign {} base, modes[mode] base-options
-    sw-config = if sw
-      Object.assign {} base, entry: sw, modes[mode] {...base-options, sw: true}
-    else []
-
-    []concat main, sw-config
+    Object.assign {} base, modes[mode] base-options
 
 export default: config-generator

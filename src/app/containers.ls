@@ -1,5 +1,4 @@
 import
-  '../utils': {unimplemented}
   './react' : {h, create-factory}
   './collection' : {update-model}
   './input': {field-props, input-props, model-options}
@@ -9,8 +8,6 @@ function render-field {type, class: styles, class-name=styles, value, on-change,
     on-change: (target: {value}) -> on-change value
   if type == \input then h type, attributes
   else h type, attributes, children
-
-linked-input = unimplemented
 
 function wrap-toggle-handler {on-change, ...props} {propagate}
   if on-change
@@ -32,8 +29,3 @@ function wrap-toggle props
   factory = create-factory props.type
   Object.assign {} props, type: (inner-props) ->
     factory toggle-props inner-props, props
-
-toggle = unimplemented
-toggle-target = unimplemented
-
-export {linked-input, toggle, toggle-target}

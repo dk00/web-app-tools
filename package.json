@@ -1,6 +1,6 @@
 {
   "name": "web-app-tools",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.4",
   "description": "Web app packages, all in 1 without bloating",
   "sideEffects": false,
   "main": "./lib/index.js",
@@ -44,10 +44,11 @@
     "react-dom": "^16.8.1",
     "react-testing-library": "^5.5.4",
     "redux": "^4.0.1",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^6.0.7",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.2",
     "webpack": "^5.0.0-alpha.8",
+    "workbox-webpack-plugin": "^4.0.0-rc.0",
     "zero-fetch": "0.0.2"
   },
   "devDependencies": {
@@ -60,7 +61,7 @@
     "rollup-plugin-pnp-resolve": "^1.0.1"
   },
   "peerDependencies": {
-    "@babel/runtime": "^7.3.0",
+    "@babel/runtime": "^7.3.1",
     "webpack": "^5.0.0-alpha.8",
     "webpack-cli": "3.1.2 || > 3.2.0",
     "webpack-dev-server": "^3.1.14"

@@ -13,8 +13,8 @@ export '../app': {
   StackProvider, stack-provider
   use-store, use-store-state
   route, nav-link, navigate
-  use-shared-state, get-document
-  update-document
+  use-shared-state, get-document, get-collection
+  update-document, replace-collection
   compose, pipe
   active-above, count-to
   require-scripts, q, qa
