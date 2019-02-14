@@ -1,6 +1,6 @@
 {
   "name": "web-app-tools",
-  "version": "0.1.0-beta.6",
+  "version": "0.1.0-beta.10",
   "description": "Web app packages, all in 1 without bloating",
   "sideEffects": false,
   "main": "./lib/index.js",
@@ -25,7 +25,7 @@
     "@babel/plugin-transform-react-jsx": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/register": "^7.0.0",
-    "@babel/runtime": "^7.3.1",
+    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
     "babel-minify-webpack-plugin": "^0.3.1",
     "babel-plugin-dynamic-import-node": "^2.2.0",
@@ -34,9 +34,9 @@
     "babel-plugin-transform-component-name": "^0.1.1",
     "babel-preset-upcoming": "^7.2.2",
     "css-loader": "^2.1.0",
+    "jest-pnp-resolver": "^1.1.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
-    "nyc": "^13.2.0",
     "path-to-regexp": "^3.0.0",
     "pnp-webpack-plugin": "^1.2.1",
     "pwa-utils": "^0.2.1",
@@ -47,14 +47,13 @@
     "sass-loader": "^6.0.7",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.2",
-    "webpack": "^5.0.0-alpha.8",
     "workbox-webpack-plugin": "^4.0.0-rc.0",
     "zero-fetch": "0.0.2"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.3.1",
     "jest": "^24.1.0",
     "jest-environment-jsdom": "^24.0.0",
-    "jest-pnp-resolver": "^1.1.0",
     "livescript": "1.5.0",
     "rollup": "^1.0.2",
     "rollup-plugin-babel": "4.0.0-beta.8",
@@ -62,7 +61,9 @@
   },
   "peerDependencies": {
     "@babel/runtime": "^7.3.1",
-    "webpack": "^5.0.0-alpha.8",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "webpack": "^4.29.3",
     "webpack-cli": "3.1.2 || > 3.2.0",
     "webpack-dev-server": "^3.1.14"
   }

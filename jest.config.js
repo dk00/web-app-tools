@@ -1,6 +1,4 @@
 module.exports = {
-  clearMocks: true,
-  coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: [
     '.*'
   ],
@@ -15,6 +13,10 @@ module.exports = {
     '**/*.test.(ls|js|jsx)'
   ],
   transform: {
-    '\\.(ls|js|jsx)$': './babel-transform'
-  }
+    '\\.(js|jsx|ls)$': 'babel-jest'
+  },
+  transformIgnorePatterns: [
+    '/node_modules/',
+    '.pnp'
+  ]
 }

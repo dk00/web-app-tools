@@ -62,6 +62,7 @@ function sw-plugins
 
 function production {output-path, public-path, cache}: options
   {DefinePlugin} = require \webpack
+  MiniCssExtractPlugin = require \mini-css-extract-plugin
   MinifyPlugin = require \terser-webpack-plugin
 
   mode: \production
@@ -70,6 +71,7 @@ function production {output-path, public-path, cache}: options
   cache: options.cache || {type: \filesystem}
   plugins:
     new DefinePlugin \module.hot : \false
+    new MiniCssExtractPlugin chunk-filename: '[name].css'
     ...base-plugins options
     ...sw-plugins!
   optimization:

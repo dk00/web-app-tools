@@ -1,9 +1,11 @@
 import
   '../app': {add-event-listener}
+  './babel-options': babel-options
   './webpack-config': webpack-config
-  './rollup-config':  rollup-config
+  './rollup-config': rollup-config
+  './jest-config': jest-config
 
-export {webpack-config, rollup-config}
+export {babel-options, webpack-config, rollup-config, jest-config}
 export '../app': {
   start-app, enable-HMR
   h, fragment, Fragment, memo

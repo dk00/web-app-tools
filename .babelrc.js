@@ -4,5 +4,11 @@ module.exports = {
   ],
   plugins: [
     require.resolve('babel-plugin-livescript')
-  ]
+  ].concat(
+    process.env.NODE_ENV === 'test'?
+      require.resolve('@babel/plugin-transform-modules-commonjs'): [],
+    global.__coverage__?
+      require.resolve('babel-plugin-istanbul'): []
+  ),
+  sourceMaps: process.env.NODE_ENV === 'test'? 'inline': false
 }
