@@ -17,7 +17,7 @@ import
     update-document, replace-collection
   }
   './start-app': start-app
-  './enable-hmr': enable-HMR
+  './hot': hot
   './active-above': active-above
   './count-to': count-to
 
@@ -25,7 +25,7 @@ import './recompose': {branch, map-props, with-props, default-props}
 
 export {
   # UI Base
-  start-app, enable-HMR
+  start-app, hot
   h, fragment, Fragment: fragment, memo
 
   # Hooks
