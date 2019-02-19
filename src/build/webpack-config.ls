@@ -13,14 +13,14 @@ base =
     plugins: [pnp-plugin]
   resolve-loader: plugins: [pnp-plugin.module-loader module]
 
-function js-rule
-  loader: \babel-loader options: babel-options!
-  test: /\.(ls|jsx|js)$/
-  exclude: /node_modules/
+function js-rule mode
+  loader: \babel-loader
+  options: {babelrc: false, ...babel-options mode, true}
+  test: /\.(ls|jsx|js)$/ exclude: /(node_modules|pnp)/
 
-function css-rule {mode}={}
+function css-rule mode
   mini-css = require \mini-css-extract-plugin
-  dev = mode == \development
+  dev = mode != \production
   options = url: false source-map: dev
   output-loader = if dev then \style-loader else mini-css.loader
   input-loaders = <[css-loader sass-loader]>map -> {loader: it, options}
@@ -42,7 +42,7 @@ function development options
 
   mode: \development
   output: public-path: '/'
-  module: rules: [js-rule!, css-rule mode: \development]
+  module: rules: [js-rule!, css-rule!]
   cache: options.cache || {type: \filesystem}
   plugins:
     ...base-plugins options
@@ -67,7 +67,7 @@ function production {output-path, public-path, cache}: options
 
   mode: \production
   output: {path: output-path, public-path}
-  module: rules: [js-rule!, css-rule!]
+  module: rules: [js-rule \production; css-rule \production]
   cache: options.cache || {type: \filesystem}
   plugins:
     new DefinePlugin \module.hot : \false

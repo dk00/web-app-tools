@@ -7,12 +7,12 @@ function nop =>
 function ignore-extensions
   it.for-each -> require.extensions[it] = nop
 
-function register options={}
+function register
   try
     require \livescript
     delete require.extensions\.ls
   ignore-extensions <[.css .sass .scss]>
-  option-list = [default-options, babel-options env: \build; options]
+  option-list = [default-options, babel-options!]
   require \@babel/register <| Object.assign {} ...option-list,
     plugins: []concat ...option-list.map (.plugins || [])
 
