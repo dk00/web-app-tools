@@ -14,7 +14,9 @@ function sync-env
       store.dispatch navigate window.location
   ), []
   {href} = use-store-state ->
-    Object.assign (new URL window.location), it.location .{href}
+    {port, ...rest} = it.location
+    others = if port then {port}
+    Object.assign (new URL window.location), rest, others .{href}
   use-effect (!->
     history.push-state {} '' href
   ), [href]
