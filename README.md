@@ -104,9 +104,9 @@ Entry file, start the app with HMR enabled:
 import {h, startApp, enableHMR} from 'web-app-tools'
 import app from './app'
 
-const wrapped = module.hot? enableHMR(app, replaceApp =>
+const wrapped = hot(app, replaceApp =>
   module.hot.accept('./app', () => replaceApp(app))
-): app
+)
 
 startApp(wrapped)
 ```
