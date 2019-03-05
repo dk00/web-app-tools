@@ -28,10 +28,10 @@ function css-rule mode
   use: []concat output-loader, input-loaders
   test: /\.(sass|scss)$/
 
-function base-plugins {mode, env, public-path='/', web-app}
+function base-plugins {mode, env, name, public-path='/', web-app}
   {EnvironmentPlugin} = require \webpack
   {GenerateWebApp} = require \pwa-utils
-  web-app-options = Object.assign {public-path}, web-app,
+  web-app-options = Object.assign {name, public-path}, web-app,
     content: render-static {base.entry, mode}
   [].concat do
     if env then new EnvironmentPlugin env else []
@@ -53,11 +53,12 @@ function development options
     host: \0.0.0.0
     history-api-fallback: true
 
-function sw-plugins
+function sw-plugins options
   {exists-sync} = require \fs
-  if exists-sync './src/sw.js'
+  if exists-sync './src/service-worker.js'
     {InjectManifest} = require \workbox-webpack-plugin
-    [new InjectManifest sw-src: './src/sw.js']
+    workbox-options = {sw-src: './src/service-worker.js', ...options}
+    [new InjectManifest workbox-options]
   else []
 
 function production {output-path, public-path, cache}: options
@@ -73,7 +74,7 @@ function production {output-path, public-path, cache}: options
     new DefinePlugin \module.hot : \false
     new MiniCssExtractPlugin chunk-filename: '[name].css'
     ...base-plugins options
-    ...sw-plugins!
+    ...sw-plugins options.workbox
   optimization:
     runtime-chunk: \single
     split-chunks:
