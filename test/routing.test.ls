@@ -1,5 +1,6 @@
 import
-  'react-testing-library': {render, fire-event, cleanup}
+  'preact-testing-library': {render, fire-event, cleanup}
+  './utils': {delay}
   '../src/app/stack-provider': stack-provider
   '../src/app/react': {h}
   '../src/app/routing': {route, nav-link}
@@ -25,9 +26,10 @@ describe \Routing ->
   test 'Given navigating to some view, should render only matched components' ->
     element = sample-element!
     {get-by-text, query-all-by-text, rerender} = render element
+    await delay 1
 
-    await new Promise (resolve) -> set-timeout resolve, 1
     fire-event.click get-by-text \to1
+    await delay 1
 
     match-count = query-all-by-text \first .length
     expect match-count .to-be 1

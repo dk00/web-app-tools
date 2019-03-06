@@ -1,5 +1,5 @@
 import
-  'react-testing-library': {render, fire-event, cleanup}
+  'preact-testing-library': {render, fire-event, cleanup}
   './utils': {delay}
   '../src/app/react': {h}
   '../src/app/stack-provider': stack-provider
@@ -24,7 +24,7 @@ describe 'Shared state' ->
   test 'Given components using shared state, should render correctly' ->
     {get-by-text, container, query-all-by-text} = render h stack-provider,, h sample
 
-    await delay 1
+    await delay 20
 
     initial = query-all-by-text \initial
     expect initial.length .to-be 1
