@@ -18,5 +18,8 @@ module.exports = {
   transformIgnorePatterns: [
     '/node_modules/',
     '.pnp'
+  ],
+  setupFilesAfterEnv: [
+    '<rootDir>/test/setup-tests.js'
   ]
 }

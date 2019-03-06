@@ -32,7 +32,7 @@ function base-plugins {mode, env, name, public-path='/', web-app}
   {EnvironmentPlugin} = require \webpack
   {GenerateWebApp} = require \pwa-utils
   web-app-options = Object.assign {name, public-path}, web-app,
-    content: render-static {base.entry, mode}
+    content: ''
   [].concat do
     if env then new EnvironmentPlugin env else []
     new GenerateWebApp web-app-options
