@@ -1,6 +1,6 @@
 import
-  'react-testing-library': {render, fire-event, cleanup}
-  './utils': {delay}
+  'preact-testing-library': {render, fire-event, cleanup}
+  './utils': {animation-frame}
   '../src/app/react': {h}
   '../src/app/stack-provider': stack-provider
   '../src/app/store': {use-store-state}
@@ -20,23 +20,23 @@ function sample
     h \div,, state || 'no value'
     h \button, on-click: change, \change
 
-describe 'Shared state' ->
+describe 'Shared state' !->
   test 'Given components using shared state, should render correctly' ->
     {get-by-text, container, query-all-by-text} = render h stack-provider,, h sample
 
-    await delay 1
+    await animation-frame!
 
     initial = query-all-by-text \initial
     expect initial.length .to-be 1
 
     fire-event.click get-by-text \change
 
-    await delay 1
+    await animation-frame!
 
     changed = query-all-by-text \changed
     expect changed.length .to-be 1
 
-describe 'Cache actions' ->
+describe 'Cache actions' !->
   test 'Given update-document action with empty state, should create it' ->
     entities = reduce-entities {} update-document values: test: 1
     result = get-document {entities}

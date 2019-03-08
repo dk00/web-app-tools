@@ -1,5 +1,6 @@
 import
-  'react-testing-library': {render, fire-event, cleanup}
+  'preact-testing-library': {render, fire-event, cleanup}
+  './utils': {animation-frame}
   '../src/app/stack-provider': stack-provider
   '../src/app/react': {h}
   '../src/app/routing': {route, nav-link}
@@ -13,7 +14,7 @@ function sample-element
       h \div,, \first
     h nav-link, {to: '/first' others: class-name: \anchor} \to1
 
-describe \Routing ->
+describe \Routing !->
   test 'Given initial state, should render only matched components' ->
     {query-all-by-text} = render sample-element!
 
@@ -26,8 +27,10 @@ describe \Routing ->
     element = sample-element!
     {get-by-text, query-all-by-text, rerender} = render element
 
-    await new Promise (resolve) -> set-timeout resolve, 1
+    await animation-frame!
+
     fire-event.click get-by-text \to1
+    await animation-frame!
 
     match-count = query-all-by-text \first .length
     expect match-count .to-be 1

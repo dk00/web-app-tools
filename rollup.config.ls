@@ -1,5 +1,6 @@
 import
   'rollup-plugin-babel': babel
+  'rollup-plugin-node-resolve': node-resolve
   'rollup-plugin-pnp-resolve': pnp-resolve
 
 targets =
@@ -23,6 +24,7 @@ config-list = targets.map ([input, output, format]) ->
   input: input
   output: file: output, format: format, sourcemap: true strict: false
   plugins:
+    node-resolve!
     pnp-resolve!
     babel babel-options
   external: ->

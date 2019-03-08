@@ -7,7 +7,7 @@ module.exports = {
   ].concat(
     process.env.NODE_ENV === 'test'?
       require.resolve('@babel/plugin-transform-modules-commonjs'): [],
-    global.__coverage__?
+    process.env.NODE_ENV === 'test'?
       require.resolve('babel-plugin-istanbul'): []
   ),
   sourceMaps: process.env.NODE_ENV === 'test'? 'inline': false

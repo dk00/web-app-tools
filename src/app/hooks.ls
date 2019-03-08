@@ -1,6 +1,6 @@
 import
-  react: {
-    use-state, use-reducer, use-context, use-effect
+  'preact/hooks': {
+    use-state, use-reducer, use-context, use-effect: use-effect
     use-memo, use-callback, use-ref
   }
 
