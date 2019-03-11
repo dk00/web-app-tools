@@ -2,7 +2,7 @@
 
 Web app packages, all in 1 without bloating.
 
-[![build status](https://travis-ci.org/dk00/web-app-tools.svg)](https://travis-ci.org/dk00/web-app-tools)
+[![CircleCI](https://circleci.com/gh/dk00/web-app-tools.svg?style=svg)](https://circleci.com/gh/dk00/web-app-tools)
 [![coverage](https://codecov.io/gh/dk00/web-app-tools/branch/master/graph/badge.svg)](https://codecov.io/gh/dk00/web-app-tools)
 [![npm](https://img.shields.io/npm/v/web-app-tools.svg)](https://npm.im/web-app-tools)
 [![dependencies](https://david-dm.org/dk00/web-app-tools/status.svg)](https://david-dm.org/dk00/web-app-tools)
