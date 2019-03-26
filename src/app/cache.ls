@@ -23,7 +23,7 @@ function use-shared-state name=\default initial-value
   set-value = -> dispatch update-document values: (name): it
 
   use-effect !->
-    if value == void then set-value initial-value
+    if value == void && initial-value != void then set-value initial-value
   , []
   [value, set-value]
 

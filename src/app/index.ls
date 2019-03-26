@@ -4,7 +4,7 @@ import
     add-event-listener, passive, till, on-visibility-change
   }
   './recompose': {compose, pipe}
-  './react': {h, fragment, memo}
+  './react': {h, fragment, memo, create-context}
   './hooks': {
     use-state, use-reducer, use-effect, use-ref
     use-context, use-memo, use-callback
@@ -26,7 +26,7 @@ import './recompose': {branch, map-props, with-props, default-props}
 export {
   # UI Base
   start-app, hot
-  h, fragment, Fragment: fragment, memo
+  h, fragment, Fragment: fragment, memo, create-context
 
   # Hooks
   use-state, use-reducer, use-effect, use-ref

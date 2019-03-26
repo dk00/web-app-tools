@@ -1,5 +1,5 @@
 import
-  preact: {h, Fragment, create-context, render}
+  preact: {h, Fragment, create-context, render, hydrate}
 
 function should-wrap => typeof it == \string || it.hooks || it::?render
 
@@ -11,4 +11,4 @@ function create-factory component
 function memo => it
 
 export {create-factory}
-export {h, fragment: Fragment, render, create-context, memo}
+export {h, fragment: Fragment, render, hydrate, create-context, memo}

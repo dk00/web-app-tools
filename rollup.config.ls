@@ -7,7 +7,9 @@ targets =
   * \src/app/index.ls \dist/index.esm.js \es
   * \src/build/index.ls \lib/index.js \cjs
 
-externals = Object.keys <| require './package.json' .dependencies
+{dependencies, peer-dependencies} = require './package.json'
+
+externals = Object.keys dependencies .concat Object.keys peer-dependencies
 
 config-list = targets.map ([input, output, format]) ->
   transform-runtime =

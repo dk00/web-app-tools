@@ -7,7 +7,7 @@ import
 
 default-URL = 'http://localhost'
 
-function sync-env
+function sync-env {children}
   store = use-store!
   use-effect (!->
     window.add-event-listener \popstate ->
@@ -20,7 +20,7 @@ function sync-env
   use-effect (!->
     history.push-state {} '' href
   ), [href]
-  ''
+  children
 
 function stack-provider {reducer={} initial-state={} actions=[] init, children}
   setup-actions =
@@ -34,8 +34,8 @@ function stack-provider {reducer={} initial-state={} actions=[] init, children}
     initial-state: initial-state
     actions: setup-actions.concat actions
     init: init
-    children: [h sync-env, key: \sync-env].concat children
 
-  store-provider options
+  h store-provider, options,
+    h sync-env, key: \sync-env, children
 
 export default: stack-provider

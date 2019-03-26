@@ -1,8 +1,8 @@
-import './react': {h, render}
+import './react': {h, hydrate}
 
 function start-app app, {el='#root'}={}
   container = document.query-selector el
-  mount = window.render || render
+  mount = window.render || hydrate
   mount (h app), container
 
   if !module.hot

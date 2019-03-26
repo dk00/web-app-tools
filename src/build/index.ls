@@ -8,7 +8,7 @@ import
 export {babel-options, webpack-config, rollup-config, jest-config}
 export '../app': {
   start-app, hot
-  h, fragment, Fragment, memo
+  h, fragment, Fragment, memo, create-context
   use-state, use-reducer, use-effect, use-ref
   use-context, use-memo, use-callback
   StoreProvider, store-provider
