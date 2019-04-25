@@ -16,7 +16,7 @@ export '../app': {
   use-store, use-store-state
   route, nav-link, navigate
   use-shared-state, get-document, get-collection
-  update-document, replace-collection
+  update-document, replace-collection, add-to-end, add-to-start, remove-documents
   compose, pipe
   active-above, count-to
   require-scripts, q, qa

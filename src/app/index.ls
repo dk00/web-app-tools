@@ -14,7 +14,7 @@ import
   './routing': {route, nav-link, navigate}
   './cache': {
     use-shared-state, get-document, get-collection
-    update-document, replace-collection
+    update-document, replace-collection, add-to-end, add-to-start, remove-documents
   }
   './start-app': start-app
   './hot': hot
@@ -42,7 +42,7 @@ export {
 
   # Cache
   use-shared-state, get-document, get-collection
-  update-document, replace-collection
+  update-document, replace-collection, add-to-end, add-to-start, remove-documents
 
   # Recompose
   compose, pipe

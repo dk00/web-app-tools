@@ -9,11 +9,52 @@ Web app packages, all in 1 without bloating.
 
 Yet another customized `react-scripts`, with minimal dependencies and customizations for building web apps.
 
-## Why
+## Getting Started
 
-After [ejecting](https://medium.com/@timarney/but-i-dont-wanna-eject-3e3da5826e39) from `create-react-app`, we gain full control of everything, and we must manage all of them. There's no way back.
+Make sure [yarn] is installed, it's required to enable [PnP] at this time.
 
-Instead of no configuration, we write minimal configurations only for customized parts.
+[yarn]: https://yarnpkg.com/en/docs/install
+[PnP]: https://gapintelligence.com/blog/2018/yarn-plug-n-play-vs-node_modules
+
+```
+yarn --pnp create u-app my-app
+cd my-app
+yarn start
+```
+
+**Folder Structure**
+
+```
+my-app/
+  README.md
+  package.json
+  src/
+    index.js
+    app.jsx
+    service-worker.js
+  style/
+    index.sass
+  .gitignore
+  .pnp/
+  .pnp.js
+```
+
+## Design
+
+**Ejecting**
+
+You customize configurations without handling all of the configurations.
+
+**Progressive Web App**
+
+Service worker is registered by default in production build?
+
+`index.html` with pre rendered app.
+`manifest.json`
+
+**Tiny Bundle**
+
+[Preact](https://preactjs.com/) is used instead of React, this saves 32kB(90%), reduces load time of small apps greatly.
 
 ## Features
 
@@ -24,100 +65,6 @@ Instead of no configuration, we write minimal configurations only for customized
 - Keep updated: since there's no ejection, we can simply upgrade this package.
 - Tiny Bundle Size: Dependencies are carefully chosen to avoid bloating, tree shakable packages are used if possible.
 - Offline Ready: Assets are cached for offline use and `manifest.json` is generated for adding to the home screen.
-
-## Getting Started
-
-Make sure [yarn] is installed, it's required to enable [PnP] at this time.
-
-[PnP] is ⚡lighting fast⚡, you should try it!
-
-[yarn]: https://yarnpkg.com/en/docs/install
-[PnP]: https://gapintelligence.com/blog/2018/yarn-plug-n-play-vs-node_modules
-
-Create the project directory:
-
-```sh
-mkdir my-web-app
-cd my-web-app
-yarn init -y
-yarn add -D web-app-tools
-```
-
-And these files:
-
-**package.json**
-
-```json
-{
-  "name": "my-app",
-  "version": "0.0.1",
-  "description": "My App",
-  "scripts": {
-    "start": "webpack-dev-server",
-    "build": "rimraf www/*js && webpack -p",
-    "pretest": "npm run build",
-    "test": "nyc --instrument false --source-map false -r text -r html -r json -r lcovonly node test"
-  },
-  "license": "Unlicensed",
-  "installConfig": {
-    "pnp": true
-  },
-  "devDependencies": {
-    "rimraf": "^2.6.2",
-    "web-app-tools": "next",
-    "webpack": "^4.26.1",
-    "webpack-dev-server": "^0.4.2"
-  }
-}
-```
-
-Use `webpackConfig` to generate webpack options:
-
-**src/webpack.config.js**
-
-```js
-const {webpackConfig} = require('web-app-tools')
-
-module.exports = webpackConfig({name: 'My Web App'})
-```
-
-Top-level component:
-
-**src/app.jsx**
-
-```tsx
-import {h} from 'web-app-tools'
-
-const app = () =>
-  <div>
-    <h1>My App</h1>
-  </div>
-
-export default app
-```
-
-Entry file, start the app with HMR enabled:
-
-**src/index.js**
-
-```js
-import {h, startApp, enableHMR} from 'web-app-tools'
-import app from './app'
-
-const wrapped = hot(app, replaceApp =>
-  module.hot.accept('./app', () => replaceApp(app))
-)
-
-startApp(wrapped)
-```
-
-Start development server:
-
-```sh
-npm start
-```
-
-Go to http://localhost:8080 and start hacking!
 
 ## Infrastructure
 
@@ -307,11 +254,13 @@ const Order = () =>
 </div>
 ```
 
-### `getDocument({type='app', id='shared'})`
+### Selectors
+
+#### `getDocument({type='app', id='shared'})`
 
 Get document values of specified `type` and `id`.
 
-### `getCollection(state, {type, name='default'})`
+#### `getCollection(state, {type, name='default'})`
 
 Get collection of specified name, returns a list of `id` and an object contains values of each `id`
 
@@ -339,11 +288,13 @@ useStoreState(state => {
 })
 ```
 
-### `updateDocument({type='app', id='shared', values})`
+### Actions
+
+#### `updateDocument({type='app', id='shared', values})`
 
 Update specified document in state, will merge and overwrite existing values.
 
-### `replaceCollection({name='default', type='app', documents})`
+#### `replaceCollection({type='app', name=type, documents})`
 
 `type` can be omitted when replacing existing collections.
 
@@ -351,8 +302,8 @@ Update specified document in state, will merge and overwrite existing values.
 const {dispatch} = useStore()
 
 // Update posts
-dispatch({
-  name: 'posts',
+dispatch(replaceCollection({
+  name: 'new-posts',
   type: 'post',
   documents: [{
     id: 'post1',
@@ -361,7 +312,26 @@ dispatch({
     id: 'post2',
     body: '...'
   }]
-})
+}))
+```
+
+#### `addToEnd({type='app', name=type, documents})`
+
+Add documents to the end of specified collection.
+
+#### `addToStart({type='app', name=type, documents})`
+
+Add documents to the start of collection named `name`.
+
+#### `removeDocuments({type='app', name=type, documents})`
+
+Remove documents from a collection. Other collection can still reference these documents.
+
+```js
+dispatch(removeDocuments({
+  type: 'post',
+  documents: [2, 3]
+}))
 ```
 
 ## Visual Effects

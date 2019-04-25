@@ -8,13 +8,22 @@ function get-document {entities: {documents}} {type=\app id=\shared}={}
 function update-document {type, id, values}
   type: \update-document payload: {type, id, values}
 
-function get-collection {entities} {name=\default}
-  {type, documents} = entities.collections[name]
-  by-id: entities.documents[type]
+function get-collection {entities={}} {type=\default name=type}
+  {type, documents=[]} = entities.collections?[name] || {}
+  by-id: entities.documents?[type]
   documents: documents
 
 function replace-collection {type, name, documents}
   type: \replace-collection payload: {type, name, documents}
+
+function add-to-end {type, name, documents}
+  type: \add-to-end payload: {type, name, documents}
+
+function add-to-start {type, name, documents}
+  type: \add-to-start payload: {type, name, documents}
+
+function remove-documents {type, name, documents}
+  type: \remove-documents payload: {type, name, documents}
 
 function use-shared-state name=\default initial-value
   {dispatch} = use-store!
@@ -27,15 +36,36 @@ function use-shared-state name=\default initial-value
   , []
   [value, set-value]
 
+function merge-documents state={} {documents}
+  Object.assign {} state, ...documents.map -> (it.id): it
+
 reduce-documents =
   'update-document': (state={} {id=\shared values}) ->
     Object.assign {} state, (id): Object.assign {} state[id], values
-  'replace-collection': (state={} {documents}) ->
-    Object.assign {} state, ...documents.map -> (it.id): it
+  'replace-collection': merge-documents
+  'add-to-end': merge-documents
+  'add-to-start': merge-documents
+  'remove-documents': -> it
 
 reduce-collections =
-  'replace-collection': (state, {name=\default type, documents}) ->
+  'replace-collection': (state, {type, name=type, documents}) ->
     Object.assign {} state, (name): {type, documents: documents.map (.id)}
+  'add-to-end': (state={} {type, name=type, documents}) ->
+    Object.assign {} state, (name): {
+      type
+      documents: (state[name]?documents || [])concat documents.map (.id)
+    }
+  'add-to-start': (state={} {type, name=type, documents}) ->
+    Object.assign {} state, (name): {
+      type
+      documents: documents.map (.id) .concat state[name]?documents || []
+    }
+  'remove-documents': (state, {type, name=type, documents}) ->
+    to-remove = Object.assign {} ...documents.map -> (it): 1
+    Object.assign {} state, (name): {
+      type,
+      documents: (state[name]?documents || [])filter -> !to-remove[it]
+    }
 
 function get-type collections, {name}
   collections?[name]?type || \app
@@ -53,4 +83,4 @@ function reduce-entities state=initial-state!, {type: action-type, payload}
 
 export {reduce-entities}
 export {use-shared-state, get-document, get-collection}
-export {update-document, replace-collection}
+export {update-document, replace-collection, add-to-end, add-to-start, remove-documents}
