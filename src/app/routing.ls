@@ -10,7 +10,7 @@ function get-route-match {location}: state, {pattern, keys}
     entries = result.slice 1 .map (matched, index) ->
       (keys[index]name): matched
       #TODO keys w/o name
-    match: Object.assign {} ...entries
+    match: params: Object.assign {} ...entries
     location: location
 
 function match-options {path, exact}
