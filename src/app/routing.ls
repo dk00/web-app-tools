@@ -32,7 +32,7 @@ function navigate => type: \navigate payload: it
 function add-active {class-name, class: styles=class-name || ''}={}
   styles + ' active'
 
-function nav-link {type=\a to, exact, others, children}
+function nav-link {type=\a to, exact, children, ...others}
   {dispatch} = use-store!
   props = use-store-state get-route-match, match-options {path: to, exact}
   attributes = Object.assign {} others,

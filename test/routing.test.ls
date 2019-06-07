@@ -12,7 +12,7 @@ function sample-element
     h route, path: '/' render: -> h \div,, \home
     h route, path: '/first' render: ->
       h \div,, \first
-    h nav-link, {to: '/first' others: class-name: \anchor} \to1
+    h nav-link, {to: '/first' class-name: \anchor} \to1
 
 function props-to-element {handle-props}
   h stack-provider, {},
