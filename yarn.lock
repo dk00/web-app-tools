@@ -1327,10 +1327,10 @@ babel-plugin-syntax-object-rest-spread@^6.8.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
   integrity sha1-/WU28rzhODb/o6VFjEkDpZe7O/U=
 
-babel-plugin-transform-component-name@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-component-name/-/babel-plugin-transform-component-name-0.1.1.tgz#13d1bc48799a141897d043e6a28f51dc83afe0a7"
-  integrity sha512-6Ryzl2kwzD5T8JXriIRYijMJKMJ3kwVY5WsDznNaee5v8nk5KIK0ov+JAFyBiBsRGrOhZbRCl6bLwMMiyyV+lg==
+babel-plugin-transform-component-name@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-component-name/-/babel-plugin-transform-component-name-0.0.3.tgz#bc86e391900bdef5db9844583f0d96ec359697ae"
+  integrity sha512-eeF2Tiziiio6QuUcUghBDjrhrOONb2YTUy84++bqP0+Cf3RTPXpGcSj1ukr0op3rm0+GeUeAKsnO0wBBNTRVZA==
 
 babel-plugin-transform-inline-consecutive-adds@^0.3.0:
   version "0.3.0"
@@ -3935,9 +3935,9 @@ lodash.templatesettings@^4.0.0:
     lodash._reinterpolate "~3.0.0"
 
 lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@~4.17.10:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
 loose-envify@^1.0.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
   version "1.4.0"
