@@ -1327,10 +1327,10 @@ babel-plugin-syntax-object-rest-spread@^6.8.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
   integrity sha1-/WU28rzhODb/o6VFjEkDpZe7O/U=
 
-babel-plugin-transform-component-name@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-component-name/-/babel-plugin-transform-component-name-0.1.1.tgz#13d1bc48799a141897d043e6a28f51dc83afe0a7"
-  integrity sha512-6Ryzl2kwzD5T8JXriIRYijMJKMJ3kwVY5WsDznNaee5v8nk5KIK0ov+JAFyBiBsRGrOhZbRCl6bLwMMiyyV+lg==
+babel-plugin-transform-component-name@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-component-name/-/babel-plugin-transform-component-name-0.0.3.tgz#bc86e391900bdef5db9844583f0d96ec359697ae"
+  integrity sha512-eeF2Tiziiio6QuUcUghBDjrhrOONb2YTUy84++bqP0+Cf3RTPXpGcSj1ukr0op3rm0+GeUeAKsnO0wBBNTRVZA==
 
 babel-plugin-transform-inline-consecutive-adds@^0.3.0:
   version "0.3.0"
@@ -3637,9 +3637,9 @@ js-tokens@^3.0.2:
   integrity sha1-mGbfOVECEw449/mWvOtlRDIJwls=
 
 js-yaml@^3.12.0:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.1.tgz#295c8632a18a23e054cf5c9d3cecafe678167600"
-  integrity sha512-um46hB9wNOKlwkHgiuyEVAybXBjwFUV0Z/RaHJblRd9DXltue9FTYvzCr9ErQrK9Adz5MU4gHWVaNUfdmrC8qA==
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
+  integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
