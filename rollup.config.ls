@@ -26,7 +26,7 @@ config-list = targets.map ([input, output, format]) ->
   input: input
   output: file: output, format: format, sourcemap: true strict: false
   plugins:
-    node-resolve!
+    node-resolve extensions: ['.ls' '.jsx' '.js']
     pnp-resolve!
     babel babel-options
   external: ->

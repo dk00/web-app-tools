@@ -5,6 +5,7 @@ import
   '../utils': {identity}
 
 pnp-plugin = require \pnp-webpack-plugin
+WebpackModules = require \webpack-modules
 
 base =
   entry: './src/index'
@@ -21,7 +22,7 @@ function js-rule mode
 function css-rule mode
   mini-css = require \mini-css-extract-plugin
   dev = mode != \production
-  options = url: false source-map: dev
+  options = source-map: dev
   output-loader = if dev then \style-loader else mini-css.loader
   input-loaders = <[css-loader sass-loader]>map -> {loader: it, options}
 
@@ -36,6 +37,7 @@ function base-plugins {mode, env, name, public-path='/', web-app}
   [].concat do
     if env then new EnvironmentPlugin env else []
     new GenerateWebApp web-app-options
+    new WebpackModules
 
 function development options
   {HotModuleReplacementPlugin} = require \webpack
